@@ -10,8 +10,10 @@ set -eou pipefail
   # cleanup in case there is a previous release already
   rm -rf "weaviate.tgz"
 
+  helm repo add bitnami https://charts.bitnami.com/bitnami
+  helm dependencies build
   helm lint .
   helm package .
 
-  mv -"weaviate-$VERSION.tgz" "weaviate.tgz"
+  mv "weaviate-$VERSION.tgz" "weaviate.tgz"
 )
