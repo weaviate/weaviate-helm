@@ -8,8 +8,10 @@ set -eou pipefail
   echo "Running pipeline for version $VERSION"
 
   # cleanup in case there is a previous release already
-  rm -rf "weaviate-$VERSION.tgz"
+  rm -rf "weaviate.tgz"
 
   helm lint .
   helm package .
+
+  mv -"weaviate-$VERSION.tgz" "weaviate.tgz"
 )

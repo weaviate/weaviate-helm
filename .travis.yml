@@ -1,3 +1,11 @@
+language: minimal
+
+branches:
+  only:
+  - master
+
+script: ./release.sh
+
 deploy:
   provider: releases
   api_key:
