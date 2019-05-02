@@ -1,9 +1,5 @@
 language: minimal
 
-branches:
-  only:
-  - master
-
 before_install:
 # Install Helm
 - curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
