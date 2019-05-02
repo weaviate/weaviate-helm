@@ -14,7 +14,7 @@ More information about weaviate at [creativesoftwarfdn/weaviate](https://github.
   analytics jobs
 - Plenty of configuration options through values.yaml
 
-## How to make new releases
+## (for contributors) How to make new releases
 
 1. Bump chart version in ./weaviate/Chart.yaml
 1. Create a commit
