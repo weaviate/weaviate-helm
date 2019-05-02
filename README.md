@@ -16,7 +16,7 @@ More information about weaviate at [creativesoftwarfdn/weaviate](https://github.
 
 ## (for contributors) How to make new releases
 
-1. Bump chart version in ./weaviate/Chart.yaml
+1. Bump chart version in `./weaviate/Chart.yaml`
 1. Create a commit
 1. Create an annotated tag matching the version number in Chart.yaml (prefix
    with a `v`, such as `v1.4.3`)
