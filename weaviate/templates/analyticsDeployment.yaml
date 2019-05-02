@@ -1,0 +1,25 @@
+{{- if ( .Values.spark.deploy) -}}
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: janus-spark-analytics
+  labels:
+    name: janus-spark-analytics
+spec:
+  template:
+    metadata:
+      labels:
+        app: janus-spark-analytics
+    spec:
+      containers:
+      - name: janus-spark-analytics
+        image: {{ .Values.image.registry }}semi-technologies/janus-spark-analytics:{{ .Values.analytics.tag }}
+        args: ["java", "-jar", "target/api-1.0-SNAPSHOT.jar", "server", "/analytics-config/analytics.yml"]
+        volumeMounts:
+        - name: analytics-config
+          mountPath: {{ .Values.analytics.configDir }}
+      volumes:
+      - name: analytics-config
+        configMap:
+          name: janus-spark-analytics-config
+{{- end -}}

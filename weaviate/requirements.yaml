@@ -1,0 +1,28 @@
+dependencies:
+  - name: janusgraph
+    version: 0.2.0
+    repository: "@stable"
+    alias: janusgraph
+
+  - name: elasticsearch
+    version: 1.11.1
+    repository: "@stable"
+    alias: elasticsearch
+    condition: elasticsearch.deploy-so
+
+  - name: cassandra
+    version: 0.9.0
+    repository: "@incubator"
+    alias: cassandra
+    condition: cassandra.deploy
+
+  - name: etcd
+    version: 2.0.0
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: etcd
+    condition: etcd.deploy
+
+  - name: spark
+    version: 0.2.1
+    repository: "@stable"
+    condition: spark.deploy

@@ -1,0 +1,6 @@
+name: weaviate
+version: 0.0.1
+apiVersion: v1
+appVersion: v0.1
+home: https://github.com/creativesoftwarefdn/weaviate
+description: A Helm Chart to run Weaviate with all dependencies

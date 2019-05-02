@@ -1,0 +1,8 @@
+{{- if ( .Values.etcd.envVarsConfigMap) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.etcd.envVarsConfigMap }}
+data:
+  ETCD_AUTO_COMPACTION_RETENTION: "4"
+{{- end -}}

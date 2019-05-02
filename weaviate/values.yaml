@@ -1,0 +1,132 @@
+# Global values
+global:
+  db: cassandra
+  index: elasticsearch
+
+# Related to the weaviate image
+image:
+  # registry where weaviate image is stored
+  registry: docker.io/
+  # tag of image to deploy
+  tag: latest
+
+importer: false
+
+autoscaling:
+  enabled: false
+cpuTargetPercentage: 70
+replicas: 1
+replicasMax: 5 
+
+# Spark Analytics Application
+
+analytics:
+  tag: latest
+  configDir: /analytics
+
+
+# Weaviate Config
+initialKey: 657a48b9-e000-4d9a-b51d-69a0b621c1b9
+initialToken: 57ac8392-1ecc-4e17-9350-c9c866ac832b
+contextionary:
+  knnFile: /contextionary/contextionary.knn
+  idxFile: /contextionary/contextionary.idx
+
+# Sub Chart Overrides
+
+#Cassandra
+cassandra:
+  deploy: true
+  image:
+    tag: 3
+  config:
+    cluster_size: 2
+    seed_size: 2
+    start_rpc: true
+  resources:
+    requests:
+      memory: 4Gi
+      cpu: 2
+    limits:
+      memory: 4Gi
+      cpu: 2
+
+#Elasticsearch
+elasticsearch:
+  deploy-so: true
+  master:
+    replicas: 2
+  client:
+    replicas: 2
+  cluster:
+    env: 
+      MINIMUM_MASTER_NODES: "2"
+
+#Janus
+janusgraph:
+  image:
+    repository: creativesoftwarefdn/janusgraph-docker
+    tag: 0.3.1
+  elasticsearch.deploy:
+    deploy: false
+  configMapOverrideName: janusgraph-config
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 2Gi
+      cpu: 1
+    limits:
+      memory: 2Gi
+      cpu: 1
+  persistence:
+    enabled: false
+  properties:
+    storage.backend: cassandra
+    storage.directory: /db/cassandra
+    storage.hostname: weaviate-cassandra
+    gremlin.graph: org.janusgraph.core.JanusGraphFactory
+    index.search.elasticsearch.interface: REST_CLIENT
+    index.search.backend: elasticsearch
+    index.search.hostname: weaviate-elasticsearch-client
+    storage.index.search.local-mode: false
+    storage.index.search.client-only: false
+
+#Etcd
+etcd:
+  envVarsConfigMap: "etcd-config"
+  statefulset:
+    replicaCount: 3
+  ##
+  auth:
+    client:
+      ## Switch to encrypt client communication using TLS certificates
+      secureTransport: false
+      ## Switch to automatically create the TLS certificates
+      useAutoTLS: false
+      enableAuthentication: false
+    peer:
+      ## Switch to encrypt client communication using TLS certificates
+      secureTransport: true
+      ## Switch to automatically create the TLS certificates
+      useAutoTLS: true
+      ## Switch to enable host authentication using TLS certificates. Requires existing secret.
+      enableAuthentication: false
+  metrics:
+    enabled: true
+    podAnnotations:
+      prometheus.io/scrape: "true"
+    prometheus.io/port: "2379"
+
+# Spark
+spark:
+  deploy: true
+  Spark:
+    Path: "/spark"
+  Master:
+    Image: "creativesoftwarefdn/spark-janusgraph-master"
+    ImageTag: "1.6.3-janus-0.2.2"
+    Replicas: 1
+  Worker:
+    Image: "creativesoftwarefdn/spark-janusgraph-worker"
+    ImageTag: "1.6.3-janus-0.2.2"
+    Replicas: 3

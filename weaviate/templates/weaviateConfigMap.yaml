@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: weaviate-config
+data:
+  weaviate-conf.yaml: |-
+    ---
+    environments:
+    - name: default
+      database:
+        name: janusgraph
+        database_config:
+          url: http://{{ template "janusgraph.fullname" . }}-janusgraph:8182
+          analytics_engine:
+            enabled: true
+            type: spark-analytics-api
+            url: http://janus-spark-analytics
+          analytics_engine:
+            enabled: true
+            defaultUseAnalyticsEngine: false
+          initialkey: "{{ .Values.initialKey }}"
+          initialtoken: "{{ .Values.initialToken }}"
+        local_schema:
+          state_dir: "."
+      configuration_storage:
+        type: etcd
+        url: http://weaviate-etcd:2379
+      contextionary:
+        knn_file: "{{ .Values.contextionary.knnFile }}"
+        idx_file: "{{ .Values.contextionary.idxFile }}"
+      schemas:
+        Thing: "/schema/things_schema.json"
+        Action: "/schema/actions_schema.json"
+      limit: 100
+      debug: true
+      development:
+        external_instances:
+        - url: http://localhost:8080
+        - url: http://127.0.0.1:8080
