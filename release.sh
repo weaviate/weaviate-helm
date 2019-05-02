@@ -11,6 +11,7 @@ set -eou pipefail
   rm -rf "weaviate.tgz"
 
   helm repo add bitnami https://charts.bitnami.com/bitnami
+  helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
   helm dependencies build
   helm lint .
   helm package .
