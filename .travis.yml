@@ -1,0 +1,9 @@
+deploy:
+  provider: releases
+  api_key:
+    secure: ALrQiywPX/hRfWFgSl+9r6VNSwVGYgIsYknt53K2Q7KwWZ1CMV0HT8yNnPJVR7MKFDE0L6yQ5zmOj3Ph97VapBwEfLweRCesKa+wOrWFxpsbhx9EOvdVqw23ACZ9hudv1qMJu5jVWaGdr/4d0zjRGU4e7I46d+Bq5JN6g3nEMVse7AfkOTJkrAJ5TzJBzLd0NLVxJ4JWlb7uNWxCoU0DFoOk7t+KDDkZSdhJPWvGzSPDSyjxiQaShtz4YbTuN3lFbDk0kM0+cxri4e9+8wFbXB/hUpHRbviY/0Ej24uHhkby8/eu8WiBMMiSE28ISwfw2ucw3T66L46H6Foo7jV3tYkmbUxcyN08WbEcFa12pD0eEicKQeB3lLiVfQbBcW/7aYngipxq1N3UTH35Vp7h9SJ5EOjZ+aMl9ZsZSA+OrQzthQ1UT81NcaADoRM1Z3PWgMUynCySfwQY7J4rCABJms+xRApObEe7/lbJdZvxGDagynAU20aXsa0YuFjlufiy2DnGYsTPYvNwxSSqXJBEJrlOHTyKSfcutASBb0I0op7Y0mzSgdupFpLz3OtrDQ76axy23k1z89PJPbd9kdfL/sPF4RLu4I/+ZmAAd28uJbA1g5P1v30Qr88h3qIv4J1TXpPsCjQt9YE3TGDLAeq5E+meKUx3DLu/73b5f6gYcp8=
+  file: weaviate/weaviate.tgz
+  draft: true
+  on:
+    repo: semi-technologies/weaviate-helm
+    tags: true
