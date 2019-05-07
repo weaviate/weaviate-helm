@@ -14,6 +14,32 @@ More information about weaviate at [creativesoftwarfdn/weaviate](https://github.
   analytics jobs
 - Plenty of configuration options through values.yaml
 
+## How to obtain and install the Chart
+You can download the chart from the binaries attached to the [Releases](https://github.com/semi-technologies/weaviate-helm/releases).
+
+To download the releases programatically you could use the following bash snippet:
+```bash
+export CHART_VERSION="v0.2.0"
+export DOWNLOAD_URL="https://github.com/semi-technologies/weaviate-helm/releases/download/$CHART_VERSION/weaviate.tgz"
+curl --fail -L -o  charts/weaviate.tgz "$DOWNLOAD_URL"
+```
+
+Once you have obtained the chart, you can helm install it:
+```bash
+export NAMESPACE=weaviate
+export NAME=weaviate
+helm upgrade \
+  --values ./values.yaml \
+  --install \
+  --namespace "$NAMESPACE" \
+  "$NAME" \
+  charts/weaviate.tgz
+```
+
+## Changelog
+
+The chart uses semantic versioning. Please see the [Releases Page](https://github.com/semi-technologies/weaviate-helm/releases) for changes.
+
 ## (for contributors) How to make new releases
 
 1. Bump chart version in `./weaviate/Chart.yaml`
