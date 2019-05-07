@@ -58,7 +58,7 @@ elasticsearch:
 #Janus
 janusgraph:
   image:
-    repository: creativesoftwarefdn/janusgraph-docker
+    repository: semitechnologies/janusgraph-docker
     tag: 0.3.1
   elasticsearch.deploy:
     deploy: false
@@ -114,11 +114,11 @@ spark:
   Spark:
     Path: '/spark'
   Master:
-    Image: 'creativesoftwarefdn/spark-janusgraph-master'
+    Image: 'semitechnologies/spark-janusgraph-master'
     ImageTag: '1.6.3-janus-0.2.2'
     Replicas: 1
   Worker:
-    Image: 'creativesoftwarefdn/spark-janusgraph-worker'
+    Image: 'semitechnologies/spark-janusgraph-worker'
     ImageTag: '1.6.3-janus-0.2.2'
     Replicas: 3
 

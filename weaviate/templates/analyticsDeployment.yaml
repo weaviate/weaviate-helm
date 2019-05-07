@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: janus-spark-analytics
-        image: {{ .Values.image.registry }}semi-technologies/janus-spark-analytics:{{ .Values.analytics.tag }}
+        image: {{ .Values.image.registry }}semitechnologies/janus-spark-analytics:{{ .Values.analytics.tag }}
         args: ["java", "-jar", "target/api-1.0-SNAPSHOT.jar", "server", "/analytics-config/analytics.yml"]
         volumeMounts:
         - name: analytics-config

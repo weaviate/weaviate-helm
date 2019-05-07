@@ -46,7 +46,7 @@ The following table lists the configurable parameters of the Weaviate chart and 
 | `elasticsearch.master.replicas`	                     		| Master node replicas for Elasticsearch                                                      | `2`                                          		|
 | `elasticsearch.client.replicas`	                     		| Client node replicas for Elasticsearch                                                      | `2`                                          		|
 | `elasticsearch.cluster.env`	                     			| Elasticsearch cluster environment variables                                                 | `MINIMUM_MASTER_NODES: "2"`                         |
-| `janusgraph.image.repository`	                     			| JanusGraph image registry                                                                   | `creativesoftwarefdn/janusgraph-docker`             |
+| `janusgraph.image.repository`	                     			| JanusGraph image registry                                                                   | `semitechnologies/janusgraph-docker`             |
 | `janusgraph.image.tag`	                     				| JanusGraph image tag                                                                        | `0.2.0`                                          	|
 | `janusgraph.replicaCount`	                     				| JanusGraph cluster size                                                                     | `1`                                          		|
 | `janusgraph.resources.requests.memory`	                    | JanusGraph memory request                                                                   | `2Gi`                                        	  	|
