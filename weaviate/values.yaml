@@ -76,11 +76,9 @@ janusgraph:
   properties:
     storage.backend: cassandra
     storage.directory: /db/cassandra
-    storage.hostname: weaviate-cassandra
     gremlin.graph: org.janusgraph.core.JanusGraphFactory
     index.search.elasticsearch.interface: REST_CLIENT
     index.search.backend: elasticsearch
-    index.search.hostname: weaviate-elasticsearch-client
     storage.index.search.local-mode: false
     storage.index.search.client-only: false
 

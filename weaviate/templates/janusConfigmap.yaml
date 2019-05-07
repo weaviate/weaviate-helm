@@ -17,6 +17,7 @@ data:
     {{- if eq (index .Values.janusgraph.properties "index.search.backend") "elasticsearch" "es"}}
     index.search.hostname={{ $eshostname }}
     {{- end }}
+    storage.hostname={{ printf "%s-cassandra" .Release.Name | trunc 63 | trimSuffix "-" }}
   gremlin-server.yaml: |-
     host: 0.0.0.0
     port: 8182
