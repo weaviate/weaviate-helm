@@ -16,14 +16,7 @@ autoscaling:
   enabled: false
 cpuTargetPercentage: 70
 replicas: 1
-replicasMax: 5 
-
-# Spark Analytics Application
-
-analytics:
-  tag: latest
-  configDir: /analytics
-
+replicasMax: 5
 
 # Weaviate Config
 initialKey: 657a48b9-e000-4d9a-b51d-69a0b621c1b9
@@ -59,8 +52,8 @@ elasticsearch:
   client:
     replicas: 2
   cluster:
-    env: 
-      MINIMUM_MASTER_NODES: "2"
+    env:
+      MINIMUM_MASTER_NODES: '2'
 
 #Janus
 janusgraph:
@@ -93,7 +86,7 @@ janusgraph:
 
 #Etcd
 etcd:
-  envVarsConfigMap: "etcd-config"
+  envVarsConfigMap: 'etcd-config'
   statefulset:
     replicaCount: 3
   ##
@@ -114,19 +107,24 @@ etcd:
   metrics:
     enabled: true
     podAnnotations:
-      prometheus.io/scrape: "true"
-    prometheus.io/port: "2379"
+      prometheus.io/scrape: 'true'
+    prometheus.io/port: '2379'
 
 # Spark
 spark:
-  deploy: true
+  deploy: false
   Spark:
-    Path: "/spark"
+    Path: '/spark'
   Master:
-    Image: "creativesoftwarefdn/spark-janusgraph-master"
-    ImageTag: "1.6.3-janus-0.2.2"
+    Image: 'creativesoftwarefdn/spark-janusgraph-master'
+    ImageTag: '1.6.3-janus-0.2.2'
     Replicas: 1
   Worker:
-    Image: "creativesoftwarefdn/spark-janusgraph-worker"
-    ImageTag: "1.6.3-janus-0.2.2"
+    Image: 'creativesoftwarefdn/spark-janusgraph-worker'
+    ImageTag: '1.6.3-janus-0.2.2'
     Replicas: 3
+
+# Spark Analytics Application
+analytics:
+  tag: latest
+  configDir: /analytics
