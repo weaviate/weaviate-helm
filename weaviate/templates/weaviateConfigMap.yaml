@@ -8,13 +8,13 @@ data:
     database:
       name: janusgraph
       database_config:
-        url: http://{{ template "janusgraph.fullname" . }}-janusgraph:8182
+        url: http://{{ .Release.Name }}-janusgraph:8182
     authentication:
       anonymous_access:
         enabled: true
     configuration_storage:
       type: etcd
-      url: http://weaviate-etcd:2379
+      url: http://{{ .Release.Name }}-etcd:2379
     contextionary:
       knn_file: "{{ .Values.contextionary.knnFile }}"
       idx_file: "{{ .Values.contextionary.idxFile }}"
