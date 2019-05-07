@@ -24,7 +24,7 @@ spec:
             - '--scheme'
             - 'http'
             - '--config-file'
-            - '/weaviate-config/weaviate.conf.yaml'
+            - '/weaviate-config/conf.yaml'
           volumeMounts:
             - name: weaviate-config
               mountPath: /weaviate-config

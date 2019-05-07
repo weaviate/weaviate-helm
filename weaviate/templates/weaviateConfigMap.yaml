@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: weaviate-config
 data:
-  weaviate-conf.yaml: |-
+  conf.yaml: |-
     ---
     database:
       name: janusgraph
