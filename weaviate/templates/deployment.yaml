@@ -12,15 +12,23 @@ spec:
         app: weaviate
     spec:
       containers:
-      - name: weaviate
-        image: {{ .Values.image.registry }}creativesoftwarefdn/weaviate:{{ .Values.image.tag }}
-        ports:
-        - containerPort: 8080
-        args: [ "--host", "0.0.0.0", "--port", "8080", "--scheme", "http", "--config", "default", "--config-file", "/weaviate-config/weaviate.conf.yaml"]
-        volumeMounts:
-        - name: weaviate-config
-          mountPath: /weaviate-config
+        - name: weaviate
+          image: '{{ .Values.image.registry }}creativesoftwarefdn/weaviate:{{ .Values.image.tag }}'
+          ports:
+            - containerPort: 8080
+          args:
+            - '--host'
+            - '0.0.0.0'
+            - '--port'
+            - '8080'
+            - '--scheme'
+            - 'http'
+            - '--config'
+            - '/weaviate-config/weaviate.conf.yaml'
+          volumeMounts:
+            - name: weaviate-config
+              mountPath: /weaviate-config
       volumes:
-      - name: weaviate-config
-        configMap:
-          name: weaviate-config
+        - name: weaviate-config
+          configMap:
+            name: weaviate-config
