@@ -23,7 +23,7 @@ spec:
             - '8080'
             - '--scheme'
             - 'http'
-            - '--config'
+            - '--config-file'
             - '/weaviate-config/weaviate.conf.yaml'
           volumeMounts:
             - name: weaviate-config
