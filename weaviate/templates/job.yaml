@@ -15,7 +15,7 @@ spec:
       - args:
         - -weaviate-url
         - http://weaviate/weaviate/v1/
-        image: {{ .Values.image.registry }}creativesoftwarefdn/weaviate-demo-importer:0.0.2
+        image: {{ .Values.image.registry }}semitechnologies/weaviate-demo-importer:0.0.2
         name: weaviate-demo-importer
       restartPolicy: OnFailure
 {{ end }}

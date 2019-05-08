@@ -1,9 +1,9 @@
-# weaviate-helm <img alt='Weaviate logo' src='https://raw.githubusercontent.com/creativesoftwarefdn/weaviate/19de0956c69b66c5552447e84d016f4fe29d12c9/docs/assets/weaviate-logo.png' width='180' align='right' />
+# weaviate-helm <img alt='Weaviate logo' src='https://raw.githubusercontent.com/semi-technologies/weaviate/19de0956c69b66c5552447e84d016f4fe29d12c9/docs/assets/weaviate-logo.png' width='180' align='right' />
 
 > Deploy weaviate, the open source knowledge graph, to Kubernetes with this
 > helm chart.
 
-More information about weaviate at [creativesoftwarfdn/weaviate](https://github.com/creativesoftwarefdn/weaviate).
+More information about weaviate at [semi-technologies/weaviate](https://github.com/semi-technologies/weaviate).
 
 ## Key Features
 - Supports full backend stack with Janusgraph backed by Cassandra and
