@@ -18,7 +18,8 @@ data:
     contextionary:
       knn_file: "{{ .Values.contextionary.knnFile }}"
       idx_file: "{{ .Values.contextionary.idxFile }}"
-    limit: 100
+    query_defaults:
+      limit: 100
     debug: false
     telemetry:
       disabled: true
