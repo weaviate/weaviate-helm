@@ -8,7 +8,7 @@ image:
   # registry where weaviate image is stored
   registry: docker.io/
   # tag of image to deploy
-  tag: latest
+  tag: 0.12.71-7cdf2dd
 
 importer: false
 
@@ -19,11 +19,20 @@ replicas: 1
 replicasMax: 5
 
 # Weaviate Config
-initialKey: 657a48b9-e000-4d9a-b51d-69a0b621c1b9
-initialToken: 57ac8392-1ecc-4e17-9350-c9c866ac832b
+authentication:
+  anonymous_access:
+    enabled: true
+authorization:
+  admin_list:
+    enabled: false
 contextionary:
   knnFile: /contextionary/contextionary.knn
   idxFile: /contextionary/contextionary.idx
+query_defaults:
+  limit: 100
+debug: false
+telemetry:
+  disabled: true
 
 # Sub Chart Overrides
 

@@ -10,16 +10,16 @@ data:
       database_config:
         url: http://{{ .Release.Name }}-janusgraph:8182
     authentication:
-      anonymous_access:
-        enabled: true
+{{ toYaml .Values.authentication | indent 6 }}
+    authorization:
+{{ toYaml .Values.authorization | indent 6 }}
     configuration_storage:
       type: etcd
       url: http://{{ .Release.Name }}-etcd:2379
     contextionary:
-      knn_file: "{{ .Values.contextionary.knnFile }}"
-      idx_file: "{{ .Values.contextionary.idxFile }}"
+{{ toYaml .Values.contextionary | indent 6 }}
     query_defaults:
-      limit: 100
-    debug: false
+{{ toYaml .Values.query_defaults | indent 6 }}
+    debug: {{ .Values.debug }}
     telemetry:
-      disabled: true
+{{ toYaml .Values.telemetry | indent 6 }}
