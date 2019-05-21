@@ -26,8 +26,8 @@ authorization:
   admin_list:
     enabled: false
 contextionary:
-  knnFile: /contextionary/contextionary.knn
-  idxFile: /contextionary/contextionary.idx
+  knn_file: /contextionary/contextionary.knn
+  idx_file: /contextionary/contextionary.idx
 query_defaults:
   limit: 100
 debug: false
