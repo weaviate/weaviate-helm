@@ -1,0 +1,18 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: contextionary
+  labels:
+    name: contextionary
+spec:
+  template:
+    metadata:
+      labels:
+        app: contextionary
+    spec:
+      containers:
+      - name: contextionary
+        image: {{ .Values.image.registry }}semitechnologies/contextionary:{{ .Values.contextionary.tag }}
+        env:
+          - name: SCHEMA_PROVIDER_URL
+            value: http://{{ .Release.Name }}-etcd:2379

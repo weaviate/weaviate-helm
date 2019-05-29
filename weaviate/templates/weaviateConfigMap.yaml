@@ -17,7 +17,7 @@ data:
       type: etcd
       url: http://{{ .Release.Name }}-etcd:2379
     contextionary:
-      {{ toYaml .Values.contextionary | nindent 6 | trim }}
+      url: contextionary:9999
     query_defaults:
       {{ toYaml .Values.query_defaults | nindent 6 | trim }}
     debug: {{ .Values.debug }}
