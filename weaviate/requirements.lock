@@ -10,9 +10,12 @@ dependencies:
   version: 0.9.0
 - name: etcd
   repository: https://charts.bitnami.com/bitnami
-  version: 2.0.0
+  version: 3.1.1
 - name: spark
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 0.2.1
-digest: sha256:fbafeb14ce180baac614ed8875d056c3e6acf7ead4d10edb02fc0e7200d0d042
-generated: 2019-05-02T23:15:23.586835478+02:00
+- name: nfs-server-provisioner
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 0.3.0
+digest: sha256:43d2287356427cd0d1d26b1f5e97e3d2498dc2db6b801952e4e219dd4dc77f6c
+generated: 2019-07-10T15:52:44.765495333+02:00

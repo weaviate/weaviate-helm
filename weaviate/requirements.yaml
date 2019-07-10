@@ -17,7 +17,7 @@ dependencies:
     condition: cassandra.deploy
 
   - name: etcd
-    version: 2.0.0
+    version: 3.1.1
     repository: "https://charts.bitnami.com/bitnami"
     alias: etcd
     condition: etcd.deploy
@@ -26,3 +26,10 @@ dependencies:
     version: 0.2.1
     repository: "@stable"
     condition: spark.deploy
+
+  - name: nfs-server-provisioner
+    version: 0.3.0
+    repository: "@stable"
+    alias: nfs
+    condition: etcd.deploy
+

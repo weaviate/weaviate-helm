@@ -97,6 +97,8 @@ etcd:
     replicaCount: 3
   ##
   auth:
+    rbac:
+      enabled: false
     client:
       ## Switch to encrypt client communication using TLS certificates
       secureTransport: false
@@ -115,6 +117,21 @@ etcd:
     podAnnotations:
       prometheus.io/scrape: 'true'
     prometheus.io/port: '2379'
+  disasterRecovery:
+    enabled: true
+    cronjob:
+      schedule: "*/30 * * * *"
+      historyLimit: 1
+      podAnnotations: {}
+    pvc:
+      size: 2Gi
+      storageClassName: nfs
+
+# nfs-server-provisioner (used for etcd disasterRecovery)
+nfs:
+  persistence:
+    enabled: true
+    size: 10Gi
 
 # Spark
 spark:
