@@ -118,7 +118,12 @@ etcd:
       prometheus.io/scrape: 'true'
     prometheus.io/port: '2379'
   disasterRecovery:
-    enabled: true
+    # If you set `enabled: true` you need to make sure that an NFS provisioner
+    # runs in your cluster! See
+    # https://github.com/bitnami/charts/tree/master/bitnami/etcd#disaster-recovery
+    # Defaults to 'false' so the chart works without an NFS provisioner.
+    # However, 'enabled: true' is strongly recommended!
+    enabled: false 
     cronjob:
       schedule: "*/30 * * * *"
       historyLimit: 1
@@ -126,12 +131,6 @@ etcd:
     pvc:
       size: 2Gi
       storageClassName: nfs
-
-# nfs-server-provisioner (used for etcd disasterRecovery)
-nfs:
-  persistence:
-    enabled: true
-    size: 10Gi
 
 # Spark
 spark:

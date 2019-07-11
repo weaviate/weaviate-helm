@@ -14,8 +14,5 @@ dependencies:
 - name: spark
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 0.2.1
-- name: nfs-server-provisioner
-  repository: https://kubernetes-charts.storage.googleapis.com
-  version: 0.3.0
-digest: sha256:43d2287356427cd0d1d26b1f5e97e3d2498dc2db6b801952e4e219dd4dc77f6c
-generated: 2019-07-10T15:52:44.765495333+02:00
+digest: sha256:c7402e819fbd7c2de797a0dab346bb1e9e8c2e66d7530e674c2c982dabde7a06
+generated: 2019-07-11T13:34:28.758191853+02:00
