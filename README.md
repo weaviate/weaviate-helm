@@ -40,6 +40,73 @@ helm upgrade \
 
 The chart uses semantic versioning. Please see the [Releases Page](https://github.com/semi-technologies/weaviate-helm/releases) for changes.
 
+## etcd Disaster Recovery
+
+### Why is this necessary?
+The weaviate chart depends on the bitnami `etcd` chart to provision `etcd` in
+the namespace. `etcd` is a vital component to Weaviate as it provides
+abilites for distributed RW locking as well as consistent configuration for
+critical areas.
+
+Unfortunately, without *disaster recovery* enabled, the `etcd` cluster can end
+up in a deadlock situation without a possiblity to recover. If a majority of
+`etcd` pods become unavailable, it's impossible for new members to join. So
+especially with small cluster sizes, such as three pods, it only takes the
+simultaneous death of two pods for the cluster to be unrecoverable.
+
+As a mitigation for this disaster scenario, the `etcd` chart (>= `v3.0.0`)
+provides a *disaster recovery* option, where the etcd cluster can be resurected
+without a minimum number of pods. For this a snapshot is created at a regular
+interval, which can then be read back to bootstrap a "new" cluster.
+
+### When should this feature be enabled?
+
+We recommend this feature to be enabled in any scenario where Weaviate should
+be able to survive cluster node upgrades,  cluster auto-scaling or random node
+deaths (as they are quite common on Kubernetes).
+
+### Why is not enabled by default if it's so important?
+
+This snapshotting process requires an nfs volume. This in turn requires an nfs
+provisioner, such as `@stable/nfs-server-provisioner`. Since we cannot assume
+that the provisioner is present on a random cluster, the chart has to default
+to `etcd.disasterRecovery.enabled: false` (see `values.yaml`). Nevertheless, we
+recommend turning this on in most cases.
+
+Unfortunately bundling an nfs provisioner with Weaviate is impossible because
+of the different lifecycles. The provisioner should be deployed before weaviate
+is deployed and only removed after Weaviate is removed. Otherwise - if the
+provisioner were to be torn down with weaviate - it would be impossible to
+destroy the volumes it created when deploying Weaviate.
+
+### How can I turn it on?
+
+#### Step 1: Make sure the cluster supports nfs volumes
+
+The easiest way to do so is to deploy `@stable/nfs-server-provisioner` into
+the `default` namespace. For example, run:
+
+```bash
+NFS_VERSION="0.3.0"
+helm upgrade \
+  --install \
+  --namespace default \
+  --version "$NFS_VERSION" \
+  nfs-server-provisioner \
+  stable/nfs-server-provisioner \
+  --set persistence.enabled=true \
+  --set persistence.size=10Gi
+```
+
+#### Step 2: Turn on disaster recovery
+
+In your `values.yaml` set `etcd.disasterRecovery.enabled` to `true`, then
+deploy Weaviate normally with your `values.yaml`.
+
+Alternatively, if you don't want to use a `values.yaml`, include `--set
+etcd.disasterRecover.enabled=true` in your `helm install` or `helm upgrade`
+command.
+
 ## (for contributors) How to make new releases
 
 1. Bump chart version in `./weaviate/Chart.yaml`
