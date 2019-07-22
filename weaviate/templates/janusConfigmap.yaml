@@ -7,7 +7,6 @@ data:
   janusgraph.properties: |-
     gremlin.graph=org.janusgraph.core.JanusGraphFactory
 
-    {{- $eshostname := (index .Values.janusgraph.properties "index.search.hostname") | default (printf "%s-elasticsearch-client" .Release.Name | trunc 63 | trimSuffix "-")}}
     {{- range $key, $val := .Values.janusgraph.properties }}
     {{- if ne $key "index.search.hostname" }}
     {{ $key }}={{ $val }}
@@ -15,7 +14,7 @@ data:
     {{ end }}
 
     {{- if eq (index .Values.janusgraph.properties "index.search.backend") "elasticsearch" "es"}}
-    index.search.hostname={{ $eshostname }}
+    index.search.hostname=elasticsearch-master
     {{- end }}
     storage.hostname={{ printf "%s-cassandra" .Release.Name | trunc 63 | trimSuffix "-" }}
   gremlin-server.yaml: |-

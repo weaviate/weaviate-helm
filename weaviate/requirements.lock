@@ -3,8 +3,11 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 0.2.0
 - name: elasticsearch
-  repository: https://kubernetes-charts.storage.googleapis.com
-  version: 1.11.1
+  repository: https://helm.elastic.co
+  version: 7.2.1-0
+- name: elasticsearch
+  repository: https://helm.elastic.co
+  version: 7.2.1-0
 - name: cassandra
   repository: https://kubernetes-charts-incubator.storage.googleapis.com/
   version: 0.9.0
@@ -14,5 +17,5 @@ dependencies:
 - name: spark
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 0.2.1
-digest: sha256:c7402e819fbd7c2de797a0dab346bb1e9e8c2e66d7530e674c2c982dabde7a06
-generated: 2019-07-11T13:34:28.758191853+02:00
+digest: sha256:fc04ebd417d6560d0977144c6e42b6e65ee83f7da251ffd3b549609fba897cf3
+generated: "2019-07-22T14:11:46.896277+02:00"

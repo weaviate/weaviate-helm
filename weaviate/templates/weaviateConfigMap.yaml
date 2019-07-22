@@ -23,3 +23,6 @@ data:
     debug: {{ .Values.debug }}
     telemetry:
       {{ toYaml .Values.telemetry | nindent 6 | trim }}
+    vector_index:
+      enabled: {{ .Values.vector_index.enabled }}
+      url: http://esvector-master:9200

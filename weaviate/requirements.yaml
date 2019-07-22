@@ -1,28 +1,34 @@
 dependencies:
   - name: janusgraph
     version: 0.2.0
-    repository: "@stable"
+    repository: '@stable'
     alias: janusgraph
 
   - name: elasticsearch
-    version: 1.11.1
-    repository: "@stable"
+    version: 7.2.1-0
+    repository: 'https://helm.elastic.co'
+    alias: esvector
+    condition: vector_index.enabled
+
+  - name: elasticsearch
+    version: 7.2.1-0
+    repository: 'https://helm.elastic.co'
     alias: elasticsearch
     condition: elasticsearch.deploy-so
 
   - name: cassandra
     version: 0.9.0
-    repository: "@incubator"
+    repository: '@incubator'
     alias: cassandra
     condition: cassandra.deploy
 
   - name: etcd
     version: 3.1.1
-    repository: "https://charts.bitnami.com/bitnami"
+    repository: 'https://charts.bitnami.com/bitnami'
     alias: etcd
     condition: etcd.deploy
 
   - name: spark
     version: 0.2.1
-    repository: "@stable"
+    repository: '@stable'
     condition: spark.deploy

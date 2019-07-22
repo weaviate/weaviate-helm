@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: weaviate
+  name: {{.Values.service.name}}
 spec:
-  type: LoadBalancer
+  type: {{.Values.service.type}}
   selector:
     app: weaviate
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
-

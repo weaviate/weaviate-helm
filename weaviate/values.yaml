@@ -8,7 +8,7 @@ image:
   # registry where weaviate image is stored
   registry: docker.io/
   # tag of image to deploy
-  tag: 0.14.2
+  tag: 0.17.1
 
 importer: false
 
@@ -17,6 +17,9 @@ autoscaling:
 cpuTargetPercentage: 70
 replicas: 1
 replicasMax: 5
+service:
+  name: weaviate
+  type: LoadBalancer
 
 # Weaviate Config
 authentication:
@@ -26,12 +29,19 @@ authorization:
   admin_list:
     enabled: false
 contextionary:
-  tag: en0.6.0-v0.1.0
+  tag: en0.8.0-v0.3.0
 query_defaults:
   limit: 100
 debug: false
 telemetry:
   disabled: true
+
+vector_index:
+  # if vector_index is enabled a separate esvector instance will be provisioned
+  # alongside the other dependencies
+  # it defaults to false in the current version, to enable a non-breaking
+  # upgrade, but will be a standard-feature in the future
+  enabled: false
 
 # Sub Chart Overrides
 
@@ -55,13 +65,15 @@ cassandra:
 #Elasticsearch
 elasticsearch:
   deploy-so: true
-  master:
-    replicas: 2
-  client:
-    replicas: 2
-  cluster:
-    env:
-      MINIMUM_MASTER_NODES: '2'
+  replicas: 3
+  imageTag: '6.8.1'
+
+#esvector
+esvector:
+  clusterName: 'esvector'
+  image: semitechnologies/esvector
+  imageTag: 7.1.0
+  replicas: 3
 
 #Janus
 janusgraph:
@@ -123,14 +135,22 @@ etcd:
     # https://github.com/bitnami/charts/tree/master/bitnami/etcd#disaster-recovery
     # Defaults to 'false' so the chart works without an NFS provisioner.
     # However, 'enabled: true' is strongly recommended!
-    enabled: false 
+    enabled: false
     cronjob:
-      schedule: "*/30 * * * *"
+      schedule: '*/30 * * * *'
       historyLimit: 1
       podAnnotations: {}
     pvc:
       size: 2Gi
       storageClassName: nfs
+  startFromSnapshot:
+    enabled: false
+    ## Existingn PVC containing the etcd snapshot
+    ##
+    # existingClaim
+    ## Snapshot filename
+    ##
+    # snapshotFilename
 
 # Spark
 spark:
