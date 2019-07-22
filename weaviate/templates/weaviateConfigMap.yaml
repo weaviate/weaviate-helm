@@ -8,14 +8,14 @@ data:
     database:
       name: janusgraph
       database_config:
-        url: http://{{ .Release.Name }}-janusgraph:8182
+        url: http://{{ .Values.janusgraph.fullnameOverride }}:8182
     authentication:
       {{ toYaml .Values.authentication | nindent 6 | trim }}
     authorization:
       {{ toYaml .Values.authorization | nindent 6 | trim }}
     configuration_storage:
       type: etcd
-      url: http://{{ .Release.Name }}-etcd:2379
+      url: http://{{ .Values.etcd.fullnameOverride }}:2379
     contextionary:
       url: contextionary:9999
     query_defaults:

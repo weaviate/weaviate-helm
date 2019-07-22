@@ -47,6 +47,7 @@ vector_index:
 
 #Cassandra
 cassandra:
+  fullnameOverride: cassandra
   deploy: true
   image:
     tag: 3
@@ -77,6 +78,7 @@ esvector:
 
 #Janus
 janusgraph:
+  fullnameOverride: janusgraph
   image:
     repository: semitechnologies/janusgraph-docker
     tag: 0.3.1
@@ -104,6 +106,7 @@ janusgraph:
 
 #Etcd
 etcd:
+  fullnameOverride: etcd
   envVarsConfigMap: 'etcd-config'
   statefulset:
     replicaCount: 3
