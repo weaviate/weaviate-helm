@@ -67,7 +67,7 @@ cassandra:
 elasticsearch:
   deploy-so: true
   replicas: 3
-  imageTag: '6.8.1'
+  imageTag: '6.4.2'
 
 #esvector
 esvector:
