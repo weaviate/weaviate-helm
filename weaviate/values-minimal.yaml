@@ -46,7 +46,7 @@ janusgraph:
       memory: 0.5Gi
       cpu: 200m
     limits:
-      memory: 2Gi
+      memory: 4Gi
       cpu: 500m
 
 etcd:
