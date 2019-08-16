@@ -8,7 +8,7 @@ image:
   # registry where weaviate image is stored
   registry: docker.io/
   # tag of image to deploy
-  tag: 0.17.1
+  tag: 0.19.3
 
 importer: false
 
@@ -29,7 +29,7 @@ authorization:
   admin_list:
     enabled: false
 contextionary:
-  tag: en0.8.0-v0.3.0
+  tag: en0.8.0-v0.3.2
 query_defaults:
   limit: 100
 debug: false
