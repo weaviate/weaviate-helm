@@ -56,7 +56,7 @@ data:
     maxInitialLineLength: 4096
     maxHeaderSize: 8192
     maxChunkSize: 8192
-    maxContentLength: 65536
+    maxContentLength: {{ .Values.janusgraph.maxContentLength }}
     maxAccumulationBufferComponents: 1024
     resultIterationBatchSize: 64
     writeBufferLowWaterMark: 32768

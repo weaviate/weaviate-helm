@@ -103,6 +103,7 @@ janusgraph:
     index.search.backend: elasticsearch
     storage.index.search.local-mode: false
     storage.index.search.client-only: false
+  maxContentLength: 655360
 
 #Etcd
 etcd:
