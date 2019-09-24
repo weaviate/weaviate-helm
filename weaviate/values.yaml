@@ -1,14 +1,9 @@
-# Global values
-global:
-  db: cassandra
-  index: elasticsearch
-
 # Related to the weaviate image
 image:
   # registry where weaviate image is stored
   registry: docker.io/
   # tag of image to deploy
-  tag: 0.19.3
+  tag: 0.20.0-rc0
 
 importer: false
 
@@ -29,7 +24,7 @@ authorization:
   admin_list:
     enabled: false
 contextionary:
-  tag: en0.8.0-v0.3.2
+  tag: en0.8.0-v0.3.3
 query_defaults:
   limit: 100
 debug: false
@@ -37,73 +32,16 @@ telemetry:
   disabled: true
 
 vector_index:
-  # if vector_index is enabled a separate esvector instance will be provisioned
-  # alongside the other dependencies
-  # it defaults to false in the current version, to enable a non-breaking
-  # upgrade, but will be a standard-feature in the future
+  # must be enabled since 0.20.x, there is no non-vector alternative anymore
   enabled: false
 
 # Sub Chart Overrides
-
-#Cassandra
-cassandra:
-  fullnameOverride: cassandra
-  deploy: true
-  image:
-    tag: 3
-  config:
-    cluster_size: 2
-    seed_size: 2
-    start_rpc: true
-  resources:
-    requests:
-      memory: 4Gi
-      cpu: 2
-    limits:
-      memory: 4Gi
-      cpu: 2
-
-#Elasticsearch
-elasticsearch:
-  deploy-so: true
-  replicas: 3
-  imageTag: '6.4.2'
-
 #esvector
 esvector:
   clusterName: 'esvector'
   image: semitechnologies/esvector
   imageTag: 7.1.0
   replicas: 3
-
-#Janus
-janusgraph:
-  fullnameOverride: janusgraph
-  image:
-    repository: semitechnologies/janusgraph-docker
-    tag: 0.3.1
-  elasticsearch.deploy:
-    deploy: false
-  configMapOverrideName: janusgraph-config
-  replicaCount: 1
-  resources:
-    requests:
-      memory: 2Gi
-      cpu: 1
-    limits:
-      memory: 2Gi
-      cpu: 1
-  persistence:
-    enabled: false
-  properties:
-    storage.backend: cassandra
-    storage.directory: /db/cassandra
-    gremlin.graph: org.janusgraph.core.JanusGraphFactory
-    index.search.elasticsearch.interface: REST_CLIENT
-    index.search.backend: elasticsearch
-    storage.index.search.local-mode: false
-    storage.index.search.client-only: false
-  maxContentLength: 655360
 
 #Etcd
 etcd:
@@ -155,22 +93,3 @@ etcd:
     ## Snapshot filename
     ##
     # snapshotFilename
-
-# Spark
-spark:
-  deploy: false
-  Spark:
-    Path: '/spark'
-  Master:
-    Image: 'semitechnologies/spark-janusgraph-master'
-    ImageTag: '1.6.3-janus-0.2.2'
-    Replicas: 1
-  Worker:
-    Image: 'semitechnologies/spark-janusgraph-worker'
-    ImageTag: '1.6.3-janus-0.2.2'
-    Replicas: 3
-
-# Spark Analytics Application
-analytics:
-  tag: latest
-  configDir: /analytics

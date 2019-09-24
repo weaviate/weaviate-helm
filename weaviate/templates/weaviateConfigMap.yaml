@@ -5,10 +5,6 @@ metadata:
 data:
   conf.yaml: |-
     ---
-    database:
-      name: janusgraph
-      database_config:
-        url: http://{{ .Values.janusgraph.fullnameOverride }}:8182
     authentication:
       {{ toYaml .Values.authentication | nindent 6 | trim }}
     authorization:

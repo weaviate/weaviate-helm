@@ -1,21 +1,9 @@
 dependencies:
-- name: janusgraph
-  repository: https://kubernetes-charts.storage.googleapis.com
-  version: 0.2.0
 - name: elasticsearch
   repository: https://helm.elastic.co
   version: 7.2.1-0
-- name: elasticsearch
-  repository: https://helm.elastic.co
-  version: 7.2.1-0
-- name: cassandra
-  repository: https://kubernetes-charts-incubator.storage.googleapis.com/
-  version: 0.9.0
 - name: etcd
   repository: https://charts.bitnami.com/bitnami
   version: 3.1.1
-- name: spark
-  repository: https://kubernetes-charts.storage.googleapis.com
-  version: 0.2.1
-digest: sha256:fc04ebd417d6560d0977144c6e42b6e65ee83f7da251ffd3b549609fba897cf3
-generated: "2019-07-22T14:11:46.896277+02:00"
+digest: sha256:fee4e32403059848765a6b731201f83f30ac1db6c330940eb178b744811d67e7
+generated: "2019-09-24T15:02:17.950556+02:00"
