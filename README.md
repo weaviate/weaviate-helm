@@ -19,12 +19,17 @@ You can download the chart from the binaries attached to the [Releases](https://
 
 To download the releases programatically you could use the following bash snippet:
 ```bash
-export CHART_VERSION="v0.2.0"
+export CHART_VERSION="v0.8.0"
 export DOWNLOAD_URL="https://github.com/semi-technologies/weaviate-helm/releases/download/$CHART_VERSION/weaviate.tgz"
 curl --fail -L -o  charts/weaviate.tgz "$DOWNLOAD_URL"
 ```
 
-Once you have obtained the chart, you can helm install it:
+Once you have obtained the chart, you can helm install it. The following
+assumes that you have created your own `values.yaml`. While you can install
+weaviate without a custom `values.yaml`, we **strongly** recommend that you
+overwrite at least the `image.tag` value. Otherwise a chart upgrade could lead
+to an unexpected Weaviate update.
+
 ```bash
 export NAMESPACE=weaviate
 export NAME=weaviate
