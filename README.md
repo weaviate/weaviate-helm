@@ -4,3 +4,15 @@
 > helm chart.
 
 Documentation: [semi.technology/documentation/weaviate/current/installation.html#kubernetes](https://www.semi.technology/documentation/weaviate/current/installation.html#kubernetes).
+
+## (for contributors) How to make new releases
+
+1. Bump chart version in `./weaviate/Chart.yaml`
+1. Create a commit
+1. Create an annotated tag matching the version number in Chart.yaml (prefix
+   with a `v`, such as `v1.4.3`)
+1. Push commit with `git push`
+1. Push tag with `git push origin --tags`
+1. Wait for Travis to complete, it will create a drafted release with the
+   packaged chart attached
+1. Edit the draft to include useful release notes and publish when appropriate
