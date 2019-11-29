@@ -28,6 +28,18 @@ spec:
           volumeMounts:
             - name: weaviate-config
               mountPath: /weaviate-config
+          livenessProbe:
+            httpGet:
+              path: /v1/.well-known/live
+              port: 8080
+            initialDelaySeconds: 120
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /v1/.well-known/ready
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
       volumes:
         - name: weaviate-config
           configMap:
