@@ -11,6 +11,11 @@ esvector:
     limits:
       memory: 1Gi
       cpu: 1
+  volumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    resources:
+      requests:
+        storage: 150Gi
 
 etcd:
   statefulset:

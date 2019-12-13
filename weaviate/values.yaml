@@ -8,7 +8,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 0.21.2
+  tag: 0.21.5
 
 # manually scale horizontal replicas of weaviate.
 # Also note: https://github.com/semi-technologies/weaviate/issues/725
@@ -27,7 +27,7 @@ authorization:
   admin_list:
     enabled: false
 contextionary:
-  tag: en0.8.0-v0.3.3
+  tag: en0.10.0-v0.4.2
 query_defaults:
   limit: 100
 debug: false
@@ -53,6 +53,19 @@ esvector:
   # Scale up elasticsearch if you need more disk space or want to increase
   # performance.
   replicas: 3
+  volumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    resources:
+      requests:
+        storage: 150Gi
+  resources:
+    requests:
+      cpu: "400m"
+      memory: "8Gi"
+    limits:
+      cpu: "4000m"
+      memory: "8Gi"
+  esJavaOpts: "-Xmx4g -Xms4g" # should be 50% of available mem according to es docs
 
 # Etcd
 #
