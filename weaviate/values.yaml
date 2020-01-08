@@ -8,7 +8,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 0.21.5
+  tag: 0.21.8
 
 # manually scale horizontal replicas of weaviate.
 # Also note: https://github.com/semi-technologies/weaviate/issues/725

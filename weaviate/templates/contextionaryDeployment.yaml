@@ -15,4 +15,4 @@ spec:
         image: {{ .Values.image.registry }}semitechnologies/contextionary:{{ .Values.contextionary.tag }}
         env:
           - name: SCHEMA_PROVIDER_URL
-            value: http://{{ .Release.Name }}-etcd:2379
+            value: http://{{ .Values.etcd.fullnameOverride }}:2379
