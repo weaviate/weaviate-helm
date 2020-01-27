@@ -16,3 +16,5 @@ spec:
         env:
           - name: SCHEMA_PROVIDER_URL
             value: http://{{ .Values.etcd.fullnameOverride }}:2379
+        resources:
+{{ toYaml .Values.contextionary.resources | indent 10 }}

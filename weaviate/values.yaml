@@ -8,11 +8,19 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 0.21.8
+  tag: 0.22.0
 
 # manually scale horizontal replicas of weaviate.
 # Also note: https://github.com/semi-technologies/weaviate/issues/725
 replicas: 1
+resources:
+  requests:
+    cpu: "500m"
+    memory: "300Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1Gi"
+
 
 # Weaviate Config
 #
@@ -26,8 +34,6 @@ authentication:
 authorization:
   admin_list:
     enabled: false
-contextionary:
-  tag: en0.10.0-v0.4.2
 query_defaults:
   limit: 100
 debug: false
@@ -36,6 +42,9 @@ telemetry:
 vector_index:
   # must be enabled since 0.20.x, there is no non-vector alternative anymore
   enabled: true
+
+
+
 
 # Sub Chart Overrides
 #
@@ -120,6 +129,18 @@ etcd:
     ## Snapshot filename
     ##
     # snapshotFilename
+    #
+
+# Kubernetes-specific configuration for the contextionary deployment
+contextionary:
+  tag: en0.10.0-v0.4.6
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "2000Mi"
+    limits:
+      cpu: "1000m"
+      memory: "5000Mi"
 
 # The service controls how weaviate is exposed to the outside world. If you
 # don't want a public load balancer, you can also choose 'ClusterIP' to make

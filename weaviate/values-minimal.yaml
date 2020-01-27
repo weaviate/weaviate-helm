@@ -1,3 +1,10 @@
+resources:
+  requests:
+    cpu: "100m"
+    memory: "200Mi"
+  limits:
+    cpu: "1000m"
+    memory: "500Mi"
 
 #esvector
 esvector:
@@ -20,3 +27,12 @@ esvector:
 etcd:
   statefulset:
     replicaCount: 1
+
+contextionary:
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+    limits:
+      cpu: "1000m"
+      memory: "5000Mi"
