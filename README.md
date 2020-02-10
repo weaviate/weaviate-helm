@@ -3,7 +3,7 @@
 > Deploy weaviate, the open source knowledge graph, to Kubernetes with this
 > helm chart.
 
-Documentation: [semi.technology/documentation/weaviate/current/installation.html#kubernetes](https://www.semi.technology/documentation/weaviate/current/installation.html#kubernetes).
+Documentation can be found [here](https://www.semi.technology/documentation/weaviate/current/get-started/install.html#kubernetes).
 
 ## (for contributors) How to make new releases
 
