@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: weaviate
-          image: '{{ .Values.image.registry }}semitechnologies/weaviate:{{ .Values.image.tag }}'
+          image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}'
           ports:
             - containerPort: 8080
           args:

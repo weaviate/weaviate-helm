@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: contextionary
-        image: {{ .Values.image.registry }}semitechnologies/contextionary:{{ .Values.contextionary.tag }}
+        image: {{ .Values.contextionary.registry }}/{{ .Values.contextionary.repo }}:{{ .Values.contextionary.tag }}
         env:
           - name: SCHEMA_PROVIDER_URL
             value: http://{{ .Values.etcd.fullnameOverride }}:2379
