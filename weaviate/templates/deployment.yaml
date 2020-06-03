@@ -1,11 +1,15 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: weaviate
   labels:
     name: weaviate
+    app: weaviate
 spec:
   progressDeadlineSeconds: 1200
+  selector:
+    matchLabels:
+      app: weaviate
   template:
     metadata:
       labels:
