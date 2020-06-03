@@ -8,7 +8,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 0.22.1
+  tag: 0.22.7
   repo: semitechnologies/weaviate
 
 # manually scale horizontal replicas of weaviate.
@@ -108,6 +108,8 @@ etcd:
     podAnnotations:
       prometheus.io/scrape: 'true'
     prometheus.io/port: '2379'
+    serviceMonitor:
+      enabled: false
   disasterRecovery:
     # If you set `enabled: true` you need to make sure that an NFS provisioner
     # runs in your cluster! See
@@ -134,7 +136,7 @@ etcd:
 
 # Kubernetes-specific configuration for the contextionary deployment
 contextionary:
-  tag: en0.10.0-v0.4.7
+  tag: en0.16.0-v0.4.9
   repo: semitechnologies/contextionary
   registry: docker.io
   resources:

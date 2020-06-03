@@ -4,8 +4,12 @@ metadata:
   name: weaviate
   labels:
     name: weaviate
+    app: weaviate
 spec:
   progressDeadlineSeconds: 1200
+  selector:
+    matchLabels:
+      app: weaviate
   template:
     metadata:
       labels:

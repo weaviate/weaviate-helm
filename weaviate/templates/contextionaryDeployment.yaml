@@ -4,7 +4,11 @@ metadata:
   name: contextionary
   labels:
     name: contextionary
+    app: contextionary
 spec:
+  selector:
+    matchLabels:
+      app: contextionary
   template:
     metadata:
       labels:
