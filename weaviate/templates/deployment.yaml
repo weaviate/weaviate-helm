@@ -6,6 +6,7 @@ metadata:
     name: weaviate
     app: weaviate
 spec:
+  replicas: {{ .Values.replicas }}
   progressDeadlineSeconds: 1200
   selector:
     matchLabels:
