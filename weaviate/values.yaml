@@ -139,6 +139,7 @@ contextionary:
   tag: en0.16.0-v0.4.9
   repo: semitechnologies/contextionary
   registry: docker.io
+  replicas: 1
   resources:
     requests:
       cpu: "500m"

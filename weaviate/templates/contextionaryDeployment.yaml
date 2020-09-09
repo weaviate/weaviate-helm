@@ -6,6 +6,7 @@ metadata:
     name: contextionary
     app: contextionary
 spec:
+  replicas: {{ .Values.contextionary.replicas }}
   selector:
     matchLabels:
       app: contextionary
