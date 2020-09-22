@@ -44,7 +44,8 @@ vector_index:
   # must be enabled since 0.20.x, there is no non-vector alternative anymore
   enabled: true
 
-
+# It is also possible to configure authentication and authorization through a custom configmap
+# The authorization and authentication values defined in values.yaml will be ignored when defining a custom config map.
 custom_config_map:
   enabled: false
   name: "custom-config"
