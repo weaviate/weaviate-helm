@@ -50,4 +50,4 @@ spec:
       volumes:
         - name: weaviate-config
           configMap:
-            name: weaviate-config
+            {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: weaviate-config{{ end }}

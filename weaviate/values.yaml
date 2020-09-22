@@ -45,6 +45,9 @@ vector_index:
   enabled: true
 
 
+custom_config_map:
+  enabled: false
+  name: "custom-config"
 
 
 # Sub Chart Overrides

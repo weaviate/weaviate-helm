@@ -1,3 +1,4 @@
+{{ if not .Values.custom_config_map.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -22,3 +23,4 @@ data:
     vector_index:
       enabled: {{ .Values.vector_index.enabled }}
       url: http://esvector-master:9200
+{{ end }}
