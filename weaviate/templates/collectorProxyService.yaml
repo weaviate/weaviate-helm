@@ -1,0 +1,15 @@
+{{ if .Values.collector_proxy.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.collector_proxy.service.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: {{ .Values.collector_proxy.service.type }}
+  selector:
+    app: enterprise-collector-proxy
+  ports:
+    - protocol: TCP
+      port: {{ .Values.collector_proxy.service.port }}
+      targetPort: 8080
+{{ end }}

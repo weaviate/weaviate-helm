@@ -152,6 +152,20 @@ contextionary:
       cpu: "1000m"
       memory: "5000Mi"
 
+# The collector proxy collects meta data over the requests.
+# It deploys a second service that, if used, will capture meta data over the incoming requests.
+# The collected data may be used to optimize the software or detect mallicious attacks.
+collector_proxy:
+  enabled: false
+  tag: latest
+  weaviate_enterprise_token: ""
+  weaviate_enterprise_project: ""
+  service:
+    name: "usage-proxy"
+    port: 80
+    type: LoadBalancer
+
+
 # The service controls how weaviate is exposed to the outside world. If you
 # don't want a public load balancer, you can also choose 'ClusterIP' to make
 # weaviate only accessible within your cluster.
