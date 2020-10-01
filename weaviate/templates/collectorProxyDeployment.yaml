@@ -1,0 +1,42 @@
+{{ if .Values.collector_proxy.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise-collector-proxy
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: enterprise-collector-proxy
+  template:
+    metadata:
+      labels:
+        app: enterprise-collector-proxy
+    spec:
+      containers:
+        - name: enterprise-collector-proxy
+          image: 'semitechnologies/weaviate-enterprise-usage-collector:{{ .Values.collector_proxy.tag }}'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+          - name: weaviate_enterprise_token
+            value: {{ .Values.collector_proxy.weaviate_enterprise_token }}
+          - name: weaviate_enterprise_project
+            value: {{ .Values.collector_proxy.weaviate_enterprise_project }}
+          volumeMounts:
+          - name: nginx-conf
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: collector-proxy-nginx-conf
+{{ end }}
