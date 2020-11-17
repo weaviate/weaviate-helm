@@ -2,3 +2,6 @@ weaviate/charts
 weaviate/weaviate-*.tgz
 weaviate/weaviate.tgz
 tmp/*
+
+chart.lock
+.DS_store
