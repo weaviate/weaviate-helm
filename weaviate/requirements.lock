@@ -1,9 +1,0 @@
-dependencies:
-- name: elasticsearch
-  repository: https://helm.elastic.co
-  version: 7.4.0
-- name: etcd
-  repository: https://charts.bitnami.com/bitnami
-  version: 4.8.2
-digest: sha256:b699239fd938f3ed35f997e265edf92373c93ec6a2aaa070abe78308c6e08a69
-generated: "2020-06-03T11:08:12.298278+02:00"

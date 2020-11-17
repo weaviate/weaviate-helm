@@ -1,6 +1,22 @@
+apiVersion: v2
 name: weaviate
-version: 10.3.1
-apiVersion: v1
-appVersion: v0.22.7
-home: https://github.com/semi-technologies/weaviate
 description: A Helm Chart to run Weaviate with all dependencies
+home: https://github.com/semi-technologies/weaviate
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 11.0.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+appVersion: v1.0.0-rc
+
+dependencies:
+  - name: etcd
+    version: 4.8.2
+    repository: 'https://charts.bitnami.com/bitnami'
+    alias: etcd
+    condition: etcd.deploy
