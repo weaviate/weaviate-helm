@@ -63,6 +63,3 @@ spec:
         - name: weaviate-persistence-data-vol
           persistentVolumeClaim:
             claimName: weaviate-persistence-data
-        
-
-

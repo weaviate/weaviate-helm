@@ -19,10 +19,12 @@ spec:
       - name: contextionary
         image: {{ .Values.contextionary.registry }}/{{ .Values.contextionary.repo }}:{{ .Values.contextionary.tag }}
         env:
-          - name: SCHEMA_PROVIDER_URL
-            value: http://{{ .Values.etcd.fullnameOverride }}:2379
           - name: OCCURRENCE_WEIGHT_LINEAR_FACTOR
             value: {{ .Values.contextionary.envconfig.occurrence_weight_linear_factor | quote }}
+          - name: EXTENSIONS_STORAGE_MODE
+            value: {{ .Values.contextionary.envconfig.extensions_storage_mode }}
+          - name: EXTENSIONS_STORAGE_ORIGIN
+            value: http://{{ .Values.service.name }}.{{ .Release.Namespace }}.svc.cluster.local
           - name: NEIGHBOR_OCCURRENCE_IGNORE_PERCENTILE
             value: {{ .Values.contextionary.envconfig.neighbor_occurrence_ignore_percentile | quote }}
           - name: ENABLE_COMPOUND_SPLITTING

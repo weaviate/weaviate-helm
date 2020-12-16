@@ -10,11 +10,8 @@ data:
       {{ toYaml .Values.authentication | nindent 6 | trim }}
     authorization:
       {{ toYaml .Values.authorization | nindent 6 | trim }}
-    configuration_storage:
-      type: etcd
-      url: http://{{ .Values.etcd.fullnameOverride }}:2379
     contextionary:
-      url: contextionary:9999
+      url: {{ .Values.contextionary.fullnameOverride }}.{{ .Release.Namespace }}.svc.cluster.local:9999
     query_defaults:
       {{ toYaml .Values.query_defaults | nindent 6 | trim }}
     debug: {{ .Values.debug }}
