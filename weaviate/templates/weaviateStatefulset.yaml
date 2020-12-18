@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: weaviate
+  labels:
+    name: weaviate
+    app: weaviate
+spec:
+  replicas: {{ .Values.replicas }}
+  serviceName: {{ .Values.service.name }}
+  selector:
+    matchLabels:
+      app: weaviate
+  template:
+    metadata:
+      labels:
+        app: weaviate
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: weaviate
+        image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}'
+        imagePullPolicy: Always
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        env:
+          - name: STANDALONE_MODE
+            value: 'true'
+          - name: PERSISTENCE_DATA_PATH
+            value: '/var/lib/weaviate'
+        ports:
+          - containerPort: 8080
+        args:
+          - '--host'
+          - '0.0.0.0'
+          - '--port'
+          - '8080'
+          - '--scheme'
+          - 'http'
+          - '--config-file'
+          - '/weaviate-config/conf.yaml'
+        volumeMounts:
+          - name: weaviate-config
+            mountPath: /weaviate-config
+          - name: weaviate-persistence-data-vol
+            mountPath: /var/lib/weaviate
+        livenessProbe:
+          httpGet:
+            path: /v1/.well-known/live
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /v1/.well-known/ready
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+      volumes:
+        - name: weaviate-config
+          configMap:
+            {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: weaviate-config{{ end }}
+        - name: weaviate-persistence-data-vol
+          persistentVolumeClaim:
+            claimName: weaviate-persistence-data
