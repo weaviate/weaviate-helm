@@ -15,4 +15,5 @@ data:
     query_defaults:
       {{ toYaml .Values.query_defaults | nindent 6 | trim }}
     debug: {{ .Values.debug }}
+    default_vectorizer_module: {{ .Values.modules.default_vectorizer_module | trim }}
 {{ end }}

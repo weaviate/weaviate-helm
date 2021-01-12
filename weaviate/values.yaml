@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 0.23.0
+  tag: 1.0.0
   repo: semitechnologies/weaviate
 
 # manually scale horizontal replicas of weaviate.
@@ -15,11 +15,11 @@ image:
 replicas: 1
 resources:
   requests:
-    cpu: "500m"
-    memory: "300Mi"
+    cpu: '500m'
+    memory: '300Mi'
   limits:
-    cpu: "1000m"
-    memory: "1Gi"
+    cpu: '1000m'
+    memory: '1Gi'
 storage:
   size: 32Gi
 
@@ -51,11 +51,16 @@ vector_index:
   # must be enabled since 0.20.x, there is no non-vector alternative anymore
   enabled: true
 
+modules:
+  default_vectorizer_module: text2vec-contextionary
+  text2vec-contextionary:
+    enabled: true
+
 # It is also possible to configure authentication and authorization through a custom configmap
 # The authorization and authentication values defined in values.yaml will be ignored when defining a custom config map.
 custom_config_map:
   enabled: false
-  name: "custom-config"
+  name: 'custom-config'
 
 # The collector proxy collects meta data over the requests.
 # It deploys a second service that, if used, will capture meta data over the incoming requests.
@@ -63,10 +68,10 @@ custom_config_map:
 collector_proxy:
   enabled: false
   tag: latest
-  weaviate_enterprise_token: ""
-  weaviate_enterprise_project: ""
+  weaviate_enterprise_token: ''
+  weaviate_enterprise_project: ''
   service:
-    name: "usage-proxy"
+    name: 'usage-proxy'
     port: 80
     type: LoadBalancer
 
@@ -84,8 +89,8 @@ contextionary:
     extensions_storage_mode: weaviate
   resources:
     requests:
-      cpu: "500m"
-      memory: "2000Mi"
+      cpu: '500m'
+      memory: '500Mi'
     limits:
-      cpu: "1000m"
-      memory: "5000Mi"
+      cpu: '1000m'
+      memory: '5000Mi'
