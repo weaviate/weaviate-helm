@@ -20,6 +20,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
+          - name: weaviate_enterprise_usage_collector_origin
+            value: {{ .Values.collector_proxy.weaviate_enterprise_usage_collector_origin }}
           - name: weaviate_enterprise_token
             value: {{ .Values.collector_proxy.weaviate_enterprise_token }}
           - name: weaviate_enterprise_project

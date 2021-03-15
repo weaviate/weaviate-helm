@@ -68,6 +68,7 @@ custom_config_map:
 collector_proxy:
   enabled: false
   tag: latest
+  weaviate_enterprise_usage_collector_origin: ''
   weaviate_enterprise_token: ''
   weaviate_enterprise_project: ''
   service:
