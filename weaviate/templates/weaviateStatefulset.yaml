@@ -28,6 +28,12 @@ spec:
             value: 'true'
           - name: PERSISTENCE_DATA_PATH
             value: '/var/lib/weaviate'
+          - name: ENABLE_MODULES
+            value: {{ template "enabled_modules" . }}
+          {{ if index .Values "modules" "text2vec-transformers" "enabled" }}
+          - name: TRANSFORMERS_INFERENCE_API
+            value: http://{{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ end }}
         ports:
           - containerPort: 8080
         args:

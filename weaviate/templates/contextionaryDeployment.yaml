@@ -1,3 +1,4 @@
+{{ if index .Values "modules" "text2vec-contextionary" "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,3 +32,4 @@ spec:
             value: {{ .Values.contextionary.envconfig.enable_compound_splitting | quote }}
         resources: 
 {{ toYaml .Values.contextionary.resources | indent 10 }}
+{{ end }}
