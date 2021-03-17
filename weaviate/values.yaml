@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.0.0
+  tag: 1.2.0
   repo: semitechnologies/weaviate
 
 # manually scale horizontal replicas of weaviate.
@@ -45,26 +45,71 @@ authorization:
 query_defaults:
   limit: 100
 debug: false
-telemetry:
-  disabled: true
-vector_index:
-  # must be enabled since 0.20.x, there is no non-vector alternative anymore
-  enabled: true
 
+# modules are extensions to Weaviate, they can be used to support various
+# ML-models, but also other features unrelated to model inference.
+# An inference/vectorizer module is not required, you can also run without any
+# modules and import your own vectors.
 modules:
-  default_vectorizer_module: text2vec-contextionary
+
+  # The text2vec-contextionary module uses a fastText-based vector-space to
+  # derive vector embeddings for your objects. It is very efficient on CPUs,
+  # but in some situations it cannot reach the same level of accuraccy as
+  # transformers-based models.
   text2vec-contextionary:
+    # disable if you want to use transformers or import or own vectors
     enabled: true
 
-# It is also possible to configure authentication and authorization through a custom configmap
-# The authorization and authentication values defined in values.yaml will be ignored when defining a custom config map.
+  # The text2vec-transformers modules uses neural networks, such as BERT,
+  # DistilBERT, etc. to dynamically compute vector embeddings based on the
+  # sentence's context. It is very slow on CPUs and should run with
+  # CUDA-enabled GPUs for optimal performance.
+  text2vec-transformers:
+
+    # enable if you want to use transformers instead of the
+    # text2vec-contextionary module
+    enabled: false
+
+    # The configuration below is ignored if enabled=false
+
+    # replace with model of choice, see
+    # https://www.semi.technology/developers/weaviate/current/modules/text2vec-transformers.html
+    # for all supported models or build your own container.
+    tag: distilbert-base-uncased
+    repo: semitechnologies/transformers-inference
+    registry: docker.io
+    replicas: 1
+    fullnameOverride: transformers-inference
+    envconfig:
+      # enable for CUDA support. Your K8s cluster needs to be configured
+      # accordingly
+      enable_cuda: false
+
+    resources:
+      requests:
+        cpu: '1000m'
+        memory: '3000Mi'
+      limits:
+        cpu: '1000m'
+        memory: '5000Mi'
+
+  # by choosing the default vectorizer module, you can tell Weaviate to always
+  # use this module as the vectorizer if nothing else is specified. Can be
+  # overwritten on a per-class basis.
+  # set to text2vec-transformers if running with transformers instead
+  default_vectorizer_module: text2vec-contextionary
+
+# It is also possible to configure authentication and authorization through a
+# custom configmap The authorization and authentication values defined in
+# values.yaml will be ignored when defining a custom config map.
 custom_config_map:
   enabled: false
   name: 'custom-config'
 
-# The collector proxy collects meta data over the requests.
-# It deploys a second service that, if used, will capture meta data over the incoming requests.
-# The collected data may be used to optimize the software or detect mallicious attacks.
+# The collector proxy collects meta data over the requests.  It deploys a
+# second service that, if used, will capture meta data over the incoming
+# requests.  The collected data may be used to optimize the software or detect
+# mallicious attacks.
 collector_proxy:
   enabled: false
   tag: latest
@@ -77,9 +122,10 @@ collector_proxy:
     type: LoadBalancer
 
 # Kubernetes-specific configuration for the contextionary deployment
+# Ignored if modules.text2vec-contextionary.enabled is set to false
 contextionary:
   fullnameOverride: contextionary
-  tag: en0.16.0-v0.4.21
+  tag: en0.16.0-v1.0.0
   repo: semitechnologies/contextionary
   registry: docker.io
   replicas: 1

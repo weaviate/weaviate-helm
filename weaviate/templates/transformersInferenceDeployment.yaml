@@ -1,0 +1,37 @@
+{{ if index .Values "modules" "text2vec-transformers" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
+    app: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
+spec:
+  replicas: {{ index .Values "modules" "text2vec-transformers" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
+    spec:
+      containers:
+      - name: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
+        image: {{ index .Values "modules" "text2vec-transformers" "registry" }}/{{ index .Values "modules" "text2vec-transformers" "repo" }}:{{ index .Values "modules" "text2vec-transformers" "tag" }}
+        env:
+        resources: 
+{{ index .Values "modules" "text2vec-transformers" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+{{ end }}
