@@ -20,6 +20,14 @@ spec:
       - name: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "text2vec-transformers" "registry" }}/{{ index .Values "modules" "text2vec-transformers" "repo" }}:{{ index .Values "modules" "text2vec-transformers" "tag" }}
         env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "text2vec-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index .Values "modules" "text2vec-transformers" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "text2vec-transformers" "envconfig" "nvidia_visible_devices"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "text2vec-transformers" "envconfig" "ld_library_path"}}
+          {{ end }}
         resources: 
 {{ index .Values "modules" "text2vec-transformers" "resources" | toYaml | indent 10 }}
         livenessProbe:
