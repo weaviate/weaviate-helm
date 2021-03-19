@@ -7,7 +7,7 @@ metadata:
     name: contextionary
     app: contextionary
 spec:
-  replicas: {{ .Values.contextionary.replicas }}
+  replicas: {{ index .Values "modules" "text2vec-contextionary" "replicas" }}
   selector:
     matchLabels:
       app: contextionary
@@ -18,18 +18,18 @@ spec:
     spec:
       containers:
       - name: contextionary
-        image: {{ .Values.contextionary.registry }}/{{ .Values.contextionary.repo }}:{{ .Values.contextionary.tag }}
+        image: {{ index .Values "modules" "text2vec-contextionary" "registry" }}/{{ index .Values "modules" "text2vec-contextionary" "repo" }}:{{ index .Values "modules" "text2vec-contextionary" "tag" }}
         env:
           - name: OCCURRENCE_WEIGHT_LINEAR_FACTOR
-            value: {{ .Values.contextionary.envconfig.occurrence_weight_linear_factor | quote }}
+            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "occurrence_weight_linear_factor" | quote }}
           - name: EXTENSIONS_STORAGE_MODE
-            value: {{ .Values.contextionary.envconfig.extensions_storage_mode }}
+            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "extensions_storage_mode" | quote }}
           - name: EXTENSIONS_STORAGE_ORIGIN
             value: http://{{ .Values.service.name }}.{{ .Release.Namespace }}.svc.cluster.local
           - name: NEIGHBOR_OCCURRENCE_IGNORE_PERCENTILE
-            value: {{ .Values.contextionary.envconfig.neighbor_occurrence_ignore_percentile | quote }}
+            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "neighbor_occurrence_ignore_percentile " | quote }}
           - name: ENABLE_COMPOUND_SPLITTING
-            value: {{ .Values.contextionary.envconfig.enable_compound_splitting | quote }}
+            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "enable_compound_splitting " | quote }}
         resources: 
-{{ toYaml .Values.contextionary.resources | indent 10 }}
+{{ index .Values "modules" "text2vec-contextionary" "resources" | toYaml | indent 10 }}
 {{ end }}
