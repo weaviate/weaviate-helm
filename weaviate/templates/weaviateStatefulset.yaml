@@ -34,6 +34,10 @@ spec:
           - name: TRANSFORMERS_INFERENCE_API
             value: http://{{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
           {{ end }}
+          {{ if index .Values "modules" "qna-transformers" "enabled" }}
+          - name: QNA_INFERENCE_API
+            value: http://{{ index .Values "modules" "qna-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ end }}
         ports:
           - containerPort: 8080
         args:
