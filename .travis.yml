@@ -3,7 +3,7 @@ language: minimal
 before_install:
 # Install Helm
 - curl -s "https://raw.githubusercontent.com/helm/helm/v2.16.9/scripts/get" | bash -s -- --version 'v2.13.1'
-- helm init --client-only
+- helm init --stable-repo-url=https://charts.helm.sh/stable --client-only 
 
 install: true
 
