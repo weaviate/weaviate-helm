@@ -5,14 +5,34 @@
       {{ fail "cannot have two text2vec-* modules on at the same time" -}}
     {{- end -}}
     {{- if index .Values "modules" "qna-transformers" "enabled" -}}
-      text2vec-contextionary,qna-transformers
+      {{- if index .Values "modules" "img2vec-keras" "enabled" -}}
+        text2vec-contextionary,qna-transformers,img2vec-keras
+      {{- else -}}
+        text2vec-contextionary,qna-transformers
+      {{- end -}}
+    {{- else if index .Values "modules" "img2vec-keras" "enabled" -}}
+      {{- if index .Values "modules" "qna-transformers" "enabled" -}}
+        text2vec-contextionary,qna-transformers,img2vec-keras
+      {{- else -}}
+        text2vec-contextionary,img2vec-keras
+      {{- end -}}
     {{- else -}}
       text2vec-contextionary
     {{- end -}}
   {{- else -}}
     {{- if index .Values "modules" "text2vec-transformers" "enabled" -}}
       {{- if index .Values "modules" "qna-transformers" "enabled" -}}
-        text2vec-transformers,qna-transformers
+        {{- if index .Values "modules" "img2vec-keras" "enabled" -}}
+          text2vec-transformers,qna-transformers,img2vec-keras
+        {{- else -}}
+          text2vec-transformers,qna-transformers
+        {{- end -}}
+      {{- else if index .Values "modules" "img2vec-keras" "enabled" -}}
+        {{- if index .Values "modules" "qna-transformers" "enabled" -}}
+          text2vec-transformers,qna-transformers,img2vec-keras
+        {{- else -}}
+          text2vec-transformers,img2vec-keras
+        {{- end -}}
       {{- else -}}
         text2vec-transformers
       {{- end -}}
