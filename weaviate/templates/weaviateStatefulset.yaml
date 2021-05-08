@@ -33,14 +33,23 @@ spec:
           {{ if index .Values "modules" "text2vec-transformers" "enabled" }}
           - name: TRANSFORMERS_INFERENCE_API
             value: http://{{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ else if index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
+          - name: TRANSFORMERS_INFERENCE_API
+            value: {{ index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
           {{ end }}
           {{ if index .Values "modules" "qna-transformers" "enabled" }}
           - name: QNA_INFERENCE_API
             value: http://{{ index .Values "modules" "qna-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ else if index .Values "modules" "qna-transformers" "inferenceUrl" }}
+          - name: QNA_INFERENCE_API
+            value: {{ index .Values "modules" "qna-transformers" "inferenceUrl" }}
           {{ end }}
           {{ if index .Values "modules" "img2vec-keras" "enabled" }}
-          - name: IMAGE_VECTORIZER_URL
+          - name: IMAGE_INFERENCE_API
             value: http://{{ index .Values "modules" "img2vec-keras" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ else if index .Values "modules" "img2vec-keras" "inferenceUrl" }}
+          - name: IMAGE_INFERENCE_API
+            value: {{ index .Values "modules" "img2vec-keras" "inferenceUrl" }}
           {{ end }}
         ports:
           - containerPort: 8080
