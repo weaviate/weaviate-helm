@@ -158,6 +158,39 @@ modules:
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
 
+  # The img2vec-keras module uses neural networks, such as BERT,
+  # DistilBERT, to find an aswer in text to a given question
+  img2vec-keras:
+    enabled: false
+    tag: resnet50-61dcbf8
+    repo: semitechnologies/img2vec-keras
+    registry: docker.io
+    replicas: 1
+    fullnameOverride: img2vec-keras
+    envconfig:
+      # enable for CUDA support. Your K8s cluster needs to be configured
+      # accordingly and you need to explicilty set GPU requests & limits below
+      enable_cuda: false
+
+      # only used when cuda is enabled
+      nvidia_visible_devices: all
+
+      # only used when cuda is enabled
+      ld_library_path: /usr/local/nvidia/lib64
+
+    resources:
+      requests:
+        cpu: '1000m'
+        memory: '3000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+      limits:
+        cpu: '1000m'
+        memory: '5000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
 
   # by choosing the default vectorizer module, you can tell Weaviate to always
   # use this module as the vectorizer if nothing else is specified. Can be
