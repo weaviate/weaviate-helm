@@ -85,4 +85,8 @@ spec:
             {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: weaviate-config{{ end }}
         - name: weaviate-persistence-data-vol
           persistentVolumeClaim:
+            {{ if empty .Values.storage.fullnameOverride }}
             claimName: weaviate-persistence-data
+            {{ else }}
+            claimName: {{ .Values.storage.fullnameOverride }}
+            {{ end }}
