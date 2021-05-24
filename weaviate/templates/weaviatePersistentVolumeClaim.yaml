@@ -1,3 +1,4 @@
+{{ if empty .Values.storage.fullnameOverride }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -11,3 +12,4 @@ spec:
   resources:
     requests:
       storage: {{ .Values.storage.size }}
+{{ end }}
