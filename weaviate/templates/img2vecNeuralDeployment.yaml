@@ -1,0 +1,45 @@
+{{ if index .Values "modules" "img2vec-neural" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
+    app: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
+spec:
+  replicas: {{ index .Values "modules" "img2vec-neural" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
+    spec:
+      containers:
+      - name: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
+        image: {{ index .Values "modules" "img2vec-neural" "registry" }}/{{ index .Values "modules" "img2vec-neural" "repo" }}:{{ index .Values "modules" "img2vec-neural" "tag" }}
+        env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "img2vec-neural" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index .Values "modules" "img2vec-neural" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "img2vec-neural" "envconfig" "nvidia_visible_devices"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "img2vec-neural" "envconfig" "ld_library_path"}}
+          {{ end }}
+        resources:
+{{ index .Values "modules" "img2vec-neural" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+{{ end }}
