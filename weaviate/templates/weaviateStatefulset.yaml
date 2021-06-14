@@ -44,12 +44,12 @@ spec:
           - name: QNA_INFERENCE_API
             value: {{ index .Values "modules" "qna-transformers" "inferenceUrl" }}
           {{ end }}
-          {{ if index .Values "modules" "img2vec-keras" "enabled" }}
+          {{ if index .Values "modules" "img2vec-neural" "enabled" }}
           - name: IMAGE_INFERENCE_API
-            value: http://{{ index .Values "modules" "img2vec-keras" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
-          {{ else if index .Values "modules" "img2vec-keras" "inferenceUrl" }}
+            value: http://{{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ else if index .Values "modules" "img2vec-neural" "inferenceUrl" }}
           - name: IMAGE_INFERENCE_API
-            value: {{ index .Values "modules" "img2vec-keras" "inferenceUrl" }}
+            value: {{ index .Values "modules" "img2vec-neural" "inferenceUrl" }}
           {{ end }}
         ports:
           - containerPort: 8080

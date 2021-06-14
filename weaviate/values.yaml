@@ -162,15 +162,15 @@ modules:
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
 
-  # The img2vec-keras module uses neural networks, such as BERT,
-  # DistilBERT, to find an aswer in text to a given question
-  img2vec-keras:
+  # The img2vec-neural module uses neural networks, to generate
+  # a vector respresentation of the image
+  img2vec-neural:
     enabled: false
-    tag: resnet50-61dcbf8
-    repo: semitechnologies/img2vec-keras
+    tag: resnet50
+    repo: semitechnologies/img2vec-pytorch
     registry: docker.io
     replicas: 1
-    fullnameOverride: img2vec-keras
+    fullnameOverride: img2vec-neural
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicilty set GPU requests & limits below

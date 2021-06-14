@@ -8,7 +8,8 @@ before_install:
 install: true
 
 script: 
-- ./release.sh
+- ./.cicd/test.sh
+- ./.cicd/release.sh
 
 deploy:
   provider: releases
