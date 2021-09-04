@@ -51,6 +51,20 @@ spec:
           - name: IMAGE_INFERENCE_API
             value: {{ index .Values "modules" "img2vec-neural" "inferenceUrl" }}
           {{ end }}
+          {{ if index .Values "modules" "text-spellcheck" "enabled" }}
+          - name: SPELLCHECK_INFERENCE_API
+            value: http://{{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ else if index .Values "modules" "text-spellcheck" "inferenceUrl" }}
+          - name: SPELLCHECK_INFERENCE_API
+            value: {{ index .Values "modules" "text-spellcheck" "inferenceUrl" }}
+          {{ end }}
+          {{ if index .Values "modules" "ner-transformers" "enabled" }}
+          - name: NER_INFERENCE_API
+            value: http://{{ index .Values "modules" "ner-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ else if index .Values "modules" "ner-transformers" "inferenceUrl" }}
+          - name: NER_INFERENCE_API
+            value: {{ index .Values "modules" "ner-transformers" "inferenceUrl" }}
+          {{ end }}
         ports:
           - containerPort: 8080
         args:

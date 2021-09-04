@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.3.0
+  tag: 1.7.0
   repo: semitechnologies/weaviate
 
 # manually scale horizontal replicas of weaviate.
@@ -171,6 +171,74 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: img2vec-neural
+    envconfig:
+      # enable for CUDA support. Your K8s cluster needs to be configured
+      # accordingly and you need to explicilty set GPU requests & limits below
+      enable_cuda: false
+
+      # only used when cuda is enabled
+      nvidia_visible_devices: all
+
+      # only used when cuda is enabled
+      ld_library_path: /usr/local/nvidia/lib64
+
+    resources:
+      requests:
+        cpu: '1000m'
+        memory: '3000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+      limits:
+        cpu: '1000m'
+        memory: '5000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+
+  # The text-spellcheck module uses spellchecker library to check
+  # misspellings in a given text
+  text-spellcheck:
+    enabled: false
+    tag: pyspellchecker-en
+    repo: semitechnologies/text-spellcheck-model
+    registry: docker.io
+    replicas: 1
+    fullnameOverride: text-spellcheck
+    envconfig:
+      # enable for CUDA support. Your K8s cluster needs to be configured
+      # accordingly and you need to explicilty set GPU requests & limits below
+      enable_cuda: false
+
+      # only used when cuda is enabled
+      nvidia_visible_devices: all
+
+      # only used when cuda is enabled
+      ld_library_path: /usr/local/nvidia/lib64
+
+    resources:
+      requests:
+        cpu: '1000m'
+        memory: '3000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+      limits:
+        cpu: '1000m'
+        memory: '5000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+
+  # The ner-transformers module uses spellchecker library to check
+  # misspellings in a given text
+  ner-transformers:
+    enabled: false
+    tag: dbmdz-bert-large-cased-finetuned-conll03-english-0.0.2
+    repo: semitechnologies/ner-transformers
+    registry: docker.io
+    replicas: 1
+    fullnameOverride: ner-transformers
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicilty set GPU requests & limits below
