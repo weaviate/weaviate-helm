@@ -1,0 +1,14 @@
+{{ if index .Values "modules" "text-spellcheck" "enabled" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+{{ end }}

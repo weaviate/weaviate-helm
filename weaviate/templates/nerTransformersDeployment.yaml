@@ -1,0 +1,45 @@
+{{ if index .Values "modules" "ner-transformers" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
+    app: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
+spec:
+  replicas: {{ index .Values "modules" "ner-transformers" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
+    spec:
+      containers:
+      - name: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
+        image: {{ index .Values "modules" "ner-transformers" "registry" }}/{{ index .Values "modules" "ner-transformers" "repo" }}:{{ index .Values "modules" "ner-transformers" "tag" }}
+        env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "ner-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index .Values "modules" "ner-transformers" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "ner-transformers" "envconfig" "nvidia_visible_devices"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "ner-transformers" "envconfig" "ld_library_path"}}
+          {{ end }}
+        resources:
+{{ index .Values "modules" "ner-transformers" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+{{ end }}
