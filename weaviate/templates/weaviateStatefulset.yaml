@@ -65,6 +65,15 @@ spec:
           - name: NER_INFERENCE_API
             value: {{ index .Values "modules" "ner-transformers" "inferenceUrl" }}
           {{ end }}
+          - name: CLUSTER_GOSSIP_BIND_PORT
+            value: "7000"
+          - name: CLUSTER_DATA_BIND_PORT
+            value: "7001"
+          - name: CLUSTER_DATA_BIND_PORT
+            value: "7001"
+          - name: CLUSTER_JOIN
+            value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.cluster.local
+          
         ports:
           - containerPort: 8080
         args:
@@ -79,7 +88,7 @@ spec:
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
-          - name: weaviate-persistence-data-vol
+          - name: weaviate-data
             mountPath: /var/lib/weaviate
         livenessProbe:
           httpGet:
@@ -97,10 +106,19 @@ spec:
         - name: weaviate-config
           configMap:
             {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: weaviate-config{{ end }}
-        - name: weaviate-persistence-data-vol
-          persistentVolumeClaim:
-            {{ if empty .Values.storage.fullnameOverride }}
-            claimName: weaviate-persistence-data
-            {{ else }}
-            claimName: {{ .Values.storage.fullnameOverride }}
-            {{ end }}
+        # - name: weaviate-persistence-data-vol
+        #   persistentVolumeClaim:
+        #     {{ if empty .Values.storage.fullnameOverride }}
+        #     claimName: weaviate-persistence-data
+        #     {{ else }}
+        #     claimName: {{ .Values.storage.fullnameOverride }}
+        #     {{ end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: weaviate-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.storage.storageClassName }}
+      resources:
+        requests:
+          storage: {{ .Values.storage.size }}

@@ -1,0 +1,33 @@
+  statefulset:
+    replicaCount: 3
+  ##
+  auth:
+    rbac:
+      enabled: false
+    client:
+      ## Switch to encrypt client communication using TLS certificates
+      secureTransport: false
+      ## Switch to automatically create the TLS certificates
+      useAutoTLS: false
+      enableAuthentication: false
+    peer:
+      ## Switch to encrypt client communication using TLS certificates
+      secureTransport: true
+      ## Switch to automatically create the TLS certificates
+      useAutoTLS: true
+      ## Switch to enable host authentication using TLS certificates. Requires existing secret.
+      enableAuthentication: false
+  metrics:
+    enabled: true
+    podAnnotations:
+      prometheus.io/scrape: 'true'
+    prometheus.io/port: '2379'
+  disasterRecovery:
+    enabled: true
+    cronjob:
+      schedule: "*/30 * * * *"
+      historyLimit: 1
+      podAnnotations: {}
+    pvc:
+      size: 2Gi
+      storageClassName: nfs

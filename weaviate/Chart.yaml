@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: weaviate
 description: A Helm Chart to run Weaviate with all dependencies
 home: https://github.com/semi-technologies/weaviate

@@ -7,12 +7,12 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.7.0
+  tag: experimental-scaling-2
   repo: semitechnologies/weaviate
 
 # manually scale horizontal replicas of weaviate.
 # Also note: https://github.com/semi-technologies/weaviate/issues/725
-replicas: 1
+replicas: 3
 resources:
   requests:
     cpu: '500m'
@@ -25,8 +25,7 @@ resources:
 # storage.fullnameOverride field set, then the default pvc will not be
 # created, instead the one defined in fullnameOverride will be used
 storage:
-  size: 32Gi
-  storageClassName: premium-rwo
+  size: 5Gi
 
 # The service controls how weaviate is exposed to the outside world. If you
 # don't want a public load balancer, you can also choose 'ClusterIP' to make
