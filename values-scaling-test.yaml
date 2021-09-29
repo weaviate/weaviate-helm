@@ -7,19 +7,16 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: experimental-scaling-2
+  tag: experimental-scaling-6
   repo: semitechnologies/weaviate
 
 # manually scale horizontal replicas of weaviate.
 # Also note: https://github.com/semi-technologies/weaviate/issues/725
-replicas: 3
+replicas: 1
 resources:
   requests:
-    cpu: '500m'
-    memory: '300Mi'
-  limits:
-    cpu: '1000m'
-    memory: '1Gi'
+    cpu: '4000m'
+    memory: '8000Mi'
 
 # The Persitent Volume Claim settings for Weaviate. If there's a
 # storage.fullnameOverride field set, then the default pvc will not be
@@ -33,6 +30,8 @@ storage:
 service:
   name: weaviate
   type: LoadBalancer
+  loadBalancerSourceRanges:
+    - 37.5.247.68/32
 
 # Weaviate Config
 #

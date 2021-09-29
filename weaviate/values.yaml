@@ -34,6 +34,7 @@ storage:
 service:
   name: weaviate
   type: LoadBalancer
+  loadBalancerSourceRanges: []
 
 # Weaviate Config
 #

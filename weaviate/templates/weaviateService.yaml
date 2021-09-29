@@ -10,3 +10,11 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8080
+{{ if eq .Values.service.type "LoadBalancer" -}}
+  {{- if gt (len .Values.service.loadBalancerSourceRanges) 0 }}
+  loadBalancerSourceRanges:
+    {{- range $_, $sourceRange := .Values.service.loadBalancerSourceRanges }}
+    - {{ $sourceRange }}
+    {{ end -}}
+  {{- end -}}
+{{- end }}
