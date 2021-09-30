@@ -10,8 +10,9 @@ image:
   tag: 1.8.0-rc.0
   repo: semitechnologies/weaviate
 
-# manually scale horizontal replicas of weaviate.
-# Also note: https://github.com/semi-technologies/weaviate/issues/725
+# Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
+# to cases where no data is imported yet. Scaling down after importing data may
+# break usability. Full dynamic scaliblity will be added in a future release.
 replicas: 1
 resources:
   requests:
