@@ -7,11 +7,12 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.7.0
+  tag: 1.8.0-rc.0
   repo: semitechnologies/weaviate
 
-# manually scale horizontal replicas of weaviate.
-# Also note: https://github.com/semi-technologies/weaviate/issues/725
+# Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
+# to cases where no data is imported yet. Scaling down after importing data may
+# break usability. Full dynamic scaliblity will be added in a future release.
 replicas: 1
 resources:
   requests:
@@ -26,6 +27,7 @@ resources:
 # created, instead the one defined in fullnameOverride will be used
 storage:
   size: 32Gi
+  storageClassName: premium-rwo
 
 # The service controls how weaviate is exposed to the outside world. If you
 # don't want a public load balancer, you can also choose 'ClusterIP' to make
@@ -33,6 +35,7 @@ storage:
 service:
   name: weaviate
   type: LoadBalancer
+  loadBalancerSourceRanges: []
 
 # Weaviate Config
 #
