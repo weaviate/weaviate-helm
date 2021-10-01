@@ -53,6 +53,11 @@ query_defaults:
   limit: 100
 debug: false
 
+env:
+  GOGC: 50
+
+envSecrets:
+
 # modules are extensions to Weaviate, they can be used to support various
 # ML-models, but also other features unrelated to model inference.
 # An inference/vectorizer module is not required, you can also run without any
@@ -65,7 +70,7 @@ modules:
   # transformers-based models.
   text2vec-contextionary:
     # disable if you want to use transformers or import or own vectors
-    enabled: true
+    enabled: false
 
     # The configuration below is ignored if enabled==false
     fullnameOverride: contextionary
@@ -271,7 +276,7 @@ modules:
   # use this module as the vectorizer if nothing else is specified. Can be
   # overwritten on a per-class basis.
   # set to text2vec-transformers if running with transformers instead
-  default_vectorizer_module: text2vec-contextionary
+  default_vectorizer_module: none
 
 # It is also possible to configure authentication and authorization through a
 # custom configmap The authorization and authentication values defined in
