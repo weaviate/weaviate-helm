@@ -75,7 +75,7 @@ modules:
   # transformers-based models.
   text2vec-contextionary:
     # disable if you want to use transformers or import or own vectors
-    enabled: false
+    enabled: true
 
     # The configuration below is ignored if enabled==false
     fullnameOverride: contextionary
