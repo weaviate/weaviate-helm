@@ -104,14 +104,14 @@ spec:
           httpGet:
             path: /v1/.well-known/live
             port: 8080
-          initialDelaySeconds: 120
-          periodSeconds: 3
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
         readinessProbe:
           httpGet:
             path: /v1/.well-known/ready
             port: 8080
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
       volumes:
         - name: weaviate-config
           configMap:

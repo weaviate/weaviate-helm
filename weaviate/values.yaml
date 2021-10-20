@@ -37,6 +37,14 @@ service:
   type: LoadBalancer
   loadBalancerSourceRanges: []
 
+# Adjust liveness and readiness configuration
+livenessProbe:
+  initialDelaySeconds: 900
+  periodSeconds: 3
+readinessProbe:
+  initialDelaySeconds: 3
+  periodSeconds: 3
+
 # Weaviate Config
 #
 # The following settings allow you to customize Weaviate to your needs, for
