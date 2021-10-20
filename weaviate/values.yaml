@@ -12,7 +12,7 @@ image:
 
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
-# break usability. Full dynamic scaliblity will be added in a future release.
+# break usability. Full dynamic scalability will be added in a future release.
 replicas: 1
 resources:
   requests:
@@ -22,7 +22,7 @@ resources:
     cpu: '1000m'
     memory: '1Gi'
 
-# The Persitent Volume Claim settings for Weaviate. If there's a
+# The Persistent Volume Claim settings for Weaviate. If there's a
 # storage.fullnameOverride field set, then the default pvc will not be
 # created, instead the one defined in fullnameOverride will be used
 storage:
@@ -40,7 +40,7 @@ service:
 # Weaviate Config
 #
 # The following settings allow you to customize Weaviate to your needs, for
-# example set authentication and authorization optins. See weaviate docs
+# example set authentication and authorization options. See weaviate docs
 # (https://www.semi.technology/documentation/weaviate/current/) for all
 # configuration.
 authentication:
@@ -53,6 +53,16 @@ query_defaults:
   limit: 100
 debug: false
 
+
+# Insert any custom environment variables or envSecrets by putting the exact name 
+# and desired value into the settings below. Any env name passed will be automatically
+# set for the statefulSet. 
+env:
+  # The aggressiveness of the Go Garbage Collector. 100 is the default value. 
+  GOGC: 100
+
+envSecrets:
+
 # modules are extensions to Weaviate, they can be used to support various
 # ML-models, but also other features unrelated to model inference.
 # An inference/vectorizer module is not required, you can also run without any
@@ -61,7 +71,7 @@ modules:
 
   # The text2vec-contextionary module uses a fastText-based vector-space to
   # derive vector embeddings for your objects. It is very efficient on CPUs,
-  # but in some situations it cannot reach the same level of accuraccy as
+  # but in some situations it cannot reach the same level of accuracy as
   # transformers-based models.
   text2vec-contextionary:
     # disable if you want to use transformers or import or own vectors
@@ -108,7 +118,7 @@ modules:
     fullnameOverride: transformers-inference
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
-      # accordingly and you need to explicilty set GPU requests & limits below
+      # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
       # only used when cuda is enabled
@@ -142,7 +152,7 @@ modules:
     fullnameOverride: qna-transformers
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
-      # accordingly and you need to explicilty set GPU requests & limits below
+      # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
       # only used when cuda is enabled
@@ -166,7 +176,7 @@ modules:
         # nvidia.com/gpu: 1
 
   # The img2vec-neural module uses neural networks, to generate
-  # a vector respresentation of the image
+  # a vector representation of the image
   img2vec-neural:
     enabled: false
     tag: resnet50
@@ -176,7 +186,7 @@ modules:
     fullnameOverride: img2vec-neural
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
-      # accordingly and you need to explicilty set GPU requests & limits below
+      # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
       # only used when cuda is enabled
@@ -210,7 +220,7 @@ modules:
     fullnameOverride: text-spellcheck
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
-      # accordingly and you need to explicilty set GPU requests & limits below
+      # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
       # only used when cuda is enabled
@@ -244,7 +254,7 @@ modules:
     fullnameOverride: ner-transformers
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
-      # accordingly and you need to explicilty set GPU requests & limits below
+      # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
       # only used when cuda is enabled
@@ -283,7 +293,7 @@ custom_config_map:
 # The collector proxy collects meta data over the requests.  It deploys a
 # second service that, if used, will capture meta data over the incoming
 # requests.  The collected data may be used to optimize the software or detect
-# mallicious attacks.
+# malicious attacks.
 collector_proxy:
   enabled: false
   tag: latest
