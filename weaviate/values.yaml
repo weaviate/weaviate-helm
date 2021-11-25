@@ -36,6 +36,8 @@ service:
   name: weaviate
   type: LoadBalancer
   loadBalancerSourceRanges: []
+  # optionally set cluster IP if you want to set a static IP
+  clusterIP:
 
 # Adjust liveness and readiness configuration
 livenessProbe:

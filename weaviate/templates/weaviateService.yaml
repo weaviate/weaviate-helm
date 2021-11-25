@@ -10,6 +10,11 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8080
+{{ if eq .Values.service.type "ClusterIP" -}}
+  {{ if .Values.service.clusterIP }}
+  clusterIP: {{ .Values.service.clusterIP }}
+  {{ end }}
+{{ end }}
 {{ if eq .Values.service.type "LoadBalancer" -}}
   {{- if gt (len .Values.service.loadBalancerSourceRanges) 0 }}
   loadBalancerSourceRanges:
