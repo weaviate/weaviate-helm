@@ -27,9 +27,9 @@ spec:
           - name: EXTENSIONS_STORAGE_ORIGIN
             value: http://{{ .Values.service.name }}.{{ .Release.Namespace }}.svc.cluster.local
           - name: NEIGHBOR_OCCURRENCE_IGNORE_PERCENTILE
-            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "neighbor_occurrence_ignore_percentile " | quote }}
+            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "neighbor_occurrence_ignore_percentile" | quote }}
           - name: ENABLE_COMPOUND_SPLITTING
-            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "enable_compound_splitting " | quote }}
+            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "enable_compound_splitting" | quote }}
         resources: 
 {{ index .Values "modules" "text2vec-contextionary" "resources" | toYaml | indent 10 }}
 {{ end }}
