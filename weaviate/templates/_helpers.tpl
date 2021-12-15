@@ -95,7 +95,19 @@
             {{- end -}}
           {{- end -}}
         {{- else -}}
-          text2vec-transformers,qna-transformers
+          {{- if or (index .Values "modules" "ner-transformers" "enabled") (index .Values "modules" "ner-transformers" "inferenceUrl") -}}
+            {{- if or (index .Values "modules" "text-spellcheck" "enabled") (index .Values "modules" "text-spellcheck" "inferenceUrl") -}}
+              text2vec-transformers,qna-transformers,ner-transformers,text-spellcheck
+            {{- else -}}
+              text2vec-transformers,qna-transformers,ner-transformers
+            {{- end -}}
+          {{- else -}}
+            {{- if or (index .Values "modules" "text-spellcheck" "enabled") (index .Values "modules" "text-spellcheck" "inferenceUrl") -}}
+              text2vec-transformers,qna-transformers,text-spellcheck
+            {{- else -}}
+              text2vec-transformers,qna-transformers
+            {{- end -}}
+          {{- end -}}
         {{- end -}}
       {{- else if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
         {{- if or (index .Values "modules" "qna-transformers" "enabled") (index .Values "modules" "qna-transformers" "inferenceUrl") -}}
