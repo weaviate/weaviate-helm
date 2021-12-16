@@ -18,11 +18,11 @@
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
-  {{- if or (index .Values "modules" "text-spellcheck" "enabled") (index .Values "modules" "text-spellcheck" "inferenceUrl") -}}
-    {{ $modules = append $modules "text-spellcheck" }}
-  {{- end -}}
   {{- if or (index .Values "modules" "ner-transformers" "enabled") (index .Values "modules" "ner-transformers" "inferenceUrl") -}}
     {{ $modules = append $modules "ner-transformers" }}
+  {{- end -}}
+  {{- if or (index .Values "modules" "text-spellcheck" "enabled") (index .Values "modules" "text-spellcheck" "inferenceUrl") -}}
+    {{ $modules = append $modules "text-spellcheck" }}
   {{- end -}}
   {{ join "," $modules }}
 {{- end -}}
