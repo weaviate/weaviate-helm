@@ -50,6 +50,13 @@ spec:
           - name: TRANSFORMERS_INFERENCE_API
             value: {{ index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
           {{ end }}
+          {{ if index .Values "modules" "multi2vec-clip" "enabled" }}
+          - name: CLIP_INFERENCE_API
+            value: http://{{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ else if index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
+          - name: CLIP_INFERENCE_API
+            value: {{ index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
+          {{ end }}
           {{ if index .Values "modules" "qna-transformers" "enabled" }}
           - name: QNA_INFERENCE_API
             value: http://{{ index .Values "modules" "qna-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
