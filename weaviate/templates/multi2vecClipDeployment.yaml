@@ -1,4 +1,4 @@
-{{ if index .Values "modules" "multi2vec-clip" "enabled" }
+{{ if index .Values "modules" "multi2vec-clip" "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
