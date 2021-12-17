@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.8.0
+  tag: 1.9.0
   repo: semitechnologies/weaviate
 
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
@@ -126,6 +126,50 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: transformers-inference
+    envconfig:
+      # enable for CUDA support. Your K8s cluster needs to be configured
+      # accordingly and you need to explicitly set GPU requests & limits below
+      enable_cuda: false
+
+      # only used when cuda is enabled
+      nvidia_visible_devices: all
+
+      # only used when cuda is enabled
+      ld_library_path: /usr/local/nvidia/lib64
+
+    resources:
+      requests:
+        cpu: '1000m'
+        memory: '3000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+      limits:
+        cpu: '1000m'
+        memory: '5000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+
+  # The multi2vec-clip modules uses CLIP transformers to vectorize both images
+  # and text in the same vector space. It is typically slow(er) on CPUs and should
+  # run with CUDA-enabled GPUs for optimal performance.
+  multi2vec-clip:
+
+    # enable if you want to use transformers instead of the
+    # text2vec-contextionary module
+    enabled: false
+
+    # The configuration below is ignored if enabled==false
+
+    # replace with model of choice, see
+    # https://www.semi.technology/developers/weaviate/current/modules/multi2vec-clip.html
+    # for all supported models or build your own container.
+    tag: sentence-transformers-clip-ViT-B-32-multilingual-v1
+    repo: semitechnologies/multi2vec-clip
+    registry: docker.io
+    replicas: 1
+    fullnameOverride: clip-inference
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicitly set GPU requests & limits below

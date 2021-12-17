@@ -24,5 +24,8 @@
   {{- if or (index .Values "modules" "text-spellcheck" "enabled") (index .Values "modules" "text-spellcheck" "inferenceUrl") -}}
     {{ $modules = append $modules "text-spellcheck" }}
   {{- end -}}
+  {{- if or (index .Values "modules" "multi2vec-clip" "enabled") (index .Values "modules" "multi2vec-clip" "inferenceUrl") -}}
+    {{ $modules = append $modules "multi2vec-clip" }}
+  {{- end -}}
   {{ join "," $modules }}
 {{- end -}}

@@ -41,6 +41,8 @@ spec:
             value: 'true'
           - name: PERSISTENCE_DATA_PATH
             value: '/var/lib/weaviate'
+          - name: DEFAULT_VECTORIZER_MODULE
+            value: {{ index .Values "modules" "default_vectorizer_module" | trim }}
           - name: ENABLE_MODULES
             value: {{ template "enabled_modules" . }}
           {{ if index .Values "modules" "text2vec-transformers" "enabled" }}
@@ -49,6 +51,13 @@ spec:
           {{ else if index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
           - name: TRANSFORMERS_INFERENCE_API
             value: {{ index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
+          {{ end }}
+          {{ if index .Values "modules" "multi2vec-clip" "enabled" }}
+          - name: CLIP_INFERENCE_API
+            value: http://{{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{ else if index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
+          - name: CLIP_INFERENCE_API
+            value: {{ index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
           {{ end }}
           {{ if index .Values "modules" "qna-transformers" "enabled" }}
           - name: QNA_INFERENCE_API
