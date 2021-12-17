@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.8.0
+  tag: 1.9.0
   repo: semitechnologies/weaviate
 
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited

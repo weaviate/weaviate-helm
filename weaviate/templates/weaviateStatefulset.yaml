@@ -41,6 +41,8 @@ spec:
             value: 'true'
           - name: PERSISTENCE_DATA_PATH
             value: '/var/lib/weaviate'
+          - name: DEFAULT_VECTORIZER_MODULE
+            value: {{ index .Values "modules" "default_vectorizer_module" | trim }}
           - name: ENABLE_MODULES
             value: {{ template "enabled_modules" . }}
           {{ if index .Values "modules" "text2vec-transformers" "enabled" }}
