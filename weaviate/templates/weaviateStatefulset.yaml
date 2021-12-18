@@ -17,6 +17,18 @@ spec:
         app: weaviate
     spec:
       terminationGracePeriodSeconds: 60
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: "app"
+                      operator: In
+                      values:
+                        - weaviate
+                topologyKey: "kubernetes.io/hostname"
       containers:
       - name: weaviate
         image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}'
