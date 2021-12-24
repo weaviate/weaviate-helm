@@ -36,7 +36,7 @@ spec:
                 name: {{ $secret }}
                 key: {{ $key | quote }}
           {{- end }}
-          {{- end }}      
+          {{- end }}
           - name: STANDALONE_MODE
             value: 'true'
           - name: PERSISTENCE_DATA_PATH
@@ -92,7 +92,7 @@ spec:
           - name: CLUSTER_DATA_BIND_PORT
             value: "7001"
           - name: CLUSTER_JOIN
-            value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.cluster.local   
+            value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.cluster.local
         ports:
           - containerPort: 8080
         args:
@@ -132,6 +132,19 @@ spec:
         #     {{ else }}
         #     claimName: {{ .Values.storage.fullnameOverride }}
         #     {{ end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+
   volumeClaimTemplates:
   - metadata:
       name: weaviate-data
