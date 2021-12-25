@@ -43,6 +43,7 @@ spec:
               port: 8080
             initialDelaySeconds: 120
             periodSeconds: 3
+            timeoutSeconds: 3
           readinessProbe:
             httpGet:
               path: /v1/.well-known/ready
