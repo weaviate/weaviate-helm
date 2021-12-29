@@ -64,11 +64,11 @@ query_defaults:
 debug: false
 
 
-# Insert any custom environment variables or envSecrets by putting the exact name 
+# Insert any custom environment variables or envSecrets by putting the exact name
 # and desired value into the settings below. Any env name passed will be automatically
-# set for the statefulSet. 
+# set for the statefulSet.
 env:
-  # The aggressiveness of the Go Garbage Collector. 100 is the default value. 
+  # The aggressiveness of the Go Garbage Collector. 100 is the default value.
   GOGC: 100
 
 envSecrets:
@@ -358,3 +358,10 @@ collector_proxy:
     name: 'usage-proxy'
     port: 80
     type: LoadBalancer
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
