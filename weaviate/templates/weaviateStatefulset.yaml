@@ -21,6 +21,12 @@ spec:
       - name: weaviate
         image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}'
         imagePullPolicy: Always
+        {{- with .Values.command }}
+        command: {{ toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.args }} 
+        args: {{ toYaml . | nindent 10 }}
+        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
@@ -95,15 +101,6 @@ spec:
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.cluster.local
         ports:
           - containerPort: 8080
-        args:
-          - '--host'
-          - '0.0.0.0'
-          - '--port'
-          - '8080'
-          - '--scheme'
-          - 'http'
-          - '--config-file'
-          - '/weaviate-config/conf.yaml'
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config

@@ -10,6 +10,28 @@ image:
   tag: 1.9.0
   repo: semitechnologies/weaviate
 
+# overwrite command and args if you want to run specific startup scripts, for
+# example setting the nofile limit
+command: ["/bin/weaviate"]
+args:
+  - '--host'
+  - '0.0.0.0'
+  - '--port'
+  - '8080'
+  - '--scheme'
+  - 'http'
+  - '--config-file'
+  - '/weaviate-config/conf.yaml'
+
+# below is an example that can be used to set an arbitrary nofile limit at
+# startup:
+#
+# command: 
+#   - "/bin/sh"
+# args: 
+#   - "-c"
+#   - "ulimit -n 65535 && /bin/weaviate --host 0.0.0.0 --port 8080 --scheme http --config-file /weaviate-config/conf.yaml"
+
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
