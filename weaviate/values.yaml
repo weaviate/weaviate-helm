@@ -64,10 +64,17 @@ service:
 # Adjust liveness and readiness configuration
 livenessProbe:
   initialDelaySeconds: 900
-  periodSeconds: 3
+  periodSeconds: 60
+  failureThreshold: 10
+  successThreshold: 1
+  timeoutSeconds: 45
+
 readinessProbe:
-  initialDelaySeconds: 3
-  periodSeconds: 3
+  initialDelaySeconds: 30
+  periodSeconds: 20
+  failureThreshold: 3
+  successThreshold: 1
+  timeoutSeconds: 10
 
 # Weaviate Config
 #

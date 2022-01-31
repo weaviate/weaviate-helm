@@ -24,7 +24,7 @@ spec:
         {{- with .Values.command }}
         command: {{ toYaml . | nindent 10 }}
         {{- end }}
-        {{- with .Values.args }} 
+        {{- with .Values.args }}
         args: {{ toYaml . | nindent 10 }}
         {{- end }}
         resources:
@@ -112,12 +112,18 @@ spec:
             port: 8080
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         readinessProbe:
           httpGet:
             path: /v1/.well-known/ready
             port: 8080
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
       volumes:
         - name: weaviate-config
           configMap:
