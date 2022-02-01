@@ -74,17 +74,17 @@ startupProbe:
 
 livenessProbe:
   initialDelaySeconds: 900
-  periodSeconds: 60
-  failureThreshold: 10
+  periodSeconds: 10
+  failureThreshold: 30
   successThreshold: 1
-  timeoutSeconds: 45
+  timeoutSeconds: 3
 
 readinessProbe:
-  initialDelaySeconds: 30
-  periodSeconds: 20
+  initialDelaySeconds: 3
+  periodSeconds: 10
   failureThreshold: 3
   successThreshold: 1
-  timeoutSeconds: 10
+  timeoutSeconds: 3
 
 # Weaviate Config
 #
