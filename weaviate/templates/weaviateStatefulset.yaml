@@ -106,6 +106,17 @@ spec:
             mountPath: /weaviate-config
           - name: weaviate-data
             mountPath: /var/lib/weaviate
+        {{- if .Values.startupProbe.enabled }}
+        startupProbe:
+          httpGet:
+            path: /v1/.well-known/ready
+            port: 8080
+          initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+          failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          successThreshold: {{ .Values.startupProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
+        {{- end }}
         livenessProbe:
           httpGet:
             path: /v1/.well-known/live

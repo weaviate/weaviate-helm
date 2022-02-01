@@ -61,7 +61,17 @@ service:
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
 
-# Adjust liveness and readiness configuration
+# Adjust liveness, readiness and startup probes configuration
+startupProbe:
+  # For kubernetes versions prior to 1.18 startupProbe is not supported thus can be disabled.
+  enabled: false
+
+  initialDelaySeconds: 300
+  periodSeconds: 60
+  failureThreshold: 50
+  successThreshold: 1
+  timeoutSeconds: 3
+
 livenessProbe:
   initialDelaySeconds: 900
   periodSeconds: 60
