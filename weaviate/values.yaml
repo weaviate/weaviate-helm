@@ -60,6 +60,7 @@ service:
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
+  annotations: {}
 
 # Adjust liveness and readiness configuration
 livenessProbe:
@@ -380,6 +381,7 @@ collector_proxy:
     name: 'usage-proxy'
     port: 80
     type: LoadBalancer
+    annotations: {}
 
 
 nodeSelector: {}
