@@ -94,7 +94,10 @@ spec:
           {{ end }}
           {{ if and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey") }}
           - name: OPENAI_APIKEY
-            value: {{ index .Values "modules" "text2vec-openai" "apiKey" }}
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-openai
+                key: apiKey
           {{ end  }}
           - name: CLUSTER_GOSSIP_BIND_PORT
             value: "7000"
