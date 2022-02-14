@@ -1,11 +1,6 @@
 {{/* Generate the enabled modules config. This can be done a lot nicer once we drop Helm v2 support */}}
 {{ define "enabled_modules" }}
-  {{- if or (index .Values "modules" "text2vec-contextionary" "enabled") (index .Values "modules" "text2vec-contextionary" "inferenceUrl") -}}
-    {{- if or (index .Values "modules" "text2vec-transformers" "enabled") (index .Values "modules" "text2vec-transformers" "inferenceUrl") -}}
-      {{ fail "cannot have two text2vec-* modules on at the same time" -}}
-    {{- end -}}
-  {{- end -}}
-  {{ $modules := list }}
+  {{- $modules := list -}}
   {{- if or (index .Values "modules" "text2vec-contextionary" "enabled") (index .Values "modules" "text2vec-contextionary" "inferenceUrl") -}}
     {{ $modules = append $modules "text2vec-contextionary" }}
   {{- end -}}
@@ -27,5 +22,11 @@
   {{- if or (index .Values "modules" "multi2vec-clip" "enabled") (index .Values "modules" "multi2vec-clip" "inferenceUrl") -}}
     {{ $modules = append $modules "multi2vec-clip" }}
   {{- end -}}
-  {{ join "," $modules }}
+  {{- if (index .Values "modules" "text2vec-openai" "enabled") -}}
+    {{ $modules = append $modules "text2vec-openai" }}
+  {{- end -}}
+  {{- if gt (len $modules) 0 -}}
+          - name: ENABLE_MODULES
+            value: {{ join "," $modules }}
+  {{- end -}}
 {{- end -}}
