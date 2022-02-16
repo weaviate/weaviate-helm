@@ -42,15 +42,15 @@ spec:
             port: 8080
           initialDelaySeconds: 3
           periodSeconds: 3
-      {{- with .Values.nodeSelector }}
+      {{- with index .Values "modules" "text2vec-transformers" "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with index .Values "modules" "text2vec-transformers" "affinity" | default .Values.affinity }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with index .Values "modules" "text2vec-transformers" "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
