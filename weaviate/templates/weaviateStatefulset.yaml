@@ -62,55 +62,70 @@ spec:
           - name: DEFAULT_VECTORIZER_MODULE
             value: {{ index .Values "modules" "default_vectorizer_module" | trim }}
           {{ template "enabled_modules" . }}
-          {{ if index .Values "modules" "text2vec-transformers" "enabled" }}
+          {{- if index .Values "modules" "text2vec-transformers" "enabled" }}
           - name: TRANSFORMERS_INFERENCE_API
             value: http://{{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
-          {{ else if index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
+          {{- else if index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
           - name: TRANSFORMERS_INFERENCE_API
             value: {{ index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
-          {{ end }}
-          {{ if index .Values "modules" "multi2vec-clip" "enabled" }}
+          {{- else }}
+              {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "enabled" }}
+          - name: TRANSFORMERS_PASSAGE_INFERENCE_API
+            value: http://{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+              {{- else if index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "inferenceUrl" }}
+          - name: TRANSFORMERS_PASSAGE_INFERENCE_API
+            value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "inferenceUrl" }}
+              {{- end }}
+              {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "enabled" }}
+          - name: TRANSFORMERS_QUERY_INFERENCE_API
+            value: http://{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+              {{- else if index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "inferenceUrl" }}
+          - name: TRANSFORMERS_QUERY_INFERENCE_API
+            value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "inferenceUrl" }}
+              {{- end }}
+          {{- end }}
+          {{- if index .Values "modules" "multi2vec-clip" "enabled" }}
           - name: CLIP_INFERENCE_API
             value: http://{{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
-          {{ else if index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
+          {{- else if index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
           - name: CLIP_INFERENCE_API
             value: {{ index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
-          {{ end }}
-          {{ if index .Values "modules" "qna-transformers" "enabled" }}
+          {{- end }}
+          {{- if index .Values "modules" "qna-transformers" "enabled" }}
           - name: QNA_INFERENCE_API
             value: http://{{ index .Values "modules" "qna-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
-          {{ else if index .Values "modules" "qna-transformers" "inferenceUrl" }}
+          {{- else if index .Values "modules" "qna-transformers" "inferenceUrl" }}
           - name: QNA_INFERENCE_API
             value: {{ index .Values "modules" "qna-transformers" "inferenceUrl" }}
-          {{ end }}
-          {{ if index .Values "modules" "img2vec-neural" "enabled" }}
+          {{- end }}
+          {{- if index .Values "modules" "img2vec-neural" "enabled" }}
           - name: IMAGE_INFERENCE_API
             value: http://{{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
-          {{ else if index .Values "modules" "img2vec-neural" "inferenceUrl" }}
+          {{- else if index .Values "modules" "img2vec-neural" "inferenceUrl" }}
           - name: IMAGE_INFERENCE_API
             value: {{ index .Values "modules" "img2vec-neural" "inferenceUrl" }}
-          {{ end }}
-          {{ if index .Values "modules" "text-spellcheck" "enabled" }}
+          {{- end }}
+          {{- if index .Values "modules" "text-spellcheck" "enabled" }}
           - name: SPELLCHECK_INFERENCE_API
             value: http://{{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
-          {{ else if index .Values "modules" "text-spellcheck" "inferenceUrl" }}
+          {{- else if index .Values "modules" "text-spellcheck" "inferenceUrl" }}
           - name: SPELLCHECK_INFERENCE_API
             value: {{ index .Values "modules" "text-spellcheck" "inferenceUrl" }}
-          {{ end }}
-          {{ if index .Values "modules" "ner-transformers" "enabled" }}
+          {{- end }}
+          {{- if index .Values "modules" "ner-transformers" "enabled" }}
           - name: NER_INFERENCE_API
             value: http://{{ index .Values "modules" "ner-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
-          {{ else if index .Values "modules" "ner-transformers" "inferenceUrl" }}
+          {{- else if index .Values "modules" "ner-transformers" "inferenceUrl" }}
           - name: NER_INFERENCE_API
             value: {{ index .Values "modules" "ner-transformers" "inferenceUrl" }}
-          {{ end }}
-          {{ if and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey") }}
+          {{- end }}
+          {{- if and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey") }}
           - name: OPENAI_APIKEY
             valueFrom:
               secretKeyRef:
                 name: weaviate-openai
                 key: apiKey
-          {{ end  }}
+          {{- end  }}
           - name: CLUSTER_GOSSIP_BIND_PORT
             value: "7000"
           - name: CLUSTER_DATA_BIND_PORT

@@ -22,12 +22,12 @@ spec:
         env:
           - name: ENABLE_CUDA
             value: "{{ if index .Values "modules" "text2vec-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
-          {{ if index .Values "modules" "text2vec-transformers" "envconfig" "enable_cuda" }}
+          {{- if index .Values "modules" "text2vec-transformers" "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index .Values "modules" "text2vec-transformers" "envconfig" "nvidia_visible_devices"}}
           - name: LD_LIBRARY_PATH
             value: {{ index .Values "modules" "text2vec-transformers" "envconfig" "ld_library_path"}}
-          {{ end }}
+          {{- end }}
         resources:
 {{ index .Values "modules" "text2vec-transformers" "resources" | toYaml | indent 10 }}
         livenessProbe:
@@ -55,4 +55,122 @@ spec:
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+{{ else }}
+    {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}
+    app: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}
+spec:
+  replicas: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}
+    spec:
+      containers:
+      - name: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}
+        image: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "registry" }}/{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "repo" }}:{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "tag" }}
+        env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "envconfig" "nvidia_visible_devices"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "envconfig" "ld_library_path"}}
+          {{- end }}
+        resources:
+{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 3
+          timeoutSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+      {{- with index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "nodeSelector" | default .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "affinity" | default .Values.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "tolerations" | default .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+    {{- end }}
+---    
+    {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}
+    app: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}
+spec:
+  replicas: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}
+    spec:
+      containers:
+      - name: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}
+        image: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "registry" }}/{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "repo" }}:{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "tag" }}
+        env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "envconfig" "nvidia_visible_devices"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "envconfig" "ld_library_path"}}
+          {{- end }}
+        resources:
+{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 3
+          timeoutSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+      {{- with index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "nodeSelector" | default .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "affinity" | default .Values.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "tolerations" | default .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+    {{- end }}
 {{ end }}
