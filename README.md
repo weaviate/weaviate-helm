@@ -3,7 +3,7 @@
 > Deploy weaviate, the open vector search engine, to Kubernetes with this
 > helm chart.
 
-Documentation can be found [here](https://www.semi.technology/documentation/weaviate/current/get-started/install.html#kubernetes).
+Documentation can be found [here](https://weaviate.io/developers/weaviate/current/getting-started/installation.html#kubernetes-k8s).
 
 ## (for contributors) How to make new releases
 

@@ -6,7 +6,7 @@
 
 ```bash
 $ helm package .
-$ helm install --name weaviate ./weaviate-0.0.1.tgz
+$ helm install weaviate ./weaviate.tgz
 ```
 
 ## Introduction

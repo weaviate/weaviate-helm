@@ -4,6 +4,9 @@ kind: Service
 metadata:
   name: {{ .Values.collector_proxy.service.name }}
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.collector_proxy.service.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.collector_proxy.service.type }}
   selector:

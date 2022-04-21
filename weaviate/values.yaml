@@ -7,8 +7,30 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.9.0
+  tag: 1.10.1
   repo: semitechnologies/weaviate
+
+# overwrite command and args if you want to run specific startup scripts, for
+# example setting the nofile limit
+command: ["/bin/weaviate"]
+args:
+  - '--host'
+  - '0.0.0.0'
+  - '--port'
+  - '8080'
+  - '--scheme'
+  - 'http'
+  - '--config-file'
+  - '/weaviate-config/conf.yaml'
+
+# below is an example that can be used to set an arbitrary nofile limit at
+# startup:
+#
+# command: 
+#   - "/bin/sh"
+# args: 
+#   - "-c"
+#   - "ulimit -n 65535 && /bin/weaviate --host 0.0.0.0 --port 8080 --scheme http --config-file /weaviate-config/conf.yaml"
 
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
@@ -38,14 +60,32 @@ service:
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
+  annotations: {}
 
-# Adjust liveness and readiness configuration
+# Adjust liveness, readiness and startup probes configuration
+startupProbe:
+  # For kubernetes versions prior to 1.18 startupProbe is not supported thus can be disabled.
+  enabled: false
+
+  initialDelaySeconds: 300
+  periodSeconds: 60
+  failureThreshold: 50
+  successThreshold: 1
+  timeoutSeconds: 3
+
 livenessProbe:
   initialDelaySeconds: 900
-  periodSeconds: 3
+  periodSeconds: 10
+  failureThreshold: 30
+  successThreshold: 1
+  timeoutSeconds: 3
+
 readinessProbe:
   initialDelaySeconds: 3
-  periodSeconds: 3
+  periodSeconds: 10
+  failureThreshold: 3
+  successThreshold: 1
+  timeoutSeconds: 3
 
 # Weaviate Config
 #
@@ -64,11 +104,11 @@ query_defaults:
 debug: false
 
 
-# Insert any custom environment variables or envSecrets by putting the exact name 
+# Insert any custom environment variables or envSecrets by putting the exact name
 # and desired value into the settings below. Any env name passed will be automatically
-# set for the statefulSet. 
+# set for the statefulSet.
 env:
-  # The aggressiveness of the Go Garbage Collector. 100 is the default value. 
+  # The aggressiveness of the Go Garbage Collector. 100 is the default value.
   GOGC: 100
 
 envSecrets:
@@ -89,7 +129,7 @@ modules:
 
     # The configuration below is ignored if enabled==false
     fullnameOverride: contextionary
-    tag: en0.16.0-v1.0.0
+    tag: en0.16.0-v1.0.2
     repo: semitechnologies/contextionary
     registry: docker.io
     replicas: 1
@@ -150,6 +190,20 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+  # The text2vec-openai module uses OpenAI Embeddings API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about OpenAI Embeddings API can be found here:
+  # https://beta.openai.com/docs/guides/embeddings/what-are-embeddings
+  text2vec-openai:
+
+    # enable if you want to use OpenAI module
+    enabled: false
+
+    # Set your OpenAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
 
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
@@ -358,3 +412,11 @@ collector_proxy:
     name: 'usage-proxy'
     port: 80
     type: LoadBalancer
+    annotations: {}
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
