@@ -32,15 +32,15 @@ spec:
             value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "enable_compound_splitting" | quote }}
         resources:
 {{ index .Values "modules" "text2vec-contextionary" "resources" | toYaml | indent 10 }}
-      {{- with .Values.nodeSelector }}
+      {{- with index .Values "modules" "text2vec-contextionary" "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with index .Values "modules" "text2vec-contextionary" "affinity" | default .Values.affinity }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with index .Values "modules" "text2vec-contextionary" "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}

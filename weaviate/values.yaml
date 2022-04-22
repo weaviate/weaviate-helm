@@ -146,6 +146,20 @@ modules:
         cpu: '1000m'
         memory: '5000Mi'
 
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
+    nodeSelector: {}
+
+    tolerations:
+      - key: "my-example-key"
+        operator: "Exists"
+        effect: "NoSchedule"
+
+    affinity: {}
+
   # The text2vec-transformers modules uses neural networks, such as BERT,
   # DistilBERT, etc. to dynamically compute vector embeddings based on the
   # sentence's context. It is very slow on CPUs and should run with
