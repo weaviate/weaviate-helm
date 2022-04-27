@@ -54,15 +54,15 @@ spec:
         - name: nginx-conf
           configMap:
             name: collector-proxy-nginx-conf
-      {{- with index .Values "modules" "collector_proxy" "nodeSelector" | default .Values.nodeSelector }}
+      {{- with index .Values "collector_proxy" "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "collector_proxy" "affinity" | default .Values.affinity }}
+      {{- with index .Values "collector_proxy" "affinity" | default .Values.affinity }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "collector_proxy" "tolerations" | default .Values.tolerations }}
+      {{- with index .Values "collector_proxy" "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
