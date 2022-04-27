@@ -7,7 +7,8 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.10.1
+  # TODO change to proper version after weaviate release
+  tag: 1.12.2-c4d376c
   repo: semitechnologies/weaviate
 
 # overwrite command and args if you want to run specific startup scripts, for
@@ -204,6 +205,72 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+    passageQueryServices:
+      passage:
+        enabled: false
+
+        tag: facebook-dpr-ctx_encoder-single-nq-base
+        repo: semitechnologies/transformers-inference
+        registry: docker.io
+        replicas: 1
+        fullnameOverride: transformers-inference-passage
+        envconfig:
+          # enable for CUDA support. Your K8s cluster needs to be configured
+          # accordingly and you need to explicitly set GPU requests & limits below
+          enable_cuda: false
+
+          # only used when cuda is enabled
+          nvidia_visible_devices: all
+
+          # only used when cuda is enabled
+          ld_library_path: /usr/local/nvidia/lib64
+
+        resources:
+          requests:
+            cpu: '1000m'
+            memory: '3000Mi'
+
+            # enable if running with CUDA support
+            # nvidia.com/gpu: 1
+          limits:
+            cpu: '1000m'
+            memory: '5000Mi'
+
+            # enable if running with CUDA support
+            # nvidia.com/gpu: 1
+      query:
+        enabled: false
+
+        tag: facebook-dpr-question_encoder-single-nq-base
+        repo: semitechnologies/transformers-inference
+        registry: docker.io
+        replicas: 1
+        fullnameOverride: transformers-inference-query
+        envconfig:
+          # enable for CUDA support. Your K8s cluster needs to be configured
+          # accordingly and you need to explicitly set GPU requests & limits below
+          enable_cuda: false
+
+          # only used when cuda is enabled
+          nvidia_visible_devices: all
+
+          # only used when cuda is enabled
+          ld_library_path: /usr/local/nvidia/lib64
+
+        resources:
+          requests:
+            cpu: '1000m'
+            memory: '3000Mi'
+
+            # enable if running with CUDA support
+            # nvidia.com/gpu: 1
+          limits:
+            cpu: '1000m'
+            memory: '5000Mi'
+
+            # enable if running with CUDA support
+            # nvidia.com/gpu: 1
 
   # The text2vec-openai module uses OpenAI Embeddings API
   # to dynamically compute vector embeddings based on the

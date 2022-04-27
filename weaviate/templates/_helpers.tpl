@@ -4,7 +4,9 @@
   {{- if or (index .Values "modules" "text2vec-contextionary" "enabled") (index .Values "modules" "text2vec-contextionary" "inferenceUrl") -}}
     {{ $modules = append $modules "text2vec-contextionary" }}
   {{- end -}}
-  {{- if or (index .Values "modules" "text2vec-transformers" "enabled") (index .Values "modules" "text2vec-transformers" "inferenceUrl") -}}
+  {{- if or (index .Values "modules" "text2vec-transformers" "enabled") (index .Values "modules" "text2vec-transformers" "inferenceUrl")
+   (index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "enabled") (index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "inferenceUrl")
+   (index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "enabled") (index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "inferenceUrl") -}}
     {{ $modules = append $modules "text2vec-transformers" }}
   {{- end -}}
   {{- if or (index .Values "modules" "qna-transformers" "enabled") (index .Values "modules" "qna-transformers" "inferenceUrl") -}}
