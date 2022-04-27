@@ -3,15 +3,10 @@
 set -eou pipefail
 
 function check_modules() {
-  echo "Test if '$2' exists using: '$1' settings"
-  helm template $1 "weaviate.tgz" > out.yml
-  res=$(grep -C 1 'ENABLE_MODULES' < ../weaviate/out.yml)
-  if [[ $res != *$2* ]]
-  then
-    echo "error: '$2' was not found"
-    exit 1
-  fi
-  rm -fr ../weaviate/out.yml
+  local helm_settings=$1
+  local expected_value=$2
+
+  check_setting_has_value "$helm_settings" "ENABLE_MODULES" "$expected_value"
 }
 
 function check_setting_has_value() {
@@ -93,22 +88,15 @@ function check_no_setting() {
   check_modules "--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.enabled=false --set modules.img2vec-neural.enabled=false --set modules.qna-transformers.enabled=false --set modules.text-spellcheck.enabled=false --set modules.ner-transformers.enabled=false --set modules.multi2vec-clip.enabled=false --set modules.text2vec-openai.enabled=true" "value: text2vec-openai"
   check_modules "--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.enabled=false --set modules.img2vec-neural.enabled=false --set modules.qna-transformers.enabled=false --set modules.text-spellcheck.enabled=false --set modules.ner-transformers.enabled=false --set modules.multi2vec-clip.enabled=false --set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.apiKey=apiKey" "value: text2vec-openai"
 
-  check_setting_has_value "--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true" \
-    "name: TRANSFORMERS_PASSAGE_INFERENCE_API" \
-    "value: http://transformers-inference-passage.default.svc.cluster.local:8080"
-  check_setting_has_value "--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true" \
-    "name: TRANSFORMERS_QUERY_INFERENCE_API" \
-    "value: http://transformers-inference-query.default.svc.cluster.local:8080"
-  check_no_setting "--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true" \
-    "name: TRANSFORMERS_INFERENCE_API"
-    
-  check_setting_has_value "--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.enabled=true" \
-    "name: TRANSFORMERS_INFERENCE_API" \
-    "value: http://transformers-inference.default.svc.cluster.local:8080"
-  check_no_setting "--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.enabled=true" \
-    "name: TRANSFORMERS_PASSAGE_INFERENCE_API"
-  check_no_setting "--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.enabled=true" \
-    "name: TRANSFORMERS_QUERY_INFERENCE_API"
+  _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
+  check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local:8080"
+  check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_QUERY_INFERENCE_API" "value: http://transformers-inference-query.default.svc.cluster.local:8080"
+  check_no_setting "$_settingPassageQueryOn" "name: TRANSFORMERS_INFERENCE_API"
+
+  _settingPassageQueryOff="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.enabled=true"
+  check_setting_has_value "$_settingPassageQueryOff" "name: TRANSFORMERS_INFERENCE_API" "value: http://transformers-inference.default.svc.cluster.local:8080"
+  check_no_setting "$_settingPassageQueryOff" "name: TRANSFORMERS_PASSAGE_INFERENCE_API"
+  check_no_setting "$_settingPassageQueryOff" "name: TRANSFORMERS_QUERY_INFERENCE_API"
 
   echo "Tests successful."
 )

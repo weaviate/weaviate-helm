@@ -8,7 +8,7 @@ image:
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
   # TODO change to proper version after weaviate release
-  tag: latest@sha256:57eec99756f182bf1cb12c6db87a9aec2b40898791c2cd45612bfac93fad7d60
+  tag: 1.12.2-c4d376c
   repo: semitechnologies/weaviate
 
 # overwrite command and args if you want to run specific startup scripts, for
