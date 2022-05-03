@@ -38,6 +38,13 @@ function check_no_setting() {
   rm -fr ../weaviate/out.yml
 }
 
+function check_creates_template() {
+  local helm_settings=$1
+
+  helm template $helm_settings "weaviate.tgz" > out.yml
+  rm -fr ../weaviate/out.yml
+}
+
 (
   cd weaviate
   VERSION=$( grep 'version:' < Chart.yaml | awk '{ print $2 }')
@@ -51,6 +58,8 @@ function check_no_setting() {
   helm package .
 
   mv "weaviate-$VERSION.tgz" "weaviate.tgz"
+
+  check_creates_template "--set collector_proxy.enabled=true"
 
   check_modules "" "value: text2vec-contextionary"
   check_modules "--set modules.text2vec-contextionary.enabled=true" "value: text2vec-contextionary"
