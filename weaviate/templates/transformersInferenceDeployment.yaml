@@ -34,14 +34,14 @@ spec:
           httpGet:
             path: /.well-known/live
             port: 8080
-          initialDelaySeconds: 120
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "probeInitialDelaySeconds" }}
           periodSeconds: 3
           timeoutSeconds: 3
         readinessProbe:
           httpGet:
             path: /.well-known/ready
             port: 8080
-          initialDelaySeconds: 3
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "probeInitialDelaySeconds" }}
           periodSeconds: 3
       {{- with .Values.nodeSelector }}
       nodeSelector:
