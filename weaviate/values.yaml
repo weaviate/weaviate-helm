@@ -111,6 +111,9 @@ env:
   # The aggressiveness of the Go Garbage Collector. 100 is the default value.
   GOGC: 100
 
+  # Expose metrics on port 2112 for Prometheus to scrape
+  PROMETHEUS_MONITORING_ENABLED: false
+
 envSecrets:
 
 # modules are extensions to Weaviate, they can be used to support various
