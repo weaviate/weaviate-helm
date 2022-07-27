@@ -134,6 +134,11 @@ spec:
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.cluster.local
         ports:
           - containerPort: 8080
+          {{- if .Values.env.PROMETHEUS_MONITORING_ENABLED }}
+          - name: metrics
+            containerPort: 2112
+            protocol: TCP
+          {{- end }}
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
