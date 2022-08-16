@@ -15,4 +15,15 @@ set -eou pipefail
   helm package .
 
   mv "weaviate-$VERSION.tgz" "weaviate.tgz"
+
+  echo "Add chart version $VERSION to GitHub Pages"
+  GH_PAGES_DIR="files-to-gh-pages"
+  cd ..
+  mkdir -p $GH_PAGES_DIR
+  echo $(pwd)
+  helm package weaviate -d $GH_PAGES_DIR
+  cp README.md $GH_PAGES_DIR
+  cd $GH_PAGES_DIR
+  helm repo index .
+  ls -ltr
 )
