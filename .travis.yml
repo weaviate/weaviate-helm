@@ -5,8 +5,6 @@ before_install:
 - chmod 700 get_helm.sh
 - ./get_helm.sh
 
-install: true
-
 script: 
 - ./.cicd/test.sh
 - ./.cicd/release.sh
@@ -21,14 +19,3 @@ deploy:
   on:
     repo: semi-technologies/weaviate-helm
     tags: true
-- provider: pages  
-  github_token: $GITHUB_TOKEN
-  local_dir: files-to-gh-pages
-  target_branch: gh-pages
-  verbose: true
-  skip_cleanup: true
-  keep_history: true
-  on:
-    repo: semi-technologies/weaviate-helm
-    tags: true
-    branch: master
