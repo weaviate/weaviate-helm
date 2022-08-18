@@ -6,3 +6,5 @@ tmp/*
 
 chart.lock
 .DS_store
+deploy_key
+deploy_key.pub
