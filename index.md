@@ -31,7 +31,7 @@ $ helm repo update
 
 Download an example `values.yml` (with the default configuration):
 ```bash
-$ export CHART_VERSION="14.4.0"
+$ export CHART_VERSION="{{ latest_chart.version }}"
 $ wget https://raw.githubusercontent.com/semi-technologies/weaviate-helm/v$CHART_VERSION/weaviate/values.yaml
 
 ```
