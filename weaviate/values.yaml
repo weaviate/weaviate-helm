@@ -37,13 +37,13 @@ args:
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
 replicas: 1
-resources:
-  requests:
-    cpu: '500m'
-    memory: '300Mi'
-  limits:
-    cpu: '1000m'
-    memory: '1Gi'
+resources: {}
+  # requests:
+  #   cpu: '500m'
+  #   memory: '300Mi'
+  # limits:
+  #   cpu: '1000m'
+  #   memory: '1Gi'
 
 # The Persistent Volume Claim settings for Weaviate. If there's a
 # storage.fullnameOverride field set, then the default pvc will not be
@@ -132,7 +132,7 @@ modules:
   # transformers-based models.
   text2vec-contextionary:
     # disable if you want to use transformers or import or own vectors
-    enabled: true
+    enabled: false
 
     # The configuration below is ignored if enabled==false
     fullnameOverride: contextionary
@@ -477,7 +477,7 @@ modules:
   # use this module as the vectorizer if nothing else is specified. Can be
   # overwritten on a per-class basis.
   # set to text2vec-transformers if running with transformers instead
-  default_vectorizer_module: text2vec-contextionary
+  default_vectorizer_module: none
 
 # It is also possible to configure authentication and authorization through a
 # custom configmap The authorization and authentication values defined in
