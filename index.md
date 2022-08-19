@@ -26,7 +26,7 @@ $ helm repo update
 
 ## Charts
 
-[Weaviate-Repo]({{ latest_chart.home }}) \| [Weaviate-Helm-Repo]({{ site.source }})
+[Weaviate-Repo]({{ latest_chart.home }}) \| [Weaviate-Helm-Repo]({{ site.repo_url }})
 
 
 Download an example `values.yml` (with the default configuration):
@@ -42,7 +42,7 @@ Deploy
 export WEAVIATE_VERSION="1.14.1"
 
 $ helm upgrade \
-  "weaviate"
+  "weaviate" \
   {{ site.repo_name }}/{{ latest_chart.name }} \
   --version $CHART_VERSION \
   --install \
