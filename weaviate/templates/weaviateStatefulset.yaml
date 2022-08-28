@@ -126,6 +126,13 @@ spec:
                 name: weaviate-openai
                 key: apiKey
           {{- end  }}
+          {{- if and (index .Values "modules" "text2vec-huggingface" "enabled") (index .Values "modules" "text2vec-huggingface" "apiKey") }}
+          - name: HUGGINGFACE_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-huggingface
+                key: apiKey
+          {{- end  }}
           - name: CLUSTER_GOSSIP_BIND_PORT
             value: "7000"
           - name: CLUSTER_DATA_BIND_PORT
