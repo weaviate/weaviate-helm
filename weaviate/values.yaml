@@ -293,6 +293,20 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The text2vec-huggingface module uses HuggingFace API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about HuggingFace API can be found here:
+  # https://huggingface.co/docs/api-inference/detailed_parameters#feature-extraction-task
+  text2vec-huggingface:
+
+    # enable if you want to use HuggingFace module
+    enabled: false
+
+    # Set your HuggingFace API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.
