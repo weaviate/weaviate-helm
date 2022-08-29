@@ -502,6 +502,8 @@ collector_proxy:
     type: LoadBalancer
     annotations: {}
 
+# Pass any annotations to Weaviate pods
+annotations: {}
 
 nodeSelector: {}
 
