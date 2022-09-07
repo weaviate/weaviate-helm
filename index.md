@@ -39,7 +39,7 @@ $ wget https://raw.githubusercontent.com/semi-technologies/weaviate-helm/v$CHART
 Deploy
 ```bash
 # set the desired Weaviate version compatible with the chart version
-export WEAVIATE_VERSION="1.14.1"
+export WEAVIATE_VERSION="1.15.0"
 
 $ helm upgrade \
   "weaviate" \
