@@ -1,0 +1,58 @@
+{{ if index .Values "modules" "sum-transformers" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "sum-transformers" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "sum-transformers" "fullnameOverride" }}
+    app: {{ index .Values "modules" "sum-transformers" "fullnameOverride" }}
+spec:
+  replicas: {{ index .Values "modules" "sum-transformers" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "sum-transformers" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "sum-transformers" "fullnameOverride" }}
+    spec:
+      containers:
+      - name: {{ index .Values "modules" "sum-transformers" "fullnameOverride" }}
+        image: {{ index .Values "modules" "sum-transformers" "registry" }}/{{ index .Values "modules" "sum-transformers" "repo" }}:{{ index .Values "modules" "sum-transformers" "tag" }}
+        env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "sum-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index .Values "modules" "sum-transformers" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "sum-transformers" "envconfig" "nvidia_visible_devices"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "sum-transformers" "envconfig" "ld_library_path"}}
+          {{ end }}
+        resources:
+{{ index .Values "modules" "sum-transformers" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 3
+          timeoutSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+      {{- with index .Values "modules" "sum-transformers" "nodeSelector" | default .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "sum-transformers" "affinity" | default .Values.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "sum-transformers" "tolerations" | default .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+{{ end }}

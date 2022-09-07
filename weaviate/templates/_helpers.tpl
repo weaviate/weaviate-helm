@@ -20,6 +20,9 @@
   {{- if or (index .Values "modules" "ner-transformers" "enabled") (index .Values "modules" "ner-transformers" "inferenceUrl") -}}
     {{ $modules = append $modules "ner-transformers" }}
   {{- end -}}
+  {{- if or (index .Values "modules" "sum-transformers" "enabled") (index .Values "modules" "sum-transformers" "inferenceUrl") -}}
+    {{ $modules = append $modules "sum-transformers" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "text-spellcheck" "enabled") (index .Values "modules" "text-spellcheck" "inferenceUrl") -}}
     {{ $modules = append $modules "text-spellcheck" }}
   {{- end -}}

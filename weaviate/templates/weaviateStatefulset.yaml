@@ -126,6 +126,13 @@ spec:
           - name: NER_INFERENCE_API
             value: {{ index .Values "modules" "ner-transformers" "inferenceUrl" }}
           {{- end }}
+          {{- if index .Values "modules" "sum-transformers" "enabled" }}
+          - name: SUM_INFERENCE_API
+            value: http://{{ index .Values "modules" "sum-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{- else if index .Values "modules" "sum-transformers" "inferenceUrl" }}
+          - name: SUM_INFERENCE_API
+            value: {{ index .Values "modules" "sum-transformers" "inferenceUrl" }}
+          {{- end }}
           {{- if and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey") }}
           - name: OPENAI_APIKEY
             valueFrom:
