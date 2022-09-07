@@ -146,10 +146,21 @@ spec:
             value: {{ $value | quote }}
           {{- end }}
           {{- end  }}
-          {{- if and (index .Values "backups" "s3" "enabled") (index .Values "backups" "s3" "envconfig") }}
+          {{- if index .Values "backups" "s3" "enabled" }}
+          {{- if index .Values "backups" "s3" "envconfig" }}
           {{- range $key, $value := index .Values "backups" "s3" "envconfig" }}
           - name: {{ $key }}
             value: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
+          {{- if index .Values "backups" "s3" "envSecrets" }}
+          {{- range $key, $secret := $.Values.backups.s3.envSecrets }}
+          - name: {{ $key }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secret }}
+                key: {{ $key | quote }}
+          {{- end }}
           {{- end }}
           {{- if and (index .Values "backups" "s3" "secrets") (index .Values "backups" "s3" "secrets" "AWS_ACCESS_KEY_ID") }}
           - name: AWS_ACCESS_KEY_ID
