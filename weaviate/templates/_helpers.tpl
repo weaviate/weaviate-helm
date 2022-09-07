@@ -32,6 +32,9 @@
   {{- if (index .Values "modules" "text2vec-huggingface" "enabled") -}}
     {{ $modules = append $modules "text2vec-huggingface" }}
   {{- end -}}
+  {{- if (index .Values "backups" "filesystem" "enabled") -}}
+    {{ $modules = append $modules "backup-filesystem" }}
+  {{- end -}}
   {{- if gt (len $modules) 0 -}}
           - name: ENABLE_MODULES
             value: {{ join "," $modules }}
