@@ -20,6 +20,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      {{- if and (index .Values "backups" "s3" "enabled") (index .Values "backups" "s3" "serviceAccountName") }}
+      serviceAccountName: {{ .Values.backups.s3.serviceAccountName }}
+      {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       affinity:
         podAntiAffinity:
@@ -141,6 +144,26 @@ spec:
           {{- range $key, $value := index .Values "backups" "filesystem" "envconfig" }}
           - name: {{ $key }}
             value: {{ $value | quote }}
+          {{- end }}
+          {{- end  }}
+          {{- if and (index .Values "backups" "s3" "enabled") (index .Values "backups" "s3" "envconfig") }}
+          {{- range $key, $value := index .Values "backups" "s3" "envconfig" }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- if and (index .Values "backups" "s3" "secrets") (index .Values "backups" "s3" "secrets" "AWS_ACCESS_KEY_ID") }}
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: backup-s3
+                key: AWS_ACCESS_KEY_ID
+          {{- end }}
+          {{- if and (index .Values "backups" "s3" "secrets") (index .Values "backups" "s3" "secrets" "AWS_SECRET_ACCESS_KEY") }}
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: backup-s3
+                key: AWS_SECRET_ACCESS_KEY
           {{- end }}
           {{- end  }}
           - name: CLUSTER_GOSSIP_BIND_PORT

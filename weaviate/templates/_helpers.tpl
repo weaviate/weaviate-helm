@@ -35,6 +35,9 @@
   {{- if (index .Values "backups" "filesystem" "enabled") -}}
     {{ $modules = append $modules "backup-filesystem" }}
   {{- end -}}
+  {{- if (index .Values "backups" "s3" "enabled") -}}
+    {{ $modules = append $modules "backup-s3" }}
+  {{- end -}}
   {{- if gt (len $modules) 0 -}}
           - name: ENABLE_MODULES
             value: {{ join "," $modules }}
