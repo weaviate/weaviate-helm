@@ -120,6 +120,18 @@ env:
 
 envSecrets:
 
+
+# Configure backup providers
+backups:
+  # The backup-filesystem module enables creation of the DB backups in
+  # the local filesystem
+  filesystem:
+    enabled: false
+    envconfig:
+      # Configure folder where backups should be saved
+      BACKUP_FILESYSTEM_PATH: /tmp/backups
+
+
 # modules are extensions to Weaviate, they can be used to support various
 # ML-models, but also other features unrelated to model inference.
 # An inference/vectorizer module is not required, you can also run without any
