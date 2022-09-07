@@ -130,6 +130,44 @@ backups:
     envconfig:
       # Configure folder where backups should be saved
       BACKUP_FILESYSTEM_PATH: /tmp/backups
+  
+  s3:
+    enabled: false
+    # If one is using AWS EKS and has already configured K8s Service Account
+    # that holds the AWS credentials one can pass a name of that service account
+    # here using this setting:
+    # serviceAccountName: service-account-name
+    envconfig:
+      # Configure bucket where backups should be saved, this setting is mandatory
+      BACKUP_S3_BUCKET: weaviate-backups
+
+      # Optional setting. Defaults to empty string. 
+      # Set this option if you want to save backups to a given location
+      # inside the bucket
+      # BACKUP_S3_PATH: path/inside/bucket
+
+      # Optional setting. Defaults to AWS S3 (s3.amazonaws.com). 
+      # Set this option if you have a MinIO storage configured in your environment
+      # and want to use it instead of the AWS S3.
+      # BACKUP_S3_ENDPOINT: custom.minio.endpoint.address
+
+      # Optional setting. Defaults to true. 
+      # Set this option if you don't want to use SSL.
+      # BACKUP_S3_USE_SSL: true
+
+      # You can pass environment AWS settings here:
+      # Define the region
+      # AWS_REGION: eu-west-1
+
+    # If one uses access and secret key to authorize in AWS one can set them using secrets
+    secrets: {}
+    #   AWS_ACCESS_KEY_ID: access-key
+    #   AWS_SECRET_ACCESS_KEY: secret-key
+
+    # If one has already defined secrets with AWS credentials one can pass them using
+    # this setting:
+    envSecrets: {}
+    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-that-key
 
 
 # modules are extensions to Weaviate, they can be used to support various
