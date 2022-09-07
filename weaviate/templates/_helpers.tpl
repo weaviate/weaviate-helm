@@ -38,6 +38,9 @@
   {{- if (index .Values "backups" "s3" "enabled") -}}
     {{ $modules = append $modules "backup-s3" }}
   {{- end -}}
+  {{- if (index .Values "backups" "gcs" "enabled") -}}
+    {{ $modules = append $modules "backup-gcs" }}
+  {{- end -}}
   {{- if gt (len $modules) 0 -}}
           - name: ENABLE_MODULES
             value: {{ join "," $modules }}

@@ -177,6 +177,20 @@ spec:
                 key: AWS_SECRET_ACCESS_KEY
             {{- end }}
           {{- end  }}
+          {{- if index .Values "backups" "gcs" "enabled" }}
+            {{- if index .Values "backups" "gcs" "envconfig" }}
+              {{- range $key, $value := index .Values "backups" "gcs" "envconfig" }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+              {{- end }}
+            {{- end }}
+            {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
+              {{- if or (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") (index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: "/etc/gcp/credentials.json"
+              {{- end }}
+            {{- end }}
+          {{- end  }}
           - name: CLUSTER_GOSSIP_BIND_PORT
             value: "7000"
           - name: CLUSTER_DATA_BIND_PORT
@@ -195,6 +209,15 @@ spec:
             mountPath: /weaviate-config
           - name: weaviate-data
             mountPath: /var/lib/weaviate
+          {{- if index .Values "backups" "gcs" "enabled" }}
+            {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
+              {{- if or (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") (index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
+          - name: gcs-service-account-credentials-volume
+            mountPath: /etc/gcp
+            readOnly: true
+              {{- end }}
+            {{- end }}
+          {{- end }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:
           httpGet:
@@ -235,6 +258,24 @@ spec:
         #     {{ else }}
         #     claimName: {{ .Values.storage.fullnameOverride }}
         #     {{ end }}
+        {{- if index .Values "backups" "gcs" "enabled" }}
+          {{- if and (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
+        - name: gcs-service-account-credentials-volume
+          secret:
+            secretName: backup-gcs
+            items:
+            - key: GOOGLE_APPLICATION_CREDENTIALS
+              path: credentials.json
+          {{- end }}
+          {{- if and (index .Values "backups" "gcs" "envSecrets") (index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
+        - name: gcs-service-account-credentials-volume
+          secret:
+            secretName: {{ index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS" }}
+            items:
+            - key: GOOGLE_APPLICATION_CREDENTIALS
+              path: credentials.json
+          {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}

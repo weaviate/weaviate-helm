@@ -169,6 +169,30 @@ backups:
     envSecrets: {}
     #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-that-key
 
+  gcs:
+    enabled: false
+    envconfig:
+      # Configure bucket where backups should be saved, this setting is mandatory
+      BACKUP_GCS_BUCKET: weaviate-backups
+
+      # Optional setting. Defaults to empty string.
+      # Set this option if you want to save backups to a given location
+      # inside the bucket
+      # BACKUP_GCS_PATH: path/inside/bucket
+
+      # You can pass environment Google settings here:
+      # Define the project
+      # GOOGLE_CLOUD_PROJECT: project-id
+
+    # In order to pass GOOGLE_APPLICATION_CREDENTIALS one do this using secrets
+    secrets: {}
+    #   GOOGLE_APPLICATION_CREDENTIALS: credentials-json-string
+
+    # If one has already defined a secret with GOOGLE_APPLICATION_CREDENTIALS one can pass them using
+    # this setting:
+    envSecrets: {}
+    #   GOOGLE_APPLICATION_CREDENTIALS: name-of-the-k8s-secret-containing-that-key
+
 
 # modules are extensions to Weaviate, they can be used to support various
 # ML-models, but also other features unrelated to model inference.
