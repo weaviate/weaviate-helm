@@ -250,6 +250,8 @@ modules:
     # enable if you want to use transformers instead of the
     # text2vec-contextionary module
     enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
     # The configuration below is ignored if enabled==false
 
@@ -290,6 +292,8 @@ modules:
     passageQueryServices:
       passage:
         enabled: false
+        # You can set directly an inference URL of this module without deploying it with this release.
+        # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
         inferenceUrl: {}
 
         tag: facebook-dpr-ctx_encoder-single-nq-base
@@ -323,6 +327,8 @@ modules:
             # nvidia.com/gpu: 1
       query:
         enabled: false
+        # You can set directly an inference URL of this module without deploying it with this release.
+        # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
         inferenceUrl: {}
 
         tag: facebook-dpr-question_encoder-single-nq-base
@@ -391,6 +397,8 @@ modules:
     # enable if you want to use transformers instead of the
     # text2vec-contextionary module
     enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
 
     # The configuration below is ignored if enabled==false
@@ -432,6 +440,8 @@ modules:
   # DistilBERT, to find an aswer in text to a given question
   qna-transformers:
     enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
     tag: bert-large-uncased-whole-word-masking-finetuned-squad-34d66b1
     repo: semitechnologies/qna-transformers
@@ -467,6 +477,8 @@ modules:
   # a vector representation of the image
   img2vec-neural:
     enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
     tag: resnet50
     repo: semitechnologies/img2vec-pytorch
@@ -502,6 +514,8 @@ modules:
   # misspellings in a given text
   text-spellcheck:
     enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
     tag: pyspellchecker-en
     repo: semitechnologies/text-spellcheck-model
@@ -537,6 +551,8 @@ modules:
   # misspellings in a given text
   ner-transformers:
     enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
     tag: dbmdz-bert-large-cased-finetuned-conll03-english-0.0.2
     repo: semitechnologies/ner-transformers
@@ -571,6 +587,8 @@ modules:
   # The sum-transformers module makes result texts summarizations
   sum-transformers:
     enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
     tag: facebook-bart-large-cnn-1.0.0
     repo: semitechnologies/sum-transformers
