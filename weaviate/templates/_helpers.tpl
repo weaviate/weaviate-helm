@@ -35,6 +35,9 @@
   {{- if (index .Values "modules" "text2vec-huggingface" "enabled") -}}
     {{ $modules = append $modules "text2vec-huggingface" }}
   {{- end -}}
+  {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
+    {{ $modules = append $modules "ref2vec-centroid" }}
+  {{- end -}}
   {{- if (index .Values "backups" "filesystem" "enabled") -}}
     {{ $modules = append $modules "backup-filesystem" }}
   {{- end -}}

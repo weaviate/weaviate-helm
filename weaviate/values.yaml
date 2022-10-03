@@ -389,6 +389,12 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The ref2vec-centroid module
+  ref2vec-centroid:
+
+    # enable if you want to use Centroid module
+    enabled: false
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.
