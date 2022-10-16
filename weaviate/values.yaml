@@ -95,7 +95,7 @@ terminationGracePeriodSeconds: 600
 #
 # The following settings allow you to customize Weaviate to your needs, for
 # example set authentication and authorization options. See weaviate docs
-# (https://www.semi.technology/documentation/weaviate/current/) for all
+# (https://weaviate.io/developers/weaviate/current/) for all
 # configuration.
 authentication:
   anonymous_access:
