@@ -389,6 +389,19 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The text2vec-cohere module uses Cohere API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about Cohere API can be found here: https://docs.cohere.ai/
+  text2vec-cohere:
+
+    # enable if you want to use Cohere module
+    enabled: false
+
+    # Set your Cohere API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The ref2vec-centroid module
   ref2vec-centroid:
 
