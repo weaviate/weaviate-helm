@@ -7,8 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  # TODO change to proper v1.14 version after weaviate release
-  tag: latest@sha256:6089441e49cf24a0bd453d8609621bafebf3b292e989ef35e6cec5028f61ece8
+  tag: 1.16.0
   repo: semitechnologies/weaviate
 
 # overwrite command and args if you want to run specific startup scripts, for
@@ -23,6 +22,8 @@ args:
   - 'http'
   - '--config-file'
   - '/weaviate-config/conf.yaml'
+  - --read-timeout=60s 
+  - --write-timeout=60s
 
 # below is an example that can be used to set an arbitrary nofile limit at
 # startup:
@@ -57,6 +58,11 @@ storage:
 # weaviate only accessible within your cluster.
 service:
   name: weaviate
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      # Target port is going to be the same for every port
   type: LoadBalancer
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
@@ -117,6 +123,21 @@ env:
 
   # Expose metrics on port 2112 for Prometheus to scrape
   PROMETHEUS_MONITORING_ENABLED: false
+
+  # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
+  # performance as well as avoid GC-related out-of-memory (“OOM”) situations
+  # GOMEMLIMT: 6GiB
+
+  # Maximum results Weaviate can query with/without pagination
+  # NOTE: Affects performance, do NOT set to a very high value.
+  # The default is 100K
+  QUERY_MAXIMUM_RESULTS: 100000
+
+  # whether to enable vector dimensions tracking metric
+  TRACK_VECTOR_DIMENSIONS: false
+
+  # whether to re-index/-compute the vector dimensions metric (needed if upgrading from weaviate < v1.16.0)
+  REINDEX_VECTOR_DIMENSIONS_AT_STARTUP: false
 
 envSecrets:
 
@@ -541,14 +562,14 @@ modules:
 
     resources:
       requests:
-        cpu: '1000m'
-        memory: '3000Mi'
+        cpu: '400m'
+        memory: '400Mi'
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
       limits:
-        cpu: '1000m'
-        memory: '5000Mi'
+        cpu: '500m'
+        memory: '500Mi'
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1

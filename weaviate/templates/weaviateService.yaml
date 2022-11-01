@@ -10,9 +10,10 @@ spec:
   selector:
     app: weaviate
   ports:
-    - protocol: TCP
-      port: 80
+    {{- range .Values.service.ports }}
+    - {{ toYaml . | indent 6 | trim }}
       targetPort: 8080
+    {{- end }}
 {{ if eq .Values.service.type "ClusterIP" -}}
   {{ if .Values.service.clusterIP }}
   clusterIP: {{ .Values.service.clusterIP }}
