@@ -1,5 +1,0 @@
-charts:
-  - name: weaviate
-    repo: # This should be your GitHub repo name and the url where our GitHub Pages site is being published
-      git: semi-technologies/weaviate-helm
-      published: https://semi-technologies.github.io/weaviate-helm/

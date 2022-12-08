@@ -1,0 +1,4 @@
+# Ci related folders
+/.github/ @semi-technologies/core
+/.cicd/ @semi-technologies/core
+.chartpress.yaml
