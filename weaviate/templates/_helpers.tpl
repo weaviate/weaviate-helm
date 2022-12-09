@@ -14,6 +14,9 @@
   {{- if or (index .Values "modules" "qna-transformers" "enabled") (index .Values "modules" "qna-transformers" "inferenceUrl") -}}
     {{ $modules = append $modules "qna-transformers" }}
   {{- end -}}
+  {{- if (index .Values "modules" "qna-openai" "enabled") -}}
+    {{ $modules = append $modules "qna-openai" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
