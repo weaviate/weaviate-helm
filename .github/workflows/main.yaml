@@ -59,6 +59,23 @@ jobs:
 
       - name: Install chart publishing dependencies (chartpress, helm)
         run: pip install chartpress
+
+      - name: Setup push rights to jupyterhub/helm-chart
+        # This was setup by...
+        # 1. Generating a private/public key pair:
+        #    ssh-keygen -t ed25519 -C "semi-technologies/weaviate-helm" -f ./deploy_key
+        # 2. Registering the private key (./deploy_key) as a secret for this
+        #    repo:
+        #    https://github.com/semi-technologies/weaviate-helm/settings/secrets/actions
+        # 3. Registering the public key (./deploy_key.pub) as a deploy key
+        #    with push rights for the jupyterhub/helm chart repo:
+        #    https://github.com/semi-technologies/weaviate-helm/settings/keys
+
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          echo "${{ secrets.WEAVIATE_HELM_CHART_DEPLOY_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
       
       - name: Run chart-releaser
         run: chartpress --publish-chart
