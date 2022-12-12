@@ -108,6 +108,9 @@ function check_creates_template() {
   check_modules "--set modules.text2vec-cohere.enabled=true" "value: text2vec-cohere"
   check_modules "--set modules.text2vec-huggingface.enabled=true" "value: text2vec-huggingface"
   check_modules "--set modules.ref2vec-centroid.enabled=true" "value: ref2vec-centroid"
+  check_modules "--set modules.qna-openai.enabled=true" "value: qna-openai"
+  check_modules "--set modules.qna-openai.enabled=true --set modules.img2vec-neural.enabled=true --set modules.qna-transformers.enabled=true" "value: qna-transformers,qna-openai,img2vec-neural"
+  check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.apiKey=apiKey --set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.apiKey=apiKey" "value: qna-openai,text2vec-openai"
 
   _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local:8080"

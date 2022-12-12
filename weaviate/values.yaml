@@ -513,6 +513,19 @@ modules:
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
 
+  # The qna-openai module uses OpenAI Completions API
+  # to dynamically answer given questions.
+  # More information about OpenAI Completions API can be found here:
+  # https://beta.openai.com/docs/api-reference/completions
+  qna-openai:
+
+    # enable if you want to use OpenAI module
+    enabled: false
+
+    # Set your OpenAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:

@@ -133,7 +133,7 @@ spec:
           - name: SUM_INFERENCE_API
             value: {{ index .Values "modules" "sum-transformers" "inferenceUrl" }}
           {{- end }}
-          {{- if and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey") }}
+          {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "apiKey")) }}
           - name: OPENAI_APIKEY
             valueFrom:
               secretKeyRef:
