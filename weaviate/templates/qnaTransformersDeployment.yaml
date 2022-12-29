@@ -6,6 +6,7 @@ metadata:
   labels:
     name: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
     app: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
+    requiresSoleAccessToGpu: 'true'
 spec:
   replicas: {{ index .Values "modules" "qna-transformers" "replicas" }}
   selector:
@@ -16,6 +17,18 @@ spec:
       labels:
         app: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: requiresSoleAccessToGpu
+                  operator: In
+                  values:
+                  - 'true'
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "qna-transformers" "registry" }}/{{ index .Values "modules" "qna-transformers" "repo" }}:{{ index .Values "modules" "qna-transformers" "tag" }}

@@ -6,6 +6,7 @@ metadata:
   labels:
     name: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
     app: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
+    requiresSoleAccessToGpu: 'true'
 spec:
   replicas: {{ index .Values "modules" "ner-transformers" "replicas" }}
   selector:
@@ -16,6 +17,18 @@ spec:
       labels:
         app: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: requiresSoleAccessToGpu
+                  operator: In
+                  values:
+                  - 'true'
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "ner-transformers" "registry" }}/{{ index .Values "modules" "ner-transformers" "repo" }}:{{ index .Values "modules" "ner-transformers" "tag" }}

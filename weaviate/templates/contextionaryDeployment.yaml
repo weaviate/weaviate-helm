@@ -6,6 +6,7 @@ metadata:
   labels:
     name: contextionary
     app: contextionary
+    requiresSoleAccessToGpu: 'true'
 spec:
   replicas: {{ index .Values "modules" "text2vec-contextionary" "replicas" }}
   selector:
@@ -16,6 +17,18 @@ spec:
       labels:
         app: contextionary
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: requiresSoleAccessToGpu
+                  operator: In
+                  values:
+                  - 'true'
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: contextionary
         image: {{ index .Values "modules" "text2vec-contextionary" "registry" }}/{{ index .Values "modules" "text2vec-contextionary" "repo" }}:{{ index .Values "modules" "text2vec-contextionary" "tag" }}

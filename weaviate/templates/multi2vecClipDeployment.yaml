@@ -6,6 +6,7 @@ metadata:
   labels:
     name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
     app: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
+    requiresSoleAccessToGpu: 'true'
 spec:
   replicas: {{ index .Values "modules" "multi2vec-clip" "replicas" }}
   selector:
@@ -16,6 +17,18 @@ spec:
       labels:
         app: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: requiresSoleAccessToGpu
+                  operator: In
+                  values:
+                  - 'true'
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
         image: {{ index .Values "modules" "multi2vec-clip" "registry" }}/{{ index .Values "modules" "multi2vec-clip" "repo" }}:{{ index .Values "modules" "multi2vec-clip" "tag" }}
