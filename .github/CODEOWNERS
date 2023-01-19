@@ -1,4 +1,4 @@
 # Ci related folders
-/.github/ @semi-technologies/core
-/.cicd/ @semi-technologies/core
+/.github/ @weaviate/core
+/.cicd/ @weaviate/core
 chartpress.yaml
