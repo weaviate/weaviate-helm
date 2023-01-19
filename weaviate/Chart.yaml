@@ -1,7 +1,7 @@
 apiVersion: v2
 name: weaviate
 description: A Helm Chart to run Weaviate with all dependencies
-home: https://github.com/semi-technologies/weaviate
+home: https://github.com/weaviate/weaviate
 type: application
 
 # This is the chart version. This version number should be incremented each time you make changes
@@ -13,4 +13,4 @@ version: 15.2.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 appVersion: 1.15.0
-icon: https://raw.githubusercontent.com/semi-technologies/weaviate/19de0956c69b66c5552447e84d016f4fe29d12c9/docs/assets/weaviate-logo.png
+icon: https://raw.githubusercontent.com/weaviate/weaviate/19de0956c69b66c5552447e84d016f4fe29d12c9/docs/assets/weaviate-logo.png
