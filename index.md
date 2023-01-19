@@ -32,14 +32,14 @@ $ helm repo update
 Download an example `values.yml` (with the default configuration):
 ```bash
 $ export CHART_VERSION="{{ latest_chart.version }}"
-$ wget https://raw.githubusercontent.com/semi-technologies/weaviate-helm/v$CHART_VERSION/weaviate/values.yaml
+$ wget https://raw.githubusercontent.com/weaviate/weaviate-helm/v$CHART_VERSION/weaviate/values.yaml
 
 ```
 
 Deploy
 ```bash
 # set the desired Weaviate version compatible with the chart version
-export WEAVIATE_VERSION="1.15.0"
+export WEAVIATE_VERSION="1.17.1"
 
 $ helm upgrade \
   "weaviate" \
@@ -51,7 +51,7 @@ $ helm upgrade \
   --values ./values.yaml \
   --set "image.tag=$WEAVIATE_VERSION"
 ```
-**NOTE 1**: Check [Weaviate Releases](https://github.com/semi-technologies/weaviate/releases) for the latest Weaviate version, and the [Weaviate Helm Chart Releases](https://github.com/semi-technologies/weaviate-helm/releases) to understand which one is compatible with that Weaviate Release. 
+**NOTE 1**: Check [Weaviate Releases](https://github.com/weaviate/weaviate/releases) for the latest Weaviate version, and the [Weaviate Helm Chart Releases](https://github.com/weaviate/weaviate-helm/releases) to understand which one is compatible with that Weaviate Release. 
 
 **NOTE 2**: Weaviate versions and Chart versions of the this remote repo, are stripped of the leading `v` to be valid [SemVer2](https://semver.org/) versions, though the GitHub releases contain the leading `v`.
 

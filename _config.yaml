@@ -1,8 +1,8 @@
 title: Weaviate Helm chart repo
 description: Weaviate helm chart repo for storing charts.
 theme: minima
-url: "https://semi-technologies.github.io/weaviate-helm/"
-repo_url: "https://github.com/semi-technologies/weaviate-helm"
+url: "https://weaviate.github.io/weaviate-helm/"
+repo_url: "https://github.com/weaviate/weaviate-helm"
 repo_name: weaviate
 
 exclude:
