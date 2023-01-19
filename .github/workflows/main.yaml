@@ -21,7 +21,7 @@ jobs:
         run: .cicd/release.sh
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844  # pin 3rd-party actions by commit 
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
