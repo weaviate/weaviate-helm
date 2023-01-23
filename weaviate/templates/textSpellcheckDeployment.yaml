@@ -25,6 +25,8 @@ spec:
           {{ if index .Values "modules" "text-spellcheck" "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index .Values "modules" "text-spellcheck" "envconfig" "nvidia_visible_devices"}}
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: {{ index .Values "modules" "text-spellcheck" "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index .Values "modules" "text-spellcheck" "envconfig" "ld_library_path"}}
           {{ end }}
