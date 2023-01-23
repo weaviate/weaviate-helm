@@ -38,6 +38,8 @@ spec:
           {{- if index .Values "modules" "text2vec-transformers" "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index .Values "modules" "text2vec-transformers" "envconfig" "nvidia_visible_devices"}}
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: {{ index .Values "modules" "img2vec-neural" "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index .Values "modules" "text2vec-transformers" "envconfig" "ld_library_path"}}
           {{- end }}
@@ -96,6 +98,8 @@ spec:
           {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "envconfig" "nvidia_visible_devices"}}
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: {{ index .Values "modules" "img2vec-neural" "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "envconfig" "ld_library_path"}}
           {{- end }}
@@ -155,6 +159,8 @@ spec:
           {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "envconfig" "nvidia_visible_devices"}}
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: {{ index .Values "modules" "img2vec-neural" "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "envconfig" "ld_library_path"}}
           {{- end }}

@@ -292,6 +292,7 @@ modules:
 
       # only used when cuda is enabled
       nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
 
       # only used when cuda is enabled
       ld_library_path: /usr/local/nvidia/lib64
@@ -329,6 +330,7 @@ modules:
 
           # only used when cuda is enabled
           nvidia_visible_devices: all
+          nvidia_driver_capabilities: compute,utility
 
           # only used when cuda is enabled
           ld_library_path: /usr/local/nvidia/lib64
@@ -364,6 +366,7 @@ modules:
 
           # only used when cuda is enabled
           nvidia_visible_devices: all
+          nvidia_driver_capabilities: compute,utility
 
           # only used when cuda is enabled
           ld_library_path: /usr/local/nvidia/lib64
@@ -458,6 +461,7 @@ modules:
 
       # only used when cuda is enabled
       nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
 
       # only used when cuda is enabled
       ld_library_path: /usr/local/nvidia/lib64
@@ -495,6 +499,7 @@ modules:
 
       # only used when cuda is enabled
       nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
 
       # only used when cuda is enabled
       ld_library_path: /usr/local/nvidia/lib64
@@ -545,6 +550,7 @@ modules:
 
       # only used when cuda is enabled
       nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
 
       # only used when cuda is enabled
       ld_library_path: /usr/local/nvidia/lib64
@@ -582,6 +588,7 @@ modules:
 
       # only used when cuda is enabled
       nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
 
       # only used when cuda is enabled
       ld_library_path: /usr/local/nvidia/lib64
@@ -619,6 +626,7 @@ modules:
 
       # only used when cuda is enabled
       nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
 
       # only used when cuda is enabled
       ld_library_path: /usr/local/nvidia/lib64
@@ -655,6 +663,7 @@ modules:
 
       # only used when cuda is enabled
       nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
 
       # only used when cuda is enabled
       ld_library_path: /usr/local/nvidia/lib64
