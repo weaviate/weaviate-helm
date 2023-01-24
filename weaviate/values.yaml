@@ -51,7 +51,7 @@ resources: {}
 # created, instead the one defined in fullnameOverride will be used
 storage:
   size: 32Gi
-  storageClassName: premium-rwo
+  storageClassName: ""
 
 # The service controls how weaviate is exposed to the outside world. If you
 # don't want a public load balancer, you can also choose 'ClusterIP' to make
