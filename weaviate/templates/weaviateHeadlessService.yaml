@@ -10,5 +10,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 7000
+      targetPort: {{ .Values.env.CLUSTER_GOSSIP_BIND_PORT }}
   publishNotReadyAddresses: true

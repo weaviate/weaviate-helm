@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.16.0
+  tag: 1.17.2
   repo: semitechnologies/weaviate
 
 # overwrite command and args if you want to run specific startup scripts, for
@@ -118,6 +118,8 @@ debug: false
 # and desired value into the settings below. Any env name passed will be automatically
 # set for the statefulSet.
 env:
+  CLUSTER_GOSSIP_BIND_PORT: 7000
+  CLUSTER_DATA_BIND_PORT: 7001
   # The aggressiveness of the Go Garbage Collector. 100 is the default value.
   GOGC: 100
 
