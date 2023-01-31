@@ -194,9 +194,9 @@ spec:
             {{- end }}
           {{- end  }}
           - name: CLUSTER_GOSSIP_BIND_PORT
-            value: "7000"
+            value: "8000"
           - name: CLUSTER_DATA_BIND_PORT
-            value: "7001"
+            value: "8001"
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.cluster.local
         ports:
