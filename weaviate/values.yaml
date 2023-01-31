@@ -118,6 +118,8 @@ debug: false
 # and desired value into the settings below. Any env name passed will be automatically
 # set for the statefulSet.
 env:
+  CLUSTER_GOSSIP_BIND_PORT: 7000
+  CLUSTER_DATA_BIND_PORT: 7001
   # The aggressiveness of the Go Garbage Collector. 100 is the default value.
   GOGC: 100
 
