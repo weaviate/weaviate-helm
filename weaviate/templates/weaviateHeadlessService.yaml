@@ -10,5 +10,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 7000
+      targetPort: 8000
   publishNotReadyAddresses: true
