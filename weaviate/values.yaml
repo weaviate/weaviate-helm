@@ -533,6 +533,19 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The generative-openai module uses OpenAI Completions API
+  # along with text-davinci-003 model to behave as ChatGPT.
+  # More information about OpenAI Completions API can be found here:
+  # https://beta.openai.com/docs/api-reference/completions
+  generative-openai:
+
+    # enable if you want to use OpenAI module
+    enabled: false
+
+    # Set your OpenAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
