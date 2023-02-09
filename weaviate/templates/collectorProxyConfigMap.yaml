@@ -4,6 +4,9 @@ kind: ConfigMap
 metadata:
   name: collector-proxy-nginx-conf
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
 data:
   nginx.conf: |
     user  nginx;

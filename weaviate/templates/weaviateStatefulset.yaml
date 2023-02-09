@@ -5,6 +5,8 @@ metadata:
   labels:
     name: weaviate
     app: weaviate
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ .Values.replicas }}
   serviceName: {{ .Values.service.name }}
@@ -15,6 +17,8 @@ spec:
     metadata:
       labels:
         app: weaviate
+        app.kubernetes.io/name: weaviate
+        app.kubernetes.io/managed-by: helm
       {{- with .Values.annotations }}
       annotations:
         {{- toYaml . | nindent 8 }}

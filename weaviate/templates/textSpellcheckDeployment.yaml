@@ -6,6 +6,8 @@ metadata:
   labels:
     name: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
     app: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ index .Values "modules" "text-spellcheck" "replicas" }}
   selector:
