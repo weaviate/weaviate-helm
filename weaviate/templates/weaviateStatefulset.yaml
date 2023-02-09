@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: weaviate
+  {{- $name := "{{ .Release.Name }}-weaviate" -}}
+  name: {{ $name }}
   labels:
-    name: weaviate
-    app: weaviate
+    name: {{ $name }}
+    app: {{ $name }}
+    app.kubernetes.io/name: {{ $name }}
+    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/component: database
+    app.kubernetes.io/version: "{{ .Values.image.tag }}"
 spec:
   replicas: {{ .Values.replicas }}
   serviceName: {{ .Values.service.name }}
   selector:
     matchLabels:
-      app: weaviate
+      app: {{ $name }}
   template:
     metadata:
       labels:
-        app: weaviate
+        app: {{ $name }}
+        app.kubernetes.io/name:  {{ $name }}
       {{- with .Values.annotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
