@@ -4,6 +4,9 @@ kind: Deployment
 metadata:
   name: enterprise-collector-proxy
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
 spec:
   selector:
     matchLabels:
@@ -12,6 +15,8 @@ spec:
     metadata:
       labels:
         app: enterprise-collector-proxy
+        app.kubernetes.io/name: weaviate
+        app.kubernetes.io/managed-by: helm
     spec:
       containers:
         - name: enterprise-collector-proxy

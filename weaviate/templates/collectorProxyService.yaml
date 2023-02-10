@@ -4,6 +4,9 @@ kind: Service
 metadata:
   name: {{ .Values.collector_proxy.service.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
   {{- with .Values.collector_proxy.service.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}

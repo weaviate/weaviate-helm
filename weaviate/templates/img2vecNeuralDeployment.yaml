@@ -6,6 +6,8 @@ metadata:
   labels:
     name: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
     app: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ index .Values "modules" "img2vec-neural" "replicas" }}
   selector:

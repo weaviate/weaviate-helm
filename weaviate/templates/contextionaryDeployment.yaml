@@ -6,6 +6,8 @@ metadata:
   labels:
     name: contextionary
     app: contextionary
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ index .Values "modules" "text2vec-contextionary" "replicas" }}
   selector:
@@ -15,6 +17,8 @@ spec:
     metadata:
       labels:
         app: contextionary
+        app.kubernetes.io/name: weaviate
+        app.kubernetes.io/managed-by: helm
     spec:
       containers:
       - name: contextionary

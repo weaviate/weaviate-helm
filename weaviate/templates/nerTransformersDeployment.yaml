@@ -6,6 +6,8 @@ metadata:
   labels:
     name: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
     app: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ index .Values "modules" "ner-transformers" "replicas" }}
   selector:
