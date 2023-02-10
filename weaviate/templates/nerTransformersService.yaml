@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
   labels:
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: "{{ .Release.name }}"
     app.kubernetes.io/managed-by: helm
 spec:
   type: ClusterIP

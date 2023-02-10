@@ -6,7 +6,7 @@ metadata:
   labels:
     name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
     app: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: "{{ .Release.name }}"
     app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ index .Values "modules" "multi2vec-clip" "replicas" }}

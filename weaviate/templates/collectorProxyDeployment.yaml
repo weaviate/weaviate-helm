@@ -5,7 +5,7 @@ metadata:
   name: enterprise-collector-proxy
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: "{{ .Release.name }}"
     app.kubernetes.io/managed-by: helm
 spec:
   selector:
@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         app: enterprise-collector-proxy
-        app.kubernetes.io/name: weaviate
+        app.kubernetes.io/name: "{{ .Release.name }}"
         app.kubernetes.io/managed-by: helm
     spec:
       containers:

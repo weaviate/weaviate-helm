@@ -5,7 +5,7 @@ metadata:
   labels:
     name: weaviate
     app: weaviate
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: "{{ .Release.name }}"
     app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ .Values.replicas }}
@@ -17,7 +17,7 @@ spec:
     metadata:
       labels:
         app: weaviate
-        app.kubernetes.io/name: weaviate
+        app.kubernetes.io/name: "{{ .Release.name }}"
         app.kubernetes.io/managed-by: helm
       {{- with .Values.annotations }}
       annotations:
@@ -299,7 +299,7 @@ spec:
   - metadata:
       name: weaviate-data
       labels:
-        app.kubernetes.io/name: weaviate
+        app.kubernetes.io/name: "{{ .Release.name }}"
         app.kubernetes.io/managed-by: helm
     spec:
       accessModes: [ "ReadWriteOnce" ]
