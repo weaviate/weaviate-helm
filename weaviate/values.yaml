@@ -128,7 +128,7 @@ env:
 
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
-  # GOMEMLIMT: 6GiB
+  # GOMEMLIMIT: 6GiB
 
   # Maximum results Weaviate can query with/without pagination
   # NOTE: Affects performance, do NOT set to a very high value.
