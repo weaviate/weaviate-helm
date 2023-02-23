@@ -63,8 +63,6 @@ function check_creates_template() {
 
   mv "weaviate-$VERSION.tgz" "weaviate.tgz"
 
-  check_creates_template "--set collector_proxy.enabled=true"
-
   check_no_setting "" "name: ENABLE_MODULES"
   check_setting_has_value "" "name: DEFAULT_VECTORIZER_MODULE" "value: none"
   check_setting_has_value "--set modules.default_vectorizer_module=text2vec-openai" "name: DEFAULT_VECTORIZER_MODULE" "value: text2vec-openai"

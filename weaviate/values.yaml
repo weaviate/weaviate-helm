@@ -312,6 +312,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
     passageQueryServices:
       passage:
@@ -350,6 +353,9 @@ modules:
 
             # enable if running with CUDA support
             # nvidia.com/gpu: 1
+        annotations:
+        nodeSelector:
+        tolerations:
       query:
         enabled: false
         # You can set directly an inference URL of this module without deploying it with this release.
@@ -386,6 +392,9 @@ modules:
 
             # enable if running with CUDA support
             # nvidia.com/gpu: 1
+        annotations:
+        nodeSelector:
+        tolerations:
 
   # The text2vec-openai module uses OpenAI Embeddings API
   # to dynamically compute vector embeddings based on the
@@ -481,6 +490,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The qna-transformers module uses neural networks, such as BERT,
   # DistilBERT, to find an aswer in text to a given question
@@ -519,6 +531,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The qna-openai module uses OpenAI Completions API
   # to dynamically answer given questions.
@@ -583,6 +598,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The text-spellcheck module uses spellchecker library to check
   # misspellings in a given text
@@ -596,31 +614,17 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: text-spellcheck
-    envconfig:
-      # enable for CUDA support. Your K8s cluster needs to be configured
-      # accordingly and you need to explicitly set GPU requests & limits below
-      enable_cuda: false
-
-      # only used when cuda is enabled
-      nvidia_visible_devices: all
-      nvidia_driver_capabilities: compute,utility
-
-      # only used when cuda is enabled
-      ld_library_path: /usr/local/nvidia/lib64
 
     resources:
       requests:
         cpu: '400m'
         memory: '400Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
       limits:
         cpu: '500m'
         memory: '500Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The ner-transformers module uses spellchecker library to check
   # misspellings in a given text
@@ -659,6 +663,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The sum-transformers module makes result texts summarizations
   sum-transformers:
@@ -696,6 +703,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # by choosing the default vectorizer module, you can tell Weaviate to always
   # use this module as the vectorizer if nothing else is specified. Can be
@@ -710,38 +720,22 @@ custom_config_map:
   enabled: false
   name: 'custom-config'
 
-# The collector proxy collects meta data over the requests.  It deploys a
-# second service that, if used, will capture meta data over the incoming
-# requests.  The collected data may be used to optimize the software or detect
-# malicious attacks.
-collector_proxy:
-  enabled: false
-  tag: latest
-  weaviate_enterprise_usage_collector_origin: ''
-  weaviate_enterprise_token: ''
-  weaviate_enterprise_project: ''
-  service:
-    name: 'usage-proxy'
-    port: 80
-    type: LoadBalancer
-    annotations: {}
-
 # Pass any annotations to Weaviate pods
-annotations: {}
+annotations:
 
-nodeSelector: {}
+nodeSelector:
 
-tolerations: []
+tolerations:
 
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 1
         podAffinityTerm:
+          topologyKey: "kubernetes.io/hostname"
           labelSelector:
             matchExpressions:
               - key: "app"
                 operator: In
                 values:
                   - weaviate
-          topologyKey: "kubernetes.io/hostname"
