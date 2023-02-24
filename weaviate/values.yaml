@@ -182,15 +182,22 @@ backups:
       # Define the region
       # AWS_REGION: eu-west-1
 
-    # If one uses access and secret key to authorize in AWS one can set them using secrets
+    # For Weaviate to be able to create bucket objects it needs a user credentials to authenticate to AWS.
+    # The User must have permissions to read/create/delete bucket objects.
+    # You can pass the User credentials (access-key id and access-secret-key) in 2 ways:
+    # 1. by setting the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY plain values in the `secrets` section below
+    #     this chart will create a kubernetes secret for you with these key-values pairs
+    # 2. create Kubernetes secret/s with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY  keys and their respective values 
+    #     Set the Key and the secret where it is set in `envSecrets` section below
     secrets: {}
-    #   AWS_ACCESS_KEY_ID: access-key
-    #   AWS_SECRET_ACCESS_KEY: secret-key
+    #   AWS_ACCESS_KEY_ID: access-key-id (plain text)
+    #   AWS_SECRET_ACCESS_KEY: secret-access-key (plain text)
 
     # If one has already defined secrets with AWS credentials one can pass them using
     # this setting:
     envSecrets: {}
-    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-that-key
+    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
+    #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
 
   gcs:
     enabled: false
@@ -207,14 +214,20 @@ backups:
       # Define the project
       # GOOGLE_CLOUD_PROJECT: project-id
 
-    # In order to pass GOOGLE_APPLICATION_CREDENTIALS one do this using secrets
+    # For Weaviate to be able to create bucket objects it needs a ServiceAccount credentials to authenticate to GCP.
+    # The ServiceAccount must have permissions to read/create/delete bucket objects.
+    # You can pass the ServiceAccount credentials (as JSON) in 2 ways:
+    # 1. by setting the GOOGLE_APPLICATION_CREDENTIALS json as plain text in the `secrets` section below
+    #     this chart will create a kubernetes secret for you with this key-values pairs
+    # 2. create a Kubernetes secret with GOOGLE_APPLICATION_CREDENTIALS key and its respective value
+    #     Set the Key and the secret where it is set in `envSecrets` section below
     secrets: {}
     #   GOOGLE_APPLICATION_CREDENTIALS: credentials-json-string
 
     # If one has already defined a secret with GOOGLE_APPLICATION_CREDENTIALS one can pass them using
     # this setting:
     envSecrets: {}
-    #   GOOGLE_APPLICATION_CREDENTIALS: name-of-the-k8s-secret-containing-that-key
+    #   GOOGLE_APPLICATION_CREDENTIALS: name-of-the-k8s-secret-containing-the-key
 
 
 # modules are extensions to Weaviate, they can be used to support various
