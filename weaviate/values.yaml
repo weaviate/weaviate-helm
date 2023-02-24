@@ -101,7 +101,7 @@ terminationGracePeriodSeconds: 600
 #
 # The following settings allow you to customize Weaviate to your needs, for
 # example set authentication and authorization options. See weaviate docs
-# (https://www.semi.technology/documentation/weaviate/current/) for all
+# (https://www.weaviate.io/developers/weaviate/) for all
 # configuration.
 authentication:
   anonymous_access:
@@ -292,7 +292,7 @@ modules:
     # The configuration below is ignored if enabled==false
 
     # replace with model of choice, see
-    # https://www.semi.technology/developers/weaviate/current/modules/text2vec-transformers.html
+    # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/text2vec-transformers
     # for all supported models or build your own container.
     tag: distilbert-base-uncased
     repo: semitechnologies/transformers-inference
@@ -471,7 +471,7 @@ modules:
     # The configuration below is ignored if enabled==false
 
     # replace with model of choice, see
-    # https://www.semi.technology/developers/weaviate/current/modules/multi2vec-clip.html
+    # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/multi2vec-clip
     # for all supported models or build your own container.
     tag: sentence-transformers-clip-ViT-B-32-multilingual-v1
     repo: semitechnologies/multi2vec-clip
