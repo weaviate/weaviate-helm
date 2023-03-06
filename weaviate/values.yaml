@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.17.2
+  tag: 1.17.4
   repo: semitechnologies/weaviate
 
 # overwrite command and args if you want to run specific startup scripts, for
@@ -101,7 +101,7 @@ terminationGracePeriodSeconds: 600
 #
 # The following settings allow you to customize Weaviate to your needs, for
 # example set authentication and authorization options. See weaviate docs
-# (https://www.semi.technology/documentation/weaviate/current/) for all
+# (https://www.weaviate.io/developers/weaviate/) for all
 # configuration.
 authentication:
   anonymous_access:
@@ -182,15 +182,22 @@ backups:
       # Define the region
       # AWS_REGION: eu-west-1
 
-    # If one uses access and secret key to authorize in AWS one can set them using secrets
+    # For Weaviate to be able to create bucket objects it needs a user credentials to authenticate to AWS.
+    # The User must have permissions to read/create/delete bucket objects.
+    # You can pass the User credentials (access-key id and access-secret-key) in 2 ways:
+    # 1. by setting the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY plain values in the `secrets` section below
+    #     this chart will create a kubernetes secret for you with these key-values pairs
+    # 2. create Kubernetes secret/s with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY  keys and their respective values 
+    #     Set the Key and the secret where it is set in `envSecrets` section below
     secrets: {}
-    #   AWS_ACCESS_KEY_ID: access-key
-    #   AWS_SECRET_ACCESS_KEY: secret-key
+    #   AWS_ACCESS_KEY_ID: access-key-id (plain text)
+    #   AWS_SECRET_ACCESS_KEY: secret-access-key (plain text)
 
     # If one has already defined secrets with AWS credentials one can pass them using
     # this setting:
     envSecrets: {}
-    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-that-key
+    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
+    #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
 
   gcs:
     enabled: false
@@ -207,14 +214,20 @@ backups:
       # Define the project
       # GOOGLE_CLOUD_PROJECT: project-id
 
-    # In order to pass GOOGLE_APPLICATION_CREDENTIALS one do this using secrets
+    # For Weaviate to be able to create bucket objects it needs a ServiceAccount credentials to authenticate to GCP.
+    # The ServiceAccount must have permissions to read/create/delete bucket objects.
+    # You can pass the ServiceAccount credentials (as JSON) in 2 ways:
+    # 1. by setting the GOOGLE_APPLICATION_CREDENTIALS json as plain text in the `secrets` section below
+    #     this chart will create a kubernetes secret for you with this key-values pairs
+    # 2. create a Kubernetes secret with GOOGLE_APPLICATION_CREDENTIALS key and its respective value
+    #     Set the Key and the secret where it is set in `envSecrets` section below
     secrets: {}
     #   GOOGLE_APPLICATION_CREDENTIALS: credentials-json-string
 
     # If one has already defined a secret with GOOGLE_APPLICATION_CREDENTIALS one can pass them using
     # this setting:
     envSecrets: {}
-    #   GOOGLE_APPLICATION_CREDENTIALS: name-of-the-k8s-secret-containing-that-key
+    #   GOOGLE_APPLICATION_CREDENTIALS: name-of-the-k8s-secret-containing-the-key
 
 
 # modules are extensions to Weaviate, they can be used to support various
@@ -279,7 +292,7 @@ modules:
     # The configuration below is ignored if enabled==false
 
     # replace with model of choice, see
-    # https://www.semi.technology/developers/weaviate/current/modules/text2vec-transformers.html
+    # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/text2vec-transformers
     # for all supported models or build your own container.
     tag: distilbert-base-uncased
     repo: semitechnologies/transformers-inference
@@ -312,6 +325,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
     passageQueryServices:
       passage:
@@ -350,6 +366,9 @@ modules:
 
             # enable if running with CUDA support
             # nvidia.com/gpu: 1
+        annotations:
+        nodeSelector:
+        tolerations:
       query:
         enabled: false
         # You can set directly an inference URL of this module without deploying it with this release.
@@ -386,6 +405,9 @@ modules:
 
             # enable if running with CUDA support
             # nvidia.com/gpu: 1
+        annotations:
+        nodeSelector:
+        tolerations:
 
   # The text2vec-openai module uses OpenAI Embeddings API
   # to dynamically compute vector embeddings based on the
@@ -449,7 +471,7 @@ modules:
     # The configuration below is ignored if enabled==false
 
     # replace with model of choice, see
-    # https://www.semi.technology/developers/weaviate/current/modules/multi2vec-clip.html
+    # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/multi2vec-clip
     # for all supported models or build your own container.
     tag: sentence-transformers-clip-ViT-B-32-multilingual-v1
     repo: semitechnologies/multi2vec-clip
@@ -481,6 +503,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The qna-transformers module uses neural networks, such as BERT,
   # DistilBERT, to find an aswer in text to a given question
@@ -519,6 +544,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The qna-openai module uses OpenAI Completions API
   # to dynamically answer given questions.
@@ -583,6 +611,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The text-spellcheck module uses spellchecker library to check
   # misspellings in a given text
@@ -596,31 +627,17 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: text-spellcheck
-    envconfig:
-      # enable for CUDA support. Your K8s cluster needs to be configured
-      # accordingly and you need to explicitly set GPU requests & limits below
-      enable_cuda: false
-
-      # only used when cuda is enabled
-      nvidia_visible_devices: all
-      nvidia_driver_capabilities: compute,utility
-
-      # only used when cuda is enabled
-      ld_library_path: /usr/local/nvidia/lib64
 
     resources:
       requests:
         cpu: '400m'
         memory: '400Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
       limits:
         cpu: '500m'
         memory: '500Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The ner-transformers module uses spellchecker library to check
   # misspellings in a given text
@@ -659,6 +676,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # The sum-transformers module makes result texts summarizations
   sum-transformers:
@@ -696,6 +716,9 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+    annotations:
+    nodeSelector:
+    tolerations:
 
   # by choosing the default vectorizer module, you can tell Weaviate to always
   # use this module as the vectorizer if nothing else is specified. Can be
@@ -710,38 +733,22 @@ custom_config_map:
   enabled: false
   name: 'custom-config'
 
-# The collector proxy collects meta data over the requests.  It deploys a
-# second service that, if used, will capture meta data over the incoming
-# requests.  The collected data may be used to optimize the software or detect
-# malicious attacks.
-collector_proxy:
-  enabled: false
-  tag: latest
-  weaviate_enterprise_usage_collector_origin: ''
-  weaviate_enterprise_token: ''
-  weaviate_enterprise_project: ''
-  service:
-    name: 'usage-proxy'
-    port: 80
-    type: LoadBalancer
-    annotations: {}
-
 # Pass any annotations to Weaviate pods
-annotations: {}
+annotations:
 
-nodeSelector: {}
+nodeSelector:
 
-tolerations: []
+tolerations:
 
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 1
         podAffinityTerm:
+          topologyKey: "kubernetes.io/hostname"
           labelSelector:
             matchExpressions:
               - key: "app"
                 operator: In
                 values:
                   - weaviate
-          topologyKey: "kubernetes.io/hostname"

@@ -21,17 +21,6 @@ spec:
       containers:
       - name: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
         image: {{ index .Values "modules" "text-spellcheck" "registry" }}/{{ index .Values "modules" "text-spellcheck" "repo" }}:{{ index .Values "modules" "text-spellcheck" "tag" }}
-        env:
-          - name: ENABLE_CUDA
-            value: "{{ if index .Values "modules" "text-spellcheck" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
-          {{ if index .Values "modules" "text-spellcheck" "envconfig" "enable_cuda" }}
-          - name: NVIDIA_VISIBLE_DEVICES
-            value: {{ index .Values "modules" "text-spellcheck" "envconfig" "nvidia_visible_devices"}}
-          - name: NVIDIA_DRIVER_CAPABILITIES
-            value: {{ index .Values "modules" "text-spellcheck" "envconfig" "nvidia_driver_capabilities"}}
-          - name: LD_LIBRARY_PATH
-            value: {{ index .Values "modules" "text-spellcheck" "envconfig" "ld_library_path"}}
-          {{ end }}
         resources:
 {{ index .Values "modules" "text-spellcheck" "resources" | toYaml | indent 10 }}
         livenessProbe:
