@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ .Values.replicas }}
-  serviceName: {{ .Values.service.name }}
+  serviceName: {{ .Values.service.name }}-headless
   selector:
     matchLabels:
       app: weaviate
