@@ -229,6 +229,38 @@ backups:
     envSecrets: {}
     #   GOOGLE_APPLICATION_CREDENTIALS: name-of-the-k8s-secret-containing-the-key
 
+  azure:
+    enabled: false
+    envconfig:
+      # Configure container where backups should be saved, this setting is mandatory
+      BACKUP_AZURE_CONTAINER: weaviate-backups
+
+      # Optional setting. Defaults to empty string. 
+      # Set this option if you want to save backups to a given location
+      # inside the container
+      # BACKUP_AZURE_PATH: path/inside/container
+
+    # For Weaviate to be able to create container objects it needs a user credentials to authenticate to Azure Storage.
+    # The User must have permissions to read/create/delete container objects.
+    # You can pass the User credentials (account-name id and account-key or connection-string) in 2 ways:
+    # 1. by setting the AZURE_STORAGE_ACCOUNT and AZURE_STORAGE_KEY
+    #     or AZURE_STORAGE_CONNECTION_STRING plain values in the `secrets` section below
+    #     this chart will create a kubernetes secret for you with these key-values pairs
+    # 2. create Kubernetes secret/s with AZURE_STORAGE_ACCOUNT and AZURE_STORAGE_KEY 
+    #     or AZURE_STORAGE_CONNECTION_STRING and their respective values
+    #     Set the Key and the secret where it is set in `envSecrets` section below
+    secrets: {}
+    #   AZURE_STORAGE_ACCOUNT: account-name (plain text)
+    #   AZURE_STORAGE_KEY: account-key (plain text)
+    #   AZURE_STORAGE_CONNECTION_STRING: connection-string (plain text)
+
+    # If one has already defined secrets with Azure Storage credentials one can pass them using
+    # this setting:
+    envSecrets: {}
+    #   AZURE_STORAGE_ACCOUNT: name-of-the-k8s-secret-containing-the-account-name
+    #   AZURE_STORAGE_KEY: name-of-the-k8s-secret-containing-account-key
+    #   AZURE_STORAGE_CONNECTION_STRING: name-of-the-k8s-secret-containing-connection-string
+
 
 # modules are extensions to Weaviate, they can be used to support various
 # ML-models, but also other features unrelated to model inference.
