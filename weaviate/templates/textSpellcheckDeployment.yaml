@@ -18,6 +18,11 @@ spec:
       labels:
         app: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
     spec:
+      {{- if (index .Values "modules" "text-spellcheck" "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "modules" "text-spellcheck" "serviceAccountName" }}
+      {{- else if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "serviceAccountName" }}
+      {{- end }}
       containers:
       - name: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
         image: {{ index .Values "modules" "text-spellcheck" "registry" }}/{{ index .Values "modules" "text-spellcheck" "repo" }}:{{ index .Values "modules" "text-spellcheck" "tag" }}

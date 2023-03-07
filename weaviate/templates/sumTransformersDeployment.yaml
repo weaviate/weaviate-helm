@@ -18,6 +18,11 @@ spec:
       labels:
         app: {{ index .Values "modules" "sum-transformers" "fullnameOverride" }}
     spec:
+      {{- if (index .Values "modules" "sum-transformers" "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "modules" "sum-transformers" "serviceAccountName" }}
+      {{- else if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "serviceAccountName" }}
+      {{- end }}
       containers:
       - name: {{ index .Values "modules" "sum-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "sum-transformers" "registry" }}/{{ index .Values "modules" "sum-transformers" "repo" }}:{{ index .Values "modules" "sum-transformers" "tag" }}

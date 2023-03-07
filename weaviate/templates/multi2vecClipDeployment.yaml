@@ -18,6 +18,11 @@ spec:
       labels:
         app: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
     spec:
+      {{- if (index .Values "modules" "multi2vec-clip" "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "modules" "multi2vec-clip" "serviceAccountName" }}
+      {{- else if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "serviceAccountName" }}
+      {{- end }}
       containers:
       - name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
         image: {{ index .Values "modules" "multi2vec-clip" "registry" }}/{{ index .Values "modules" "multi2vec-clip" "repo" }}:{{ index .Values "modules" "multi2vec-clip" "tag" }}

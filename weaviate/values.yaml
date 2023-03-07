@@ -46,6 +46,13 @@ resources: {}
   #   cpu: '1000m'
   #   memory: '1Gi'
 
+
+# Add a service account ot the Weaviate pods if you need Weaviate to have permissions to
+# access kubernetes resources or cloud provider resources. For example for it to have
+# access to a backup up bucket, or if you want to restrict Weaviate pod in any way.
+# By default, use the default ServiceAccount
+serviceAccountName:
+
 # The Persistent Volume Claim settings for Weaviate. If there's a
 # storage.fullnameOverride field set, then the default pvc will not be
 # created, instead the one defined in fullnameOverride will be used
@@ -295,19 +302,20 @@ modules:
         cpu: '1000m'
         memory: '5000Mi'
 
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
     # tolerations, and affinity configuration. If it is set on a per-
     # module basis, this configuration overrides the global config.
 
-    nodeSelector: {}
-
+    nodeSelector:
     tolerations:
-      - key: "my-example-key"
-        operator: "Exists"
-        effect: "NoSchedule"
-
-    affinity: {}
+    affinity:
 
   # The text2vec-transformers modules uses neural networks, such as BERT,
   # DistilBERT, etc. to dynamically compute vector embeddings based on the
@@ -357,9 +365,21 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
-    annotations:
+    
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
     nodeSelector:
     tolerations:
+    affinity:
 
     passageQueryServices:
       passage:
@@ -398,9 +418,16 @@ modules:
 
             # enable if running with CUDA support
             # nvidia.com/gpu: 1
-        annotations:
+        
+        # You can guide where the pods are scheduled on a per-module basis,
+        # as well as for Weaviate overall. Each module accepts nodeSelector,
+        # tolerations, and affinity configuration. If it is set on a per-
+        # module basis, this configuration overrides the global config.
+
         nodeSelector:
         tolerations:
+        affinity:
+
       query:
         enabled: false
         # You can set directly an inference URL of this module without deploying it with this release.
@@ -437,9 +464,15 @@ modules:
 
             # enable if running with CUDA support
             # nvidia.com/gpu: 1
-        annotations:
+        
+        # You can guide where the pods are scheduled on a per-module basis,
+        # as well as for Weaviate overall. Each module accepts nodeSelector,
+        # tolerations, and affinity configuration. If it is set on a per-
+        # module basis, this configuration overrides the global config.
+
         nodeSelector:
         tolerations:
+        affinity:
 
   # The text2vec-openai module uses OpenAI Embeddings API
   # to dynamically compute vector embeddings based on the
@@ -576,9 +609,21 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
-    annotations:
+    
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
     nodeSelector:
     tolerations:
+    affinity:
 
   # The qna-openai module uses OpenAI Completions API
   # to dynamically answer given questions.
@@ -643,9 +688,21 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
-    annotations:
+    
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
     nodeSelector:
     tolerations:
+    affinity:
 
   # The text-spellcheck module uses spellchecker library to check
   # misspellings in a given text
@@ -667,9 +724,21 @@ modules:
       limits:
         cpu: '500m'
         memory: '500Mi'
-    annotations:
+    
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
     nodeSelector:
     tolerations:
+    affinity:
 
   # The ner-transformers module uses spellchecker library to check
   # misspellings in a given text
@@ -708,9 +777,21 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
-    annotations:
+    
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
     nodeSelector:
     tolerations:
+    affinity:
 
   # The sum-transformers module makes result texts summarizations
   sum-transformers:
@@ -748,9 +829,21 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
-    annotations:
+    
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
     nodeSelector:
     tolerations:
+    affinity:
 
   # by choosing the default vectorizer module, you can tell Weaviate to always
   # use this module as the vectorizer if nothing else is specified. Can be
