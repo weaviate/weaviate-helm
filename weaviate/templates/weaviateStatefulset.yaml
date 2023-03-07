@@ -197,6 +197,44 @@ spec:
               {{- end }}
             {{- end }}
           {{- end  }}
+          {{- if index .Values "backups" "azure" "enabled" }}
+            {{- if index .Values "backups" "azure" "envconfig" }}
+              {{- range $key, $value := index .Values "backups" "azure" "envconfig" }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+              {{- end }}
+            {{- end }}
+            {{- if index .Values "backups" "azure" "envSecrets" }}
+              {{- range $key, $secret := $.Values.backups.azure.envSecrets }}
+          - name: {{ $key }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secret }}
+                key: {{ $key | quote }}
+              {{- end }}
+            {{- end }}
+            {{- if and (index .Values "backups" "azure" "secrets") (index .Values "backups" "azure" "secrets" "AZURE_STORAGE_ACCOUNT") }}
+          - name: AZURE_STORAGE_ACCOUNT
+            valueFrom:
+              secretKeyRef:
+                name: backup-azure
+                key: AZURE_STORAGE_ACCOUNT
+            {{- end }}
+            {{- if and (index .Values "backups" "azure" "secrets") (index .Values "backups" "azure" "secrets" "AZURE_STORAGE_KEY") }}
+          - name: AZURE_STORAGE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: backup-azure
+                key: AZURE_STORAGE_KEY
+            {{- end }}
+            {{- if and (index .Values "backups" "azure" "secrets") (index .Values "backups" "azure" "secrets" "AZURE_STORAGE_CONNECTION_STRING") }}
+          - name: AZURE_STORAGE_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: backup-azure
+                key: AZURE_STORAGE_CONNECTION_STRING
+            {{- end }}
+          {{- end  }}
           - name: CLUSTER_GOSSIP_BIND_PORT
             value: "{{ .Values.env.CLUSTER_GOSSIP_BIND_PORT }}"
           - name: CLUSTER_DATA_BIND_PORT

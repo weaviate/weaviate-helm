@@ -56,6 +56,9 @@
   {{- if (index .Values "backups" "gcs" "enabled") -}}
     {{ $modules = append $modules "backup-gcs" }}
   {{- end -}}
+  {{- if (index .Values "backups" "azure" "enabled") -}}
+    {{ $modules = append $modules "backup-azure" }}
+  {{- end -}}
   {{- if gt (len $modules) 0 -}}
           - name: ENABLE_MODULES
             value: {{ join "," $modules }}
