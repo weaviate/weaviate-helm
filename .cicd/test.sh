@@ -65,6 +65,8 @@ function check_creates_template() {
 
   check_no_setting "" "name: ENABLE_MODULES"
   check_setting_has_value "" "name: DEFAULT_VECTORIZER_MODULE" "value: none"
+  check_no_setting "" "serviceAccountName"
+  check_setting_has_value "--set serviceAccountName=my-service-account-test" "serviceAccountName" "my-service-account-test"
   check_setting_has_value "--set modules.default_vectorizer_module=text2vec-openai" "name: DEFAULT_VECTORIZER_MODULE" "value: text2vec-openai"
   check_modules "--set modules.text2vec-contextionary.enabled=true" "value: text2vec-contextionary"
   check_modules "--set modules.text2vec-contextionary.enabled=false --set modules.qna-transformers.enabled=true" "value: qna-transformers"

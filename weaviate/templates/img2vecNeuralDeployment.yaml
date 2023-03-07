@@ -18,6 +18,11 @@ spec:
       labels:
         app: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
     spec:
+      {{- if (index .Values "modules" "img2vec-neural" "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "modules" "img2vec-neural" "serviceAccountName" }}
+      {{- else if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "serviceAccountName" }}
+      {{- end }}
       containers:
       - name: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
         image: {{ index .Values "modules" "img2vec-neural" "registry" }}/{{ index .Values "modules" "img2vec-neural" "repo" }}:{{ index .Values "modules" "img2vec-neural" "tag" }}

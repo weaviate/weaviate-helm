@@ -24,7 +24,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- if and (index .Values "backups" "s3" "enabled") (index .Values "backups" "s3" "serviceAccountName") }}
+      {{- if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- else if and (index .Values "backups" "s3" "enabled") (index .Values "backups" "s3" "serviceAccountName") }} # for backwards compatibility
       serviceAccountName: {{ .Values.backups.s3.serviceAccountName }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}

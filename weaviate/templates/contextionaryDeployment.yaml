@@ -20,6 +20,11 @@ spec:
         app.kubernetes.io/name: weaviate
         app.kubernetes.io/managed-by: helm
     spec:
+      {{- if (index .Values "modules" "text2vec-contextionary" "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "modules" "text2vec-contextionary" "serviceAccountName" }}
+      {{- else if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "serviceAccountName" }}
+      {{- end }}
       containers:
       - name: contextionary
         image: {{ index .Values "modules" "text2vec-contextionary" "registry" }}/{{ index .Values "modules" "text2vec-contextionary" "repo" }}:{{ index .Values "modules" "text2vec-contextionary" "tag" }}
