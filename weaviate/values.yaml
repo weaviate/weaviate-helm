@@ -165,8 +165,12 @@ backups:
     enabled: false
     # If one is using AWS EKS and has already configured K8s Service Account
     # that holds the AWS credentials one can pass a name of that service account
-    # here using this setting:
-    # serviceAccountName: service-account-name
+    # here using this setting.
+    # NOTE: the root `serviceAccountName` config has priority over this one, and 
+    # if the root one is set this one will NOT overwrite it. This one is here for
+    # backwards compatibility.
+    serviceAccountName:
+
     envconfig:
       # Configure bucket where backups should be saved, this setting is mandatory
       BACKUP_S3_BUCKET: weaviate-backups
