@@ -237,10 +237,6 @@ spec:
                 key: AZURE_STORAGE_CONNECTION_STRING
             {{- end }}
           {{- end  }}
-          - name: CLUSTER_GOSSIP_BIND_PORT
-            value: "{{ .Values.env.CLUSTER_GOSSIP_BIND_PORT }}"
-          - name: CLUSTER_DATA_BIND_PORT
-            value: "{{ .Values.env.CLUSTER_DATA_BIND_PORT }}"
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.cluster.local
         ports:
