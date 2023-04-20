@@ -42,6 +42,22 @@ function check_no_setting() {
   rm -fr ../weaviate/out.yml
 }
 
+function check_string_existence() {
+  local helm_settings=$1
+  local expected_value=$2
+
+  echo "$COUNTER: Test if '$expected_value' is present using: '$helm_settings' settings"
+  let COUNTER=COUNTER+1
+  helm template $helm_settings "weaviate.tgz" > out.yml
+  res=$(grep -F "${expected_value}" < ../weaviate/out.yml)
+  if [[ $res != *$expected_value* ]]
+  then
+    echo "error: '$expected_value' was not found"
+    exit 1
+  fi
+  rm -fr ../weaviate/out.yml
+}
+
 function check_creates_template() {
   local helm_settings=$1
 
@@ -132,6 +148,25 @@ function check_creates_template() {
   check_setting_has_value "--set backups.gcs.enabled=true --set backups.gcs.envconfig.BACKUP_GCS_PATH=custom/path" "name: BACKUP_GCS_PATH" "value: \"custom/path\""
   check_setting_has_value "--set backups.azure.enabled=true" "name: BACKUP_AZURE_CONTAINER" "value: \"weaviate-backups\""
   check_setting_has_value "--set backups.azure.enabled=true --set backups.azure.envconfig.BACKUP_AZURE_PATH=custom/path" "name: BACKUP_AZURE_PATH" "value: \"custom/path\""
+
+  MODULES=("text2vec-transformers" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers")
+  for mod in "${MODULES[@]}"
+  do
+  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.livenessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
+  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.livenessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
+  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.livenessProbe.timeoutSeconds=988888888888" "timeoutSeconds: 988888888888"
+  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.readinessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
+  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
+  done
+
+  for modtransformers in "query" "passage"
+  do
+  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.livenessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
+  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.livenessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
+  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.livenessProbe.timeoutSeconds=988888888888" "timeoutSeconds: 988888888888"
+  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.readinessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
+  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
+  done
 
   echo "Tests successful."
 )

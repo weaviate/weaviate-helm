@@ -43,15 +43,23 @@ spec:
           httpGet:
             path: /.well-known/live
             port: 8080
+          {{- if (index .Values "modules" "text2vec-transformers" "probeInitialDelaySeconds") }}
           initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "probeInitialDelaySeconds" }}
-          periodSeconds: 3
-          timeoutSeconds: 3
+          {{- else }}
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "livenessProbe" "initialDelaySeconds" }}
+          {{- end }}
+          periodSeconds: {{ index .Values "modules" "text2vec-transformers" "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index .Values "modules" "text2vec-transformers" "livenessProbe" "timeoutSeconds" }}
         readinessProbe:
           httpGet:
             path: /.well-known/ready
             port: 8080
+          {{- if (index .Values "modules" "text2vec-transformers" "probeInitialDelaySeconds") }}
           initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "probeInitialDelaySeconds" }}
-          periodSeconds: 3
+          {{- else }}
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "readinessProbe" "initialDelaySeconds" }}
+          {{- end }}
+          periodSeconds: {{ index .Values "modules" "text2vec-transformers" "readinessProbe" "periodSeconds" }}
       {{- with index .Values "modules" "text2vec-transformers" "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
@@ -108,15 +116,15 @@ spec:
           httpGet:
             path: /.well-known/live
             port: 8080
-          initialDelaySeconds: 120
-          periodSeconds: 3
-          timeoutSeconds: 3
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "livenessProbe" "timeoutSeconds" }}
         readinessProbe:
           httpGet:
             path: /.well-known/ready
             port: 8080
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "readinessProbe" "periodSeconds" }}
       {{- with index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
@@ -174,15 +182,15 @@ spec:
           httpGet:
             path: /.well-known/live
             port: 8080
-          initialDelaySeconds: 120
-          periodSeconds: 3
-          timeoutSeconds: 3
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "livenessProbe" "timeoutSeconds" }}
         readinessProbe:
           httpGet:
             path: /.well-known/ready
             port: 8080
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "readinessProbe" "periodSeconds" }}
       {{- with index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
