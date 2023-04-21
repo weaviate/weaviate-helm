@@ -43,15 +43,15 @@ spec:
           httpGet:
             path: /.well-known/live
             port: 8080
-          initialDelaySeconds: 120
-          periodSeconds: 3
-          timeoutSeconds: 3
+          initialDelaySeconds: {{ index .Values "modules" "multi2vec-clip" "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "multi2vec-clip" "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index .Values "modules" "multi2vec-clip" "livenessProbe" "timeoutSeconds" }}
         readinessProbe:
           httpGet:
             path: /.well-known/ready
             port: 8080
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          initialDelaySeconds: {{ index .Values "modules" "multi2vec-clip" "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "multi2vec-clip" "readinessProbe" "periodSeconds" }}
       {{- with index .Values "modules" "multi2vec-clip" "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}

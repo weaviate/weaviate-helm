@@ -343,7 +343,15 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: transformers-inference
-    probeInitialDelaySeconds: 120
+    # Deprecated setting use initialDelaySeconds instead in each probe instead
+    # probeInitialDelaySeconds: 120
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicitly set GPU requests & limits below
@@ -397,6 +405,13 @@ modules:
         registry: docker.io
         replicas: 1
         fullnameOverride: transformers-inference-passage
+        livenessProbe:
+          initialDelaySeconds: 120
+          periodSeconds: 3
+          timeoutSeconds: 3
+        readinessProbe:
+          initialDelaySeconds: 120
+          periodSeconds: 3
         envconfig:
           # enable for CUDA support. Your K8s cluster needs to be configured
           # accordingly and you need to explicitly set GPU requests & limits below
@@ -443,6 +458,13 @@ modules:
         registry: docker.io
         replicas: 1
         fullnameOverride: transformers-inference-query
+        livenessProbe:
+          initialDelaySeconds: 120
+          periodSeconds: 3
+          timeoutSeconds: 3
+        readinessProbe:
+          initialDelaySeconds: 120
+          periodSeconds: 3
         envconfig:
           # enable for CUDA support. Your K8s cluster needs to be configured
           # accordingly and you need to explicitly set GPU requests & limits below
@@ -547,6 +569,13 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: clip-inference
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicitly set GPU requests & limits below
@@ -588,6 +617,13 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: qna-transformers
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicitly set GPU requests & limits below
@@ -667,6 +703,13 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: img2vec-neural
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicitly set GPU requests & limits below
@@ -720,6 +763,13 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: text-spellcheck
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
 
     resources:
       requests:
@@ -756,6 +806,13 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: ner-transformers
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicitly set GPU requests & limits below
@@ -808,6 +865,13 @@ modules:
     registry: docker.io
     replicas: 1
     fullnameOverride: sum-transformers
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
     envconfig:
       # enable for CUDA support. Your K8s cluster needs to be configured
       # accordingly and you need to explicitly set GPU requests & limits below
