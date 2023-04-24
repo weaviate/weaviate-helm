@@ -113,9 +113,22 @@ terminationGracePeriodSeconds: 600
 authentication:
   anonymous_access:
     enabled: true
+  oidc:
+    enabled: false
+    # issuer: ''
+    # username_claim: ''
+    # groups_claim: ''
+    # client_id: ''
 authorization:
   admin_list:
     enabled: false
+    # users:
+    # - admin_user1
+    # - admin_user2
+    # read_only_users:
+    # - readonly_user1
+    # - readonly_user2
+
 query_defaults:
   limit: 100
 debug: false
