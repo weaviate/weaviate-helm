@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.18.0
+  tag: 1.18.3
   repo: semitechnologies/weaviate
 
 # overwrite command and args if you want to run specific startup scripts, for
