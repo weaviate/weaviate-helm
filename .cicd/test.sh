@@ -149,6 +149,8 @@ function check_creates_template() {
   check_setting_has_value "--set backups.azure.enabled=true" "name: BACKUP_AZURE_CONTAINER" "value: \"weaviate-backups\""
   check_setting_has_value "--set backups.azure.enabled=true --set backups.azure.envconfig.BACKUP_AZURE_PATH=custom/path" "name: BACKUP_AZURE_PATH" "value: \"custom/path\""
 
+
+  check_string_existence "" "imagePullPolicy: IfNotPresent"
   MODULES=("text2vec-transformers" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers")
   for mod in "${MODULES[@]}"
   do
@@ -157,6 +159,7 @@ function check_creates_template() {
   check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.livenessProbe.timeoutSeconds=988888888888" "timeoutSeconds: 988888888888"
   check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.readinessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
   check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
+  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.imagePullPolicy=Always" "imagePullPolicy: Always"
   done
 
   for modtransformers in "query" "passage"

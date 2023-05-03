@@ -9,6 +9,9 @@ image:
   # version.
   tag: 1.18.0
   repo: semitechnologies/weaviate
+  # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
+  pullPolicy: IfNotPresent
+  
 
 # overwrite command and args if you want to run specific startup scripts, for
 # example setting the nofile limit
@@ -293,6 +296,7 @@ modules:
     repo: semitechnologies/contextionary
     registry: docker.io
     replicas: 1
+    imagePullPolicy: IfNotPresent
     envconfig:
       occurrence_weight_linear_factor: 0.75
       neighbor_occurrence_ignore_percentile: 5
@@ -342,6 +346,7 @@ modules:
     repo: semitechnologies/transformers-inference
     registry: docker.io
     replicas: 1
+    imagePullPolicy: IfNotPresent
     fullnameOverride: transformers-inference
     # Deprecated setting use initialDelaySeconds instead in each probe instead
     # probeInitialDelaySeconds: 120
@@ -568,6 +573,7 @@ modules:
     repo: semitechnologies/multi2vec-clip
     registry: docker.io
     replicas: 1
+    imagePullPolicy: IfNotPresent
     fullnameOverride: clip-inference
     livenessProbe:
       initialDelaySeconds: 120
@@ -616,6 +622,7 @@ modules:
     repo: semitechnologies/qna-transformers
     registry: docker.io
     replicas: 1
+    imagePullPolicy: IfNotPresent
     fullnameOverride: qna-transformers
     livenessProbe:
       initialDelaySeconds: 120
@@ -702,6 +709,7 @@ modules:
     repo: semitechnologies/img2vec-pytorch
     registry: docker.io
     replicas: 1
+    imagePullPolicy: IfNotPresent
     fullnameOverride: img2vec-neural
     livenessProbe:
       initialDelaySeconds: 120
@@ -762,6 +770,7 @@ modules:
     repo: semitechnologies/text-spellcheck-model
     registry: docker.io
     replicas: 1
+    imagePullPolicy: IfNotPresent
     fullnameOverride: text-spellcheck
     livenessProbe:
       initialDelaySeconds: 120
@@ -805,6 +814,7 @@ modules:
     repo: semitechnologies/ner-transformers
     registry: docker.io
     replicas: 1
+    imagePullPolicy: IfNotPresent
     fullnameOverride: ner-transformers
     livenessProbe:
       initialDelaySeconds: 120
@@ -864,6 +874,7 @@ modules:
     repo: semitechnologies/sum-transformers
     registry: docker.io
     replicas: 1
+    imagePullPolicy: IfNotPresent
     fullnameOverride: sum-transformers
     livenessProbe:
       initialDelaySeconds: 120

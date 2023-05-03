@@ -33,7 +33,7 @@ spec:
       containers:
       - name: weaviate
         image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}'
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.command }}
         command: {{ toYaml . | nindent 10 }}
         {{- end }}

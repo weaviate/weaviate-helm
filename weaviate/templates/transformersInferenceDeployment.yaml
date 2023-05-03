@@ -26,6 +26,7 @@ spec:
       containers:
       - name: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "text2vec-transformers" "registry" }}/{{ index .Values "modules" "text2vec-transformers" "repo" }}:{{ index .Values "modules" "text2vec-transformers" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "text2vec-transformers" "imagePullPolicy" }}
         env:
           - name: ENABLE_CUDA
             value: "{{ if index .Values "modules" "text2vec-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"

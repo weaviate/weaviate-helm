@@ -28,6 +28,7 @@ spec:
       containers:
       - name: contextionary
         image: {{ index .Values "modules" "text2vec-contextionary" "registry" }}/{{ index .Values "modules" "text2vec-contextionary" "repo" }}:{{ index .Values "modules" "text2vec-contextionary" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "text2vec-contextionary" "imagePullPolicy" }}
         env:
           - name: OCCURRENCE_WEIGHT_LINEAR_FACTOR
             value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "occurrence_weight_linear_factor" | quote }}
