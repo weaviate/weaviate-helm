@@ -117,7 +117,7 @@ authentication:
   # plain text API Keys, if you want to store the API Keys in a Kubernetes secret you can
   # configure the same configuration with ENV Vars. Read the `env` section below on what
   # needs to be configured. If using ENV Vars over this make sure to comment out the whole
-  # `apikey` section (as it is by default) because it has priority over ENV Vars.
+  # `apikey` section (as it is by default). ENV Vars has priority over this config.
   # apikey:
   #   enabled: false
   #   # Any number of allowed API Keys as plain text
@@ -185,10 +185,12 @@ env:
   ##########################
   # API Keys with ENV Vars #
   ##########################
-  # If using ENV Vars to set up API Keys make sure to have authentication.apikey block commented out
-  # because it has priority over ENV Vars.
-  # If using authentication.apikey the below ENV Vars will not not be used so comment them out to avoid any future changes.
-  # Enables API key authentication.
+  # If using ENV Vars to set up API Keys make sure to have `authentication.apikey` block commented out
+  # to avoid any future changes. ENV Vars has priority over the config above `authentication.apikey`.
+  # If using `authentication.apikey `the below ENV Vars will be used because they have priority,
+  # so comment them out to avoid any future changes.
+  # Enables API key authentication. If it is set to 'false' the AUTHENTICATION_APIKEY_ALLOWED_KEYS
+  # and AUTHENTICATION_APIKEY_USERS will not have any effect.
   # AUTHENTICATION_APIKEY_ENABLED: 'true'
 
   # List one or more keys, separated by commas. Each key corresponds to a specific user identity below.
