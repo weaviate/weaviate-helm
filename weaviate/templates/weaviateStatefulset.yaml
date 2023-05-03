@@ -19,10 +19,12 @@ spec:
         app: weaviate
         app.kubernetes.io/name: weaviate
         app.kubernetes.io/managed-by: helm
-      {{- with .Values.annotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        # To restart Pods if the ConfigMap is updated.
+        checksum/config: {{ include (print $.Template.BasePath "/weaviateConfigMap.yaml") . | sha256sum }}
+        {{- with .Values.annotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ .Values.serviceAccountName }}

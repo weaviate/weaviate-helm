@@ -113,21 +113,42 @@ terminationGracePeriodSeconds: 600
 authentication:
   anonymous_access:
     enabled: true
+  # This configuration allows to add API keys to Weaviate. This configuration allows only
+  # plain text API Keys, if you want to store the API Keys in a Kubernetes secret you can
+  # configure the same configuration with ENV Vars. Read the `env` section below on what
+  # needs to be configured. If using ENV Vars over this make sure to comment out the whole
+  # `apikey` section (as it is by default) because it has priority over ENV Vars.
+  # apikey:
+  #   enabled: false
+  #   # Any number of allowed API Keys as plain text
+  #   allowed_keys:
+  #     - readOnly-plainText-API-Key
+  #     - admin-plainText-API-Key
+  #   # You can either set a single user for all the listed Allowed API keys OR
+  #   # one user per API Key, i.e. length(apikey.allowed_keys) == length(apikey.users) OR
+  #   # length(apikey.users) == 1
+  #   # NOTE: Make sure the lister Users are added to the Authorization as well.
+  #   users:
+  #     - api-key-user-readOnly
+  #     - api-key-user-admin
   oidc:
     enabled: false
     # issuer: ''
     # username_claim: ''
     # groups_claim: ''
     # client_id: ''
+
 authorization:
   admin_list:
     enabled: false
     # users:
     # - admin_user1
     # - admin_user2
+    # - api-key-user-admin
     # read_only_users:
     # - readonly_user1
     # - readonly_user2
+    # - api-key-user-readOnly
 
 query_defaults:
   limit: 100
@@ -161,8 +182,27 @@ env:
   # whether to re-index/-compute the vector dimensions metric (needed if upgrading from weaviate < v1.16.0)
   REINDEX_VECTOR_DIMENSIONS_AT_STARTUP: false
 
-envSecrets:
+  ##########################
+  # API Keys with ENV Vars #
+  ##########################
+  # If using ENV Vars to set up API Keys make sure to have authentication.apikey block commented out
+  # because it has priority over ENV Vars.
+  # If using authentication.apikey the below ENV Vars will not not be used so comment them out to avoid any future changes.
+  # Enables API key authentication.
+  # AUTHENTICATION_APIKEY_ENABLED: 'true'
 
+  # List one or more keys, separated by commas. Each key corresponds to a specific user identity below.
+  # If you want to use a kubernetes secret for the API Keys comment out this Variable and use the one in `envSecrets` below
+  # AUTHENTICATION_APIKEY_ALLOWED_KEYS: 'jane-secret-key,ian-secret-key'  (plain text)
+
+  # List one or more user identities, separated by commas. You can have only one User for all the keys or one user per key.
+  # The User/s can be a simple name or an email, no matter if it exists or not.
+  # NOTE: Make sure to add the users to the authorization above overwise they will not be allowed to interact with Weaviate.
+  # AUTHENTICATION_APIKEY_USERS: 'jane@doe.com,ian-smith'
+
+envSecrets:
+  # create a Kubernetes secret with AUTHENTICATION_APIKEY_ALLOWED_KEYS key and its respective value
+  # AUTHENTICATION_APIKEY_ALLOWED_KEYS: name-of-the-k8s-secret-containing-the-comma-separated-api-keys
 
 # Configure backup providers
 backups:
@@ -246,7 +286,7 @@ backups:
     # 2. create a Kubernetes secret with GOOGLE_APPLICATION_CREDENTIALS key and its respective value
     #     Set the Key and the secret where it is set in `envSecrets` section below
     secrets: {}
-    #   GOOGLE_APPLICATION_CREDENTIALS: credentials-json-string
+    #   GOOGLE_APPLICATION_CREDENTIALS: credentials-json-string (plain text)
 
     # If one has already defined a secret with GOOGLE_APPLICATION_CREDENTIALS one can pass them using
     # this setting:
