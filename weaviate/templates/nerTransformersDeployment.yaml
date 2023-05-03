@@ -26,6 +26,7 @@ spec:
       containers:
       - name: {{ index .Values "modules" "ner-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "ner-transformers" "registry" }}/{{ index .Values "modules" "ner-transformers" "repo" }}:{{ index .Values "modules" "ner-transformers" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "ner-transformers" "imagePullPolicy" }}
         env:
           - name: ENABLE_CUDA
             value: "{{ if index .Values "modules" "ner-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"

@@ -26,6 +26,7 @@ spec:
       containers:
       - name: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
         image: {{ index .Values "modules" "text-spellcheck" "registry" }}/{{ index .Values "modules" "text-spellcheck" "repo" }}:{{ index .Values "modules" "text-spellcheck" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "text-spellcheck" "imagePullPolicy" }}
         resources:
 {{ index .Values "modules" "text-spellcheck" "resources" | toYaml | indent 10 }}
         livenessProbe:

@@ -26,6 +26,7 @@ spec:
       containers:
       - name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
         image: {{ index .Values "modules" "multi2vec-clip" "registry" }}/{{ index .Values "modules" "multi2vec-clip" "repo" }}:{{ index .Values "modules" "multi2vec-clip" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "multi2vec-clip" "imagePullPolicy" }}
         env:
           - name: ENABLE_CUDA
             value: "{{ if index .Values "modules" "multi2vec-clip" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"

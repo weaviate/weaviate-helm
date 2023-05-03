@@ -26,6 +26,7 @@ spec:
       containers:
       - name: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
         image: {{ index .Values "modules" "img2vec-neural" "registry" }}/{{ index .Values "modules" "img2vec-neural" "repo" }}:{{ index .Values "modules" "img2vec-neural" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "img2vec-neural" "imagePullPolicy" }}
         env:
           - name: ENABLE_CUDA
             value: "{{ if index .Values "modules" "img2vec-neural" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"

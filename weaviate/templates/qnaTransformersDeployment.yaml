@@ -26,6 +26,7 @@ spec:
       containers:
       - name: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "qna-transformers" "registry" }}/{{ index .Values "modules" "qna-transformers" "repo" }}:{{ index .Values "modules" "qna-transformers" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "qna-transformers" "imagePullPolicy" }}
         env:
           - name: ENABLE_CUDA
             value: "{{ if index .Values "modules" "qna-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
