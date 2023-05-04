@@ -20,6 +20,9 @@
   {{- if (index .Values "modules" "generative-openai" "enabled") -}}
     {{ $modules = append $modules "generative-openai" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-cohere" "enabled") -}}
+    {{ $modules = append $modules "generative-cohere" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
