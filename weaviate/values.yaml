@@ -753,6 +753,18 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The generative-cohere module uses Cohere Generate API
+  # More information about Cohere's Generate API can be found here:
+  # https://docs.cohere.com/reference/generate
+  generative-cohere:
+
+    # enable if you want to use Cohere generative module
+    enabled: false
+
+    # Set your Cohere API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
