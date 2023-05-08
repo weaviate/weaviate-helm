@@ -23,6 +23,7 @@ spec:
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "qna-transformers" "imagePullSecrets")) | nindent 6 }}
       containers:
       - name: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "qna-transformers" "registry" }}/{{ index .Values "modules" "qna-transformers" "repo" }}:{{ index .Values "modules" "qna-transformers" "tag" }}

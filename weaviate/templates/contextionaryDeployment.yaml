@@ -25,6 +25,7 @@ spec:
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "text2vec-contextionary" "imagePullSecrets")) | nindent 6 }}
       containers:
       - name: contextionary
         image: {{ index .Values "modules" "text2vec-contextionary" "registry" }}/{{ index .Values "modules" "text2vec-contextionary" "repo" }}:{{ index .Values "modules" "text2vec-contextionary" "tag" }}

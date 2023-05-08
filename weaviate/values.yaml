@@ -11,7 +11,7 @@ image:
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
-  
+  pullSecrets: []
 
 # overwrite command and args if you want to run specific startup scripts, for
 # example setting the nofile limit
@@ -352,6 +352,7 @@ modules:
     registry: docker.io
     replicas: 1
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     envconfig:
       occurrence_weight_linear_factor: 0.75
       neighbor_occurrence_ignore_percentile: 5
@@ -402,6 +403,7 @@ modules:
     registry: docker.io
     replicas: 1
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     fullnameOverride: transformers-inference
     # Deprecated setting use initialDelaySeconds instead in each probe instead
     # probeInitialDelaySeconds: 120
@@ -463,6 +465,7 @@ modules:
         tag: facebook-dpr-ctx_encoder-single-nq-base
         repo: semitechnologies/transformers-inference
         registry: docker.io
+        imagePullSecrets: []
         replicas: 1
         fullnameOverride: transformers-inference-passage
         livenessProbe:
@@ -516,6 +519,7 @@ modules:
         tag: facebook-dpr-question_encoder-single-nq-base
         repo: semitechnologies/transformers-inference
         registry: docker.io
+        imagePullSecrets: []
         replicas: 1
         fullnameOverride: transformers-inference-query
         livenessProbe:
@@ -629,6 +633,7 @@ modules:
     registry: docker.io
     replicas: 1
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     fullnameOverride: clip-inference
     livenessProbe:
       initialDelaySeconds: 120
@@ -678,6 +683,7 @@ modules:
     registry: docker.io
     replicas: 1
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     fullnameOverride: qna-transformers
     livenessProbe:
       initialDelaySeconds: 120
@@ -777,6 +783,7 @@ modules:
     registry: docker.io
     replicas: 1
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     fullnameOverride: img2vec-neural
     livenessProbe:
       initialDelaySeconds: 120
@@ -838,6 +845,7 @@ modules:
     registry: docker.io
     replicas: 1
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     fullnameOverride: text-spellcheck
     livenessProbe:
       initialDelaySeconds: 120
@@ -882,6 +890,7 @@ modules:
     registry: docker.io
     replicas: 1
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     fullnameOverride: ner-transformers
     livenessProbe:
       initialDelaySeconds: 120
@@ -942,6 +951,7 @@ modules:
     registry: docker.io
     replicas: 1
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     fullnameOverride: sum-transformers
     livenessProbe:
       initialDelaySeconds: 120

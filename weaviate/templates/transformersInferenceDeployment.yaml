@@ -23,6 +23,7 @@ spec:
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "text2vec-transformers" "imagePullSecrets")) | nindent 6 }}
       containers:
       - name: {{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}
         image: {{ index .Values "modules" "text2vec-transformers" "registry" }}/{{ index .Values "modules" "text2vec-transformers" "repo" }}:{{ index .Values "modules" "text2vec-transformers" "tag" }}
@@ -97,6 +98,7 @@ spec:
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "imagePullSecrets")) | nindent 6 }}
       containers:
       - name: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}
         image: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "registry" }}/{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "repo" }}:{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "tag" }}
@@ -163,6 +165,7 @@ spec:
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "imagePullSecrets")) | nindent 6 }}
       containers:
       - name: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}
         image: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "registry" }}/{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "repo" }}:{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "tag" }}

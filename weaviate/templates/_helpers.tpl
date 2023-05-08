@@ -67,3 +67,26 @@
             value: {{ join "," $modules }}
   {{- end -}}
 {{- end -}}
+
+
+{{/* 
+Return Image pull secret Names
+Usage:
+{{- include "image.pullSecrets" (dict "pullSecrets" path_to_image_pullSecrets) | nindent 6 }}
+*/}}
+{{- define "image.pullSecrets" -}}
+  {{- $pullSecrets := list -}}
+
+  {{- if .pullSecrets -}}
+    {{- range .pullSecrets -}}
+      {{- $pullSecrets = append $pullSecrets . -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if (not (empty $pullSecrets)) -}}
+imagePullSecrets:
+    {{- range $pullSecrets }}
+  - name: {{ . }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

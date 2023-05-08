@@ -32,6 +32,7 @@ spec:
       serviceAccountName: {{ .Values.backups.s3.serviceAccountName }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" $.Values.image.pullSecrets) | nindent 6 }}
       containers:
       - name: weaviate
         image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}'
