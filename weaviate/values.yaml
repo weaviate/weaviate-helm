@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.19.0
+  tag: 1.19.1
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -601,6 +601,20 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The text2vec-palm module uses Google PaLM Embeddings API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about Google PaLM Embeddings API can be found here:
+  # https://developers.generativeai.google/
+  text2vec-palm:
+
+    # enable if you want to use Google PaLM module
+    enabled: false
+
+    # Set your Google PaLM API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The ref2vec-centroid module
   ref2vec-centroid:
 
@@ -762,6 +776,18 @@ modules:
     enabled: false
 
     # Set your Cohere API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The generative-palm module uses Google PaLM API.
+  # More information about Google PaLM API can be found here:
+  # https://developers.generativeai.google/
+  generative-palm:
+
+    # enable if you want to use Google PaLM module
+    enabled: false
+
+    # Set your Google PaLM API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
 
