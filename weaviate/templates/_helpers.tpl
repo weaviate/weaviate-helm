@@ -23,6 +23,9 @@
   {{- if (index .Values "modules" "generative-cohere" "enabled") -}}
     {{ $modules = append $modules "generative-cohere" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-palm" "enabled") -}}
+    {{ $modules = append $modules "generative-palm" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
@@ -46,6 +49,9 @@
   {{- end -}}
   {{- if (index .Values "modules" "text2vec-cohere" "enabled") -}}
     {{ $modules = append $modules "text2vec-cohere" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-palm" "enabled") -}}
+    {{ $modules = append $modules "text2vec-palm" }}
   {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}

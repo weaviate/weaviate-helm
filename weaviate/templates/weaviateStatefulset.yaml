@@ -143,11 +143,18 @@ spec:
                 name: weaviate-huggingface
                 key: apiKey
           {{- end  }}
-          {{- if and (index .Values "modules" "text2vec-cohere" "enabled") (index .Values "modules" "text2vec-cohere" "apiKey") }}
+          {{- if or (and (index .Values "modules" "text2vec-cohere" "enabled") (index .Values "modules" "text2vec-cohere" "apiKey")) (and (index .Values "modules" "generative-cohere" "enabled") (index .Values "modules" "generative-cohere" "apiKey")) }}
           - name: COHERE_APIKEY
             valueFrom:
               secretKeyRef:
                 name: weaviate-cohere
+                key: apiKey
+          {{- end  }}
+          {{- if or (and (index .Values "modules" "text2vec-palm" "enabled") (index .Values "modules" "text2vec-palm" "apiKey")) (and (index .Values "modules" "generative-palm" "enabled") (index .Values "modules" "generative-palm" "apiKey")) }}
+          - name: PALM_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-palm
                 key: apiKey
           {{- end  }}
           {{- if and (index .Values "backups" "filesystem" "enabled") (index .Values "backups" "filesystem" "envconfig") }}
