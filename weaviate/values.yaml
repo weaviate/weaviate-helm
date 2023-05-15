@@ -177,7 +177,7 @@ env:
   GOGC: 100
 
   # Expose metrics on port 2112 for Prometheus to scrape
-  PROMETHEUS_MONITORING_ENABLED: true
+  PROMETHEUS_MONITORING_ENABLED: false
 
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
