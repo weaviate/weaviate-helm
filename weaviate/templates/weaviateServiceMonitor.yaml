@@ -12,7 +12,8 @@ spec:
   jobLabel: weaviate
   selector:
     matchLabels:
-      app: weaviate
+      app.kubernetes.io/name: weaviate
+      app.kubernetes.io/managed-by: helm
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace | quote }}
