@@ -152,6 +152,8 @@ function check_creates_template() {
   check_setting_has_value "--set backups.azure.enabled=true" "name: BACKUP_AZURE_CONTAINER" "value: \"weaviate-backups\""
   check_setting_has_value "--set backups.azure.enabled=true --set backups.azure.envconfig.BACKUP_AZURE_PATH=custom/path" "name: BACKUP_AZURE_PATH" "value: \"custom/path\""
 
+  check_string_existence "--set initContainers.sysctlInitContainer.enabled=true " "name: configure-sysctl"
+  check_string_existence "--set initContainers.extraInitContainers[0].name=test-init-container " "name: test-init-container"
 
   check_string_existence "" "imagePullPolicy: IfNotPresent"
   MODULES=("text2vec-transformers" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers")
