@@ -32,6 +32,23 @@ spec:
       serviceAccountName: {{ .Values.backups.s3.serviceAccountName }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- if or (.Values.initContainers.sysctlInitContainer.enabled) (.Values.initContainers.extraInitContainers) }}
+      initContainers:
+      {{- if .Values.initContainers.sysctlInitContainer.enabled }}
+      {{- with .Values.initContainers.sysctlInitContainer }}
+      - name: configure-sysctl
+        securityContext:
+          runAsUser: 0
+          privileged: true
+        image: "{{ .image.registry }}/{{ .image.repo }}:{{ .image.tag }}"
+        imagePullPolicy: "{{ .image.pullPolicy }}"
+        command: ["sysctl", "-w", "vm.max_map_count={{ .sysctlVmMaxMapCount }}", "-w", "vm.overcommit_memory=1" ]
+      {{- end }}
+      {{- end }}
+      {{- if .Values.initContainers.extraInitContainers }}
+{{ toYaml .Values.initContainers.extraInitContainers | indent 6 }}
+      {{- end }}
+      {{- end }}
       containers:
       - name: weaviate
         image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}'
