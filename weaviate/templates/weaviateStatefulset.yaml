@@ -32,7 +32,7 @@ spec:
       serviceAccountName: {{ .Values.backups.s3.serviceAccountName }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
-      {{- if or (.Values.initContainers.sysctlInitContainer.enabled) (.Values.initContainers.extraInitContainer) }}
+      {{- if or (.Values.initContainers.sysctlInitContainer.enabled) (.Values.initContainers.extraInitContainers) }}
       initContainers:
       {{- if .Values.initContainers.sysctlInitContainer.enabled }}
       {{- with .Values.initContainers.sysctlInitContainer }}
@@ -42,11 +42,11 @@ spec:
           privileged: true
         image: "{{ .image.registry }}/{{ .image.repo }}:{{ .image.tag }}"
         imagePullPolicy: "{{ .image.pullPolicy }}"
-        command: ["sysctl", "-w", "vm.max_map_count={{ .sysctlVmMaxMapCount}}", "-w", "vm.overcommit_memory=1" ]
+        command: ["sysctl", "-w", "vm.max_map_count={{ .sysctlVmMaxMapCount }}", "-w", "vm.overcommit_memory=1" ]
       {{- end }}
       {{- end }}
-      {{- if .Values.initContainers.extraInitContainer }}
-{{ toYaml .Values.initContainers.extraInitContainer | indent 6 }}
+      {{- if .Values.initContainers.extraInitContainers }}
+{{ toYaml .Values.initContainers.extraInitContainers | indent 6 }}
       {{- end }}
       {{- end }}
       containers:

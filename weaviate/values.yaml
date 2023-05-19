@@ -42,7 +42,7 @@ args:
 # the init Container runs before Weaviate Container and sets the value for the WHOLE node
 # to the one provided below.
 # it is possible to run additional initContainer before Weaviate is up and running. You can specify the
-# containers as a list, exactly how they are defined in a kubernetes manifest:
+# containers as a list in `extraInitContainers`, exactly how they are defined in a kubernetes manifest:
 #   https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 initContainers:
   sysctlInitContainer:
@@ -54,7 +54,7 @@ initContainers:
       tag: latest
       pullPolicy: IfNotPresent
   
-  extraInitContainer: {}
+  extraInitContainers: {}
   # - image: some-image
   #   name: some-name
 
