@@ -133,6 +133,10 @@ function check_creates_template() {
   check_modules "--set modules.generative-cohere.enabled=true" "value: generative-cohere"
   check_modules "--set modules.text2vec-cohere.enabled=true --set modules.text2vec-cohere.apiKey=apiKey --set modules.generative-cohere.enabled=true --set modules.generative-cohere.apiKey=apiKey" "value: generative-cohere,text2vec-cohere"
   check_modules "--set modules.generative-cohere.enabled=true --set modules.generative-cohere.apiKey=apiKey" "value: generative-cohere"
+  check_modules "--set modules.text2vec-palm.enabled=true" "value: text2vec-palm"
+  check_modules "--set modules.generative-palm.enabled=true" "value: generative-palm"
+  check_modules "--set modules.text2vec-palm.enabled=true --set modules.text2vec-palm.apiKey=apiKey --set modules.generative-palm.enabled=true --set modules.generative-palm.apiKey=apiKey" "value: generative-palm,text2vec-palm"
+  check_modules "--set modules.generative-palm.enabled=true --set modules.generative-palm.apiKey=apiKey" "value: generative-palm"
 
   _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local:8080"
@@ -152,6 +156,9 @@ function check_creates_template() {
   check_setting_has_value "--set backups.azure.enabled=true" "name: BACKUP_AZURE_CONTAINER" "value: \"weaviate-backups\""
   check_setting_has_value "--set backups.azure.enabled=true --set backups.azure.envconfig.BACKUP_AZURE_PATH=custom/path" "name: BACKUP_AZURE_PATH" "value: \"custom/path\""
 
+  check_string_existence "--set initContainers.sysctlInitContainer.enabled=true " "name: configure-sysctl"
+  check_string_existence "--set initContainers.extraInitContainers[0].name=test-init-container " "name: test-init-container"
+  check_string_existence "--set initContainers.sysctlInitContainer.enabled=false --set initContainers.extraInitContainers[0].name=test-init-container " "name: test-init-container"
 
   check_string_existence "" "imagePullPolicy: IfNotPresent"
   MODULES=("text2vec-transformers" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers")
