@@ -42,7 +42,7 @@ spec:
           privileged: true
         image: "{{ .image.registry }}/{{ .image.repo }}:{{ .image.tag }}"
         imagePullPolicy: "{{ .image.pullPolicy }}"
-        command: ["sysctl", "-w", "vm.max_map_count={{ .sysctlVmMaxMapCount }}", "-w", "vm.overcommit_memory=1" ]
+        command: ["sysctl", "vm.max_map_count={{ .sysctlVmMaxMapCount }}", "vm.overcommit_memory=1" ]
       {{- end }}
       {{- end }}
       {{- if .Values.initContainers.extraInitContainers }}
