@@ -23,6 +23,7 @@ spec:
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "multi2vec-clip" "imagePullSecrets")) | nindent 6 }}
       containers:
       - name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
         image: {{ index .Values "modules" "multi2vec-clip" "registry" }}/{{ index .Values "modules" "multi2vec-clip" "repo" }}:{{ index .Values "modules" "multi2vec-clip" "tag" }}

@@ -179,6 +179,15 @@ function check_creates_template() {
   check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.livenessProbe.timeoutSeconds=988888888888" "timeoutSeconds: 988888888888"
   check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.readinessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
   check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
+  check_setting_has_value "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.imagePullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
+  done
+
+  check_setting_has_value "--set image.pullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
+  
+  MODULES=("text2vec-contextionary" "text2vec-transformers" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers")
+  for mod in "${MODULES[@]}"
+  do
+  check_setting_has_value "--set modules.$mod.enabled=true --set modules.$mod.imagePullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
   done
 
   echo "Tests successful."

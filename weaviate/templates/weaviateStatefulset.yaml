@@ -32,6 +32,7 @@ spec:
       serviceAccountName: {{ .Values.backups.s3.serviceAccountName }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" $.Values.image.pullSecrets) | nindent 6 }}
       {{- if or (.Values.initContainers.sysctlInitContainer.enabled) (.Values.initContainers.extraInitContainers) }}
       initContainers:
       {{- if .Values.initContainers.sysctlInitContainer.enabled }}
