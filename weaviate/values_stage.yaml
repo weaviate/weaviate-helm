@@ -61,7 +61,7 @@ initContainers:
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
-replicas: 2
+replicas: 1
 resources: {}
   # requests:
   #   cpu: '500m'
