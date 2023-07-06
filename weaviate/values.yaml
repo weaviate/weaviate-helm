@@ -880,6 +880,19 @@ modules:
     tolerations:
     affinity:
 
+  # The reranker-cohere module uses Cohere API
+  # to dynamically compute a score for the relevance 
+  # of the query with each of the initial search results.
+  # More information about Cohere API can be found here: https://docs.cohere.com/docs/rerank-guide
+  reranker-cohere:
+
+    # enable if you want to use Cohere rerank module
+    enabled: false
+
+    # Set your Cohere API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The text-spellcheck module uses spellchecker library to check
   # misspellings in a given text
   text-spellcheck:
