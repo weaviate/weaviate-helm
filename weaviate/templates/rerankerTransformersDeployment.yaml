@@ -1,0 +1,69 @@
+{{ if index .Values "modules" "reranker-transformers" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}
+    app: {{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+spec:
+  replicas: {{ index .Values "modules" "reranker-transformers" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}
+    spec:
+      {{- if (index .Values "modules" "reranker-transformers" "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "modules" "reranker-transformers" "serviceAccountName" }}
+      {{- else if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "serviceAccountName" }}
+      {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "reranker-transformers" "imagePullSecrets")) | nindent 6 }}
+      containers:
+      - name: {{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}
+        image: {{ index .Values "modules" "reranker-transformers" "registry" }}/{{ index .Values "modules" "reranker-transformers" "repo" }}:{{ index .Values "modules" "reranker-transformers" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "reranker-transformers" "imagePullPolicy" }}
+        env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "reranker-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index .Values "modules" "reranker-transformers" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "reranker-transformers" "envconfig" "nvidia_visible_devices"}}
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: {{ index .Values "modules" "reranker-transformers" "envconfig" "nvidia_driver_capabilities"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "reranker-transformers" "envconfig" "ld_library_path"}}
+          {{ end }}
+        resources:
+{{ index .Values "modules" "reranker-transformers" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: {{ index .Values "modules" "reranker-transformers" "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "reranker-transformers" "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index .Values "modules" "reranker-transformers" "livenessProbe" "timeoutSeconds" }}
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: {{ index .Values "modules" "reranker-transformers" "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "reranker-transformers" "readinessProbe" "periodSeconds" }}
+      {{- with index .Values "modules" "reranker-transformers" "nodeSelector" | default .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "reranker-transformers" "affinity" | default .Values.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "reranker-transformers" "tolerations" | default .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+{{ end }}

@@ -59,6 +59,9 @@
   {{- if (index .Values "modules" "reranker-cohere" "enabled") -}}
     {{ $modules = append $modules "reranker-cohere" }}
   {{- end -}}
+  {{- if (index .Values "modules" "reranker-transformers" "enabled") -}}
+    {{ $modules = append $modules "reranker-transformers" }}
+  {{- end -}}
   {{- if (index .Values "backups" "filesystem" "enabled") -}}
     {{ $modules = append $modules "backup-filesystem" }}
   {{- end -}}
