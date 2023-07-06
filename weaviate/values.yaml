@@ -893,6 +893,70 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The reranker-transformers module uses Cross-Encoders for 
+  # sentence pair scoring and sentence pair classification tasks.
+  # More information about Cross-Encoders can be found here:
+  # https://www.sbert.net/examples/applications/cross-encoder/README.html
+  reranker-transformers:
+    enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
+    inferenceUrl: {}
+    tag: cross-encoder-ms-marco-MiniLM-L-6-v2
+    repo: semitechnologies/reranker-transformers
+    registry: docker.io
+    replicas: 1
+    imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
+    fullnameOverride: reranker-transformers
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+    envconfig:
+      # enable for CUDA support. Your K8s cluster needs to be configured
+      # accordingly and you need to explicitly set GPU requests & limits below
+      enable_cuda: false
+
+      # only used when cuda is enabled
+      nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
+
+      # only used when cuda is enabled
+      ld_library_path: /usr/local/nvidia/lib64
+
+    resources:
+      requests:
+        cpu: '1000m'
+        memory: '3000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+      limits:
+        cpu: '1000m'
+        memory: '5000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+    
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
+    nodeSelector:
+    tolerations:
+    affinity:
+
   # The text-spellcheck module uses spellchecker library to check
   # misspellings in a given text
   text-spellcheck:

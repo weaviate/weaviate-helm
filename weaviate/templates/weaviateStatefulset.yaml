@@ -147,6 +147,13 @@ spec:
           - name: SUM_INFERENCE_API
             value: {{ index .Values "modules" "sum-transformers" "inferenceUrl" }}
           {{- end }}
+          {{- if index .Values "modules" "reranker-transformers" "enabled" }}
+          - name: RERANKER_INFERENCE_API
+            value: http://{{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{- else if index .Values "modules" "reranker-transformers" "inferenceUrl" }}
+          - name: RERANKER_INFERENCE_API
+            value: {{ index .Values "modules" "reranker-transformers" "inferenceUrl" }}
+          {{- end }}
           {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "apiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "apiKey")) }}
           - name: OPENAI_APIKEY
             valueFrom:
