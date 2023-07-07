@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.19.8
+  tag: 1.20.0
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -596,8 +596,10 @@ modules:
     enabled: false
 
     # Set your OpenAI API Key to be passed to Weaviate pod as
-    # an environment variable
+    # an environment variable. You can set either the OpenAI's Service API key
+    # OR the Azure OpenAI's Service Key. Note that you cannot set both of the at the same time.
     apiKey: ''
+    azureApiKey: ''
 
   # The text2vec-huggingface module uses HuggingFace API
   # to dynamically compute vector embeddings based on the
@@ -778,8 +780,10 @@ modules:
     enabled: false
 
     # Set your OpenAI API Key to be passed to Weaviate pod as
-    # an environment variable
+    # an environment variable. You can set either the OpenAI's Service API key
+    # OR the Azure OpenAI's Service Key. Note that you cannot set both of the at the same time.
     apiKey: ''
+    azureApiKey: ''
 
   # The generative-openai module uses OpenAI Completions API
   # along with text-davinci-003 model to behave as ChatGPT.
@@ -791,8 +795,10 @@ modules:
     enabled: false
 
     # Set your OpenAI API Key to be passed to Weaviate pod as
-    # an environment variable
+    # an environment variable. You can set either the OpenAI's Service API key
+    # OR the Azure OpenAI's Service Key. Note that you cannot set both of the at the same time.
     apiKey: ''
+    azureApiKey: ''
 
   # The generative-cohere module uses Cohere Generate API
   # More information about Cohere's Generate API can be found here:

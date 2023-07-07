@@ -161,6 +161,13 @@ spec:
                 name: weaviate-openai
                 key: apiKey
           {{- end  }}
+          {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "azureApiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "azureApiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "azureApiKey")) }}
+          - name: AZURE_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-openai
+                key: apiKey
+          {{- end  }}
           {{- if and (index .Values "modules" "text2vec-huggingface" "enabled") (index .Values "modules" "text2vec-huggingface" "apiKey") }}
           - name: HUGGINGFACE_APIKEY
             valueFrom:
