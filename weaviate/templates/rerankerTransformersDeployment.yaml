@@ -18,6 +18,8 @@ spec:
       labels:
         app: {{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}
     spec:
+      securityContext:
+{{ toYaml (index .Values "modules" "reranker-transformers" "securityContext") | indent 8}}
       {{- if (index .Values "modules" "reranker-transformers" "serviceAccountName") }}
       serviceAccountName: {{ index .Values "modules" "reranker-transformers" "serviceAccountName" }}
       {{- else if (index .Values "serviceAccountName") }}

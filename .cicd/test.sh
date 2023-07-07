@@ -173,6 +173,8 @@ function check_creates_template() {
   check_string_existence "--set initContainers.extraInitContainers[0].name=test-init-container " "name: test-init-container"
   check_string_existence "--set initContainers.sysctlInitContainer.enabled=false --set initContainers.extraInitContainers[0].name=test-init-container " "name: test-init-container"
 
+  check_string_existence "--set securityContext.thisIsATest=true " "thisIsATest: true"
+
   check_string_existence "" "imagePullPolicy: IfNotPresent"
   MODULES=("text2vec-transformers" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers" "reranker-transformers")
   for mod in "${MODULES[@]}"
@@ -183,6 +185,7 @@ function check_creates_template() {
   check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.readinessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
   check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
   check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.imagePullPolicy=Always" "imagePullPolicy: Always"
+  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.securityContext.thisIsATestFrom$mod=true " "thisIsATestFrom$mod: true"
   done
 
   for modtransformers in "query" "passage"
