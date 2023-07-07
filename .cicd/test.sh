@@ -143,6 +143,14 @@ function check_creates_template() {
   check_modules "--set modules.text2vec-contextionary.enabled=false --set modules.reranker-transformers.enabled=true" "value: reranker-transformers"
   check_modules "--set modules.text2vec-contextionary.enabled=true --set modules.text-spellcheck.enabled=true --set modules.reranker-transformers.enabled=true" "value: text2vec-contextionary,text-spellcheck,reranker-transformers"
 
+  check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
+  check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"
+  check_modules "--set modules.generative-openai.enabled=true --set modules.generative-openai.azureApiKey=azureApiKey" "value: generative-openai"
+  check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey --set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey --set modules.generative-openai.enabled=true --set modules.generative-openai.azureApiKey=azureApiKey" "value: qna-openai,generative-openai,text2vec-openai"
+  check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "name: AZURE_APIKEY"
+  check_string_existence "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "name: AZURE_APIKEY"
+  check_string_existence "--set modules.generative-openai.enabled=true --set modules.generative-openai.azureApiKey=azureApiKey" "name: AZURE_APIKEY"
+
   _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local:8080"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_QUERY_INFERENCE_API" "value: http://transformers-inference-query.default.svc.cluster.local:8080"
