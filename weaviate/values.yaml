@@ -70,6 +70,10 @@ resources: {}
   #   cpu: '1000m'
   #   memory: '1Gi'
 
+# security Context for the Weaviate Pods. The configurations are the same as setting them
+# as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+securityContext: {}
+
 
 # Add a service account ot the Weaviate pods if you need Weaviate to have permissions to
 # access kubernetes resources or cloud provider resources. For example for it to have
@@ -387,6 +391,10 @@ modules:
         cpu: '1000m'
         memory: '5000Mi'
 
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
@@ -460,6 +468,11 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+    # security Context for the Transformers Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    # applies to passageQueryService below
+    securityContext: {}
     
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
@@ -702,6 +715,17 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
+
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
     annotations:
     nodeSelector:
     tolerations:
@@ -752,6 +776,10 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
     
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
@@ -864,6 +892,10 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
     
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
@@ -941,6 +973,10 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
     
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
@@ -986,6 +1022,10 @@ modules:
       limits:
         cpu: '500m'
         memory: '500Mi'
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
     
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
@@ -1048,6 +1088,10 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
     
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
@@ -1109,6 +1153,10 @@ modules:
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
     
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to

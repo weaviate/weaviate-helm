@@ -18,6 +18,8 @@ spec:
       labels:
         app: {{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}
     spec:
+      securityContext:
+{{ toYaml (index .Values "modules" "img2vec-neural" "securityContext") | indent 8}}
       {{- if (index .Values "modules" "img2vec-neural" "serviceAccountName") }}
       serviceAccountName: {{ index .Values "modules" "img2vec-neural" "serviceAccountName" }}
       {{- else if (index .Values "serviceAccountName") }}

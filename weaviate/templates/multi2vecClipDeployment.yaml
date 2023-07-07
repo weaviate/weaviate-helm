@@ -18,6 +18,8 @@ spec:
       labels:
         app: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
     spec:
+      securityContext:
+{{ toYaml (index .Values "modules" "multi2vec-clip" "securityContext") | indent 8}}
       {{- if (index .Values "modules" "multi2vec-clip" "serviceAccountName") }}
       serviceAccountName: {{ index .Values "modules" "multi2vec-clip" "serviceAccountName" }}
       {{- else if (index .Values "serviceAccountName") }}
