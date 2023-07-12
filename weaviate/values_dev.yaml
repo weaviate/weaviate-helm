@@ -302,7 +302,7 @@ backups:
 
       # You can pass environment Google settings here:
       # Define the project
-      GOOGLE_CLOUD_PROJECT: gke_verloop-dev_asia-south1-a_default
+      GOOGLE_CLOUD_PROJECT: verloop-dev
 
     # For Weaviate to be able to create bucket objects it needs a ServiceAccount credentials to authenticate to GCP.
     # The ServiceAccount must have permissions to read/create/delete bucket objects.
