@@ -290,10 +290,10 @@ backups:
     #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
 
   gcs:
-    enabled: false
+    enabled: true
     envconfig:
       # Configure bucket where backups should be saved, this setting is mandatory
-      BACKUP_GCS_BUCKET: weaviate-backups
+      BACKUP_GCS_BUCKET: verloop-stage-weaviate-backups
 
       # Optional setting. Defaults to empty string.
       # Set this option if you want to save backups to a given location
@@ -302,7 +302,7 @@ backups:
 
       # You can pass environment Google settings here:
       # Define the project
-      # GOOGLE_CLOUD_PROJECT: project-id
+      GOOGLE_CLOUD_PROJECT: verloop-stage
 
     # For Weaviate to be able to create bucket objects it needs a ServiceAccount credentials to authenticate to GCP.
     # The ServiceAccount must have permissions to read/create/delete bucket objects.
@@ -316,8 +316,8 @@ backups:
 
     # If one has already defined a secret with GOOGLE_APPLICATION_CREDENTIALS one can pass them using
     # this setting:
-    envSecrets: {}
-    #   GOOGLE_APPLICATION_CREDENTIALS: name-of-the-k8s-secret-containing-the-key
+    envSecrets:
+      GOOGLE_APPLICATION_CREDENTIALS: weaviate-google-credentials
 
   azure:
     enabled: false
