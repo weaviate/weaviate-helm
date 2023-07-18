@@ -94,7 +94,7 @@ service:
       protocol: TCP
       port: 80
       # Target port is going to be the same for every port
-  type: LoadBalancer
+  type: ClusterIP
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
