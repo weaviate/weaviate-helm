@@ -1455,6 +1455,10 @@ custom_config_map:
 # Pass any annotations to Weaviate pods
 annotations:
 
+extraVolumeMounts:
+
+extraVolumes:
+
 nodeSelector:
 
 tolerations:
