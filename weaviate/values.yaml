@@ -787,6 +787,73 @@ modules:
     nodeSelector:
     tolerations:
 
+  # The multi2vec-bind is a multi modal inference container it uses Meta's open
+  # source ImageBind implementation as base for this module:
+  #   https://github.com/facebookresearch/ImageBind
+  # It is possible to create your own version of this module by following the instructions here:
+  #   https://github.com/weaviate/multi2vec-bind-inference
+  multi2vec-bind:
+
+    enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
+    inferenceUrl: {}
+
+    # The configuration below is ignored if enabled==false
+    tag: imagebind
+    repo: semitechnologies/multi2vec-bind
+    registry: docker.io
+    replicas: 1
+    imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
+    fullnameOverride: clip-inference
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+    envconfig:
+      # enable for CUDA support. Your K8s cluster needs to be configured
+      # accordingly and you need to explicitly set GPU requests & limits below
+      enable_cuda: false
+
+      # only used when cuda is enabled
+      nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
+
+      # only used when cuda is enabled
+      ld_library_path: /usr/local/nvidia/lib64
+
+    resources:
+      requests:
+        cpu: '1000m'
+        memory: '3000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+      limits:
+        cpu: '1000m'
+        memory: '5000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
+
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    annotations:
+    nodeSelector:
+    tolerations:
+
   # The qna-transformers module uses neural networks, such as BERT,
   # DistilBERT, to find an aswer in text to a given question
   qna-transformers:

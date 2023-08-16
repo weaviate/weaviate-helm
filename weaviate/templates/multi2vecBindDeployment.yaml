@@ -1,0 +1,71 @@
+{{ if index .Values "modules" "multi2vec-bind" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "multi2vec-bind" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "multi2vec-bind" "fullnameOverride" }}
+    app: {{ index .Values "modules" "multi2vec-bind" "fullnameOverride" }}
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+spec:
+  replicas: {{ index .Values "modules" "multi2vec-bind" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "multi2vec-bind" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "multi2vec-bind" "fullnameOverride" }}
+    spec:
+      securityContext:
+{{ toYaml (index .Values "modules" "multi2vec-bind" "securityContext") | indent 8}}
+      {{- if (index .Values "modules" "multi2vec-bind" "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "modules" "multi2vec-bind" "serviceAccountName" }}
+      {{- else if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "serviceAccountName" }}
+      {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "multi2vec-bind" "imagePullSecrets")) | nindent 6 }}
+      containers:
+      - name: {{ index .Values "modules" "multi2vec-bind" "fullnameOverride" }}
+        image: {{ index .Values "modules" "multi2vec-bind" "registry" }}/{{ index .Values "modules" "multi2vec-bind" "repo" }}:{{ index .Values "modules" "multi2vec-bind" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "multi2vec-bind" "imagePullPolicy" }}
+        env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "multi2vec-bind" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index .Values "modules" "multi2vec-bind" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "multi2vec-bind" "envconfig" "nvidia_visible_devices"}}
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: {{ index .Values "modules" "multi2vec-bind" "envconfig" "nvidia_driver_capabilities"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "multi2vec-bind" "envconfig" "ld_library_path"}}
+          {{ end }}
+        resources:
+{{ index .Values "modules" "multi2vec-bind" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: {{ index .Values "modules" "multi2vec-bind" "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "multi2vec-bind" "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index .Values "modules" "multi2vec-bind" "livenessProbe" "timeoutSeconds" }}
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: {{ index .Values "modules" "multi2vec-bind" "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "multi2vec-bind" "readinessProbe" "periodSeconds" }}
+      {{- with index .Values "modules" "multi2vec-bind" "nodeSelector" | default .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "multi2vec-bind" "affinity" | default .Values.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "multi2vec-bind" "tolerations" | default .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+{{ end }}

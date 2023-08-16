@@ -144,6 +144,8 @@ function check_creates_template() {
   check_modules "--set modules.text2vec-contextionary.enabled=true --set modules.text-spellcheck.enabled=true --set modules.reranker-transformers.enabled=true" "value: text2vec-contextionary,text-spellcheck,reranker-transformers"
   check_modules "--set modules.text2vec-gpt4all.enabled=true" "value: text2vec-gpt4all"
   check_modules "--set modules.text2vec-gpt4all.enabled=true --set modules.text-spellcheck.enabled=true" "value: text2vec-gpt4all,text-spellcheck"
+  check_modules "--set modules.multi2vec-bind.enabled=true" "value: multi2vec-bind"
+  check_modules "--set modules.multi2vec-bind.enabled=true --set modules.text-spellcheck.enabled=true" "value: text-spellcheck,multi2vec-bind"
 
   check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
   check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"
@@ -202,7 +204,7 @@ function check_creates_template() {
 
   check_setting_has_value "--set image.pullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
   
-  MODULES=("text2vec-contextionary" "text2vec-transformers" "text2vec-gpt4all" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers" "reranker-transformers")
+  MODULES=("text2vec-contextionary" "text2vec-transformers" "text2vec-gpt4all" "multi2vec-clip" "multi2vec-bind" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers" "reranker-transformers")
   for mod in "${MODULES[@]}"
   do
   check_setting_has_value "--set modules.$mod.enabled=true --set modules.$mod.imagePullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
