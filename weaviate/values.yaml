@@ -450,11 +450,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -517,11 +517,11 @@ modules:
           # accordingly and you need to explicitly set GPU requests & limits below
           enable_cuda: false
 
-          # only used when cuda is enabled
+          # only used when CUDA is enabled
           nvidia_visible_devices: all
           nvidia_driver_capabilities: compute,utility
 
-          # only used when cuda is enabled
+          # only used when CUDA is enabled
           ld_library_path: /usr/local/nvidia/lib64
 
         resources:
@@ -572,11 +572,11 @@ modules:
           # accordingly and you need to explicitly set GPU requests & limits below
           enable_cuda: false
 
-          # only used when cuda is enabled
+          # only used when CUDA is enabled
           nvidia_visible_devices: all
           nvidia_driver_capabilities: compute,utility
 
-          # only used when cuda is enabled
+          # only used when CUDA is enabled
           ld_library_path: /usr/local/nvidia/lib64
 
         resources:
@@ -761,11 +761,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -830,11 +830,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -866,7 +866,7 @@ modules:
     tolerations:
 
   # The qna-transformers module uses neural networks, such as BERT,
-  # DistilBERT, to find an aswer in text to a given question
+  # DistilBERT, to find an answer in text to a given question
   qna-transformers:
 
     # Enable deployment of this module
@@ -896,11 +896,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -1020,11 +1020,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -1106,11 +1106,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -1231,11 +1231,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -1301,11 +1301,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
