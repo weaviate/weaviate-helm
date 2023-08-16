@@ -1,0 +1,17 @@
+{{ if index .Values "modules" "text2vec-gpt4all" "enabled" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+{{ end }}
