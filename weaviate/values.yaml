@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.20.0
+  tag: 1.21.0
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -367,7 +367,8 @@ modules:
   # but in some situations it cannot reach the same level of accuracy as
   # transformers-based models.
   text2vec-contextionary:
-    # disable if you want to use transformers or import or own vectors
+
+    # Enable deployment of this module
     enabled: false
 
     # The configuration below is ignored if enabled==false
@@ -416,12 +417,13 @@ modules:
   # CUDA-enabled GPUs for optimal performance.
   text2vec-transformers:
 
-    # enable if you want to use transformers instead of the
-    # text2vec-contextionary module
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
+
     # The configuration below is ignored if enabled==false
 
     # replace with model of choice, see
@@ -448,11 +450,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -496,6 +498,7 @@ modules:
         # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
         inferenceUrl: {}
 
+        # The configuration below is ignored if enabled==false
         tag: facebook-dpr-ctx_encoder-single-nq-base
         repo: semitechnologies/transformers-inference
         registry: docker.io
@@ -514,11 +517,11 @@ modules:
           # accordingly and you need to explicitly set GPU requests & limits below
           enable_cuda: false
 
-          # only used when cuda is enabled
+          # only used when CUDA is enabled
           nvidia_visible_devices: all
           nvidia_driver_capabilities: compute,utility
 
-          # only used when cuda is enabled
+          # only used when CUDA is enabled
           ld_library_path: /usr/local/nvidia/lib64
 
         resources:
@@ -550,6 +553,7 @@ modules:
         # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
         inferenceUrl: {}
 
+        # The configuration below is ignored if enabled==false
         tag: facebook-dpr-question_encoder-single-nq-base
         repo: semitechnologies/transformers-inference
         registry: docker.io
@@ -568,11 +572,11 @@ modules:
           # accordingly and you need to explicitly set GPU requests & limits below
           enable_cuda: false
 
-          # only used when cuda is enabled
+          # only used when CUDA is enabled
           nvidia_visible_devices: all
           nvidia_driver_capabilities: compute,utility
 
-          # only used when cuda is enabled
+          # only used when CUDA is enabled
           ld_library_path: /usr/local/nvidia/lib64
 
         resources:
@@ -606,10 +610,15 @@ modules:
   # If you want to run a different model that published ones you can follow the
   # tutorial from here on how to create such a container: https://github.com/weaviate/t2v-gpt4all-models 
   text2vec-gpt4all:
+
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
+    
+    # The configuration below is ignored if enabled==false
     tag: all-MiniLM-L6-v2
     repo: semitechnologies/gpt4all-inference
     registry: docker.io
@@ -721,9 +730,9 @@ modules:
   # run with CUDA-enabled GPUs for optimal performance.
   multi2vec-clip:
 
-    # enable if you want to use transformers instead of the
-    # text2vec-contextionary module
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
@@ -752,11 +761,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -794,7 +803,9 @@ modules:
   #   https://github.com/weaviate/multi2vec-bind-inference
   multi2vec-bind:
 
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
@@ -819,11 +830,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -855,12 +866,17 @@ modules:
     tolerations:
 
   # The qna-transformers module uses neural networks, such as BERT,
-  # DistilBERT, to find an aswer in text to a given question
+  # DistilBERT, to find an answer in text to a given question
   qna-transformers:
+
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
+
+    # The configuration below is ignored if enabled==false
     tag: bert-large-uncased-whole-word-masking-finetuned-squad-34d66b1
     repo: semitechnologies/qna-transformers
     registry: docker.io
@@ -880,11 +896,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -977,10 +993,14 @@ modules:
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
+
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
+
     tag: resnet50
     repo: semitechnologies/img2vec-pytorch
     registry: docker.io
@@ -1000,11 +1020,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -1058,10 +1078,15 @@ modules:
   # More information about Cross-Encoders can be found here:
   # https://www.sbert.net/examples/applications/cross-encoder/README.html
   reranker-transformers:
+
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
+
+    # The configuration below is ignored if enabled==false
     tag: cross-encoder-ms-marco-MiniLM-L-6-v2
     repo: semitechnologies/reranker-transformers
     registry: docker.io
@@ -1081,11 +1106,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -1124,10 +1149,15 @@ modules:
   # The text-spellcheck module uses spellchecker library to check
   # misspellings in a given text
   text-spellcheck:
+
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
+
+    # The configuration below is ignored if enabled==false
     tag: pyspellchecker-en
     repo: semitechnologies/text-spellcheck-model
     registry: docker.io
@@ -1173,10 +1203,15 @@ modules:
   # The ner-transformers module uses spellchecker library to check
   # misspellings in a given text
   ner-transformers:
+
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
+
+    # The configuration below is ignored if enabled==false
     tag: dbmdz-bert-large-cased-finetuned-conll03-english-0.0.2
     repo: semitechnologies/ner-transformers
     registry: docker.io
@@ -1196,11 +1231,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
@@ -1238,10 +1273,15 @@ modules:
 
   # The sum-transformers module makes result texts summarizations
   sum-transformers:
+
+    # Enable deployment of this module
     enabled: false
+
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
+
+    # The configuration below is ignored if enabled==false
     tag: facebook-bart-large-cnn-1.0.0
     repo: semitechnologies/sum-transformers
     registry: docker.io
@@ -1261,11 +1301,11 @@ modules:
       # accordingly and you need to explicitly set GPU requests & limits below
       enable_cuda: false
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       nvidia_visible_devices: all
       nvidia_driver_capabilities: compute,utility
 
-      # only used when cuda is enabled
+      # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
     resources:
