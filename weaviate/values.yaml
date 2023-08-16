@@ -600,6 +600,7 @@ modules:
 
   # The text2vec-gpt4all is a vectorizer module that allows to run ML models from
   # nomic-ai/gpt4all: https://docs.gpt4all.io/gpt4all_python_embedding.html
+  # These models run only on CPU only and on x86_64 arch
   # The ML model is containerized in a Weaviate compatible way.
   # If you want to run a different model that published ones you can follow the
   # tutorial from here on how to create such a container: https://github.com/weaviate/t2v-gpt4all-models 
@@ -622,17 +623,6 @@ modules:
     readinessProbe:
       initialDelaySeconds: 120
       periodSeconds: 3
-    envconfig:
-      # enable for CUDA support. Your K8s cluster needs to be configured
-      # accordingly and you need to explicitly set GPU requests & limits below
-      enable_cuda: false
-
-      # only used when cuda is enabled
-      nvidia_visible_devices: all
-      nvidia_driver_capabilities: compute,utility
-
-      # only used when cuda is enabled
-      ld_library_path: /usr/local/nvidia/lib64
 
     resources:
       requests:

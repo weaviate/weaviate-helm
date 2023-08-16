@@ -30,17 +30,6 @@ spec:
       - name: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
         image: {{ index .Values "modules" "text2vec-gpt4all" "registry" }}/{{ index .Values "modules" "text2vec-gpt4all" "repo" }}:{{ index .Values "modules" "text2vec-gpt4all" "tag" }}
         imagePullPolicy: {{ index .Values "modules" "text2vec-gpt4all" "imagePullPolicy" }}
-        env:
-          - name: ENABLE_CUDA
-            value: "{{ if index .Values "modules" "text2vec-gpt4all" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
-          {{ if index .Values "modules" "text2vec-gpt4all" "envconfig" "enable_cuda" }}
-          - name: NVIDIA_VISIBLE_DEVICES
-            value: {{ index .Values "modules" "text2vec-gpt4all" "envconfig" "nvidia_visible_devices"}}
-          - name: NVIDIA_DRIVER_CAPABILITIES
-            value: {{ index .Values "modules" "text2vec-gpt4all" "envconfig" "nvidia_driver_capabilities"}}
-          - name: LD_LIBRARY_PATH
-            value: {{ index .Values "modules" "text2vec-gpt4all" "envconfig" "ld_library_path"}}
-          {{ end }}
         resources:
 {{ index .Values "modules" "text2vec-gpt4all" "resources" | toYaml | indent 10 }}
         livenessProbe:
