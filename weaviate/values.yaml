@@ -629,14 +629,9 @@ modules:
         cpu: '1000m'
         memory: '3000Mi'
 
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
       limits:
         cpu: '1000m'
         memory: '5000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
