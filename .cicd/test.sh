@@ -204,7 +204,7 @@ function check_creates_template() {
 
   check_setting_has_value "--set image.pullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
   
-  MODULES=("text2vec-contextionary" "text2vec-transformers" "text2vec-gpt4all" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers" "reranker-transformers")
+  MODULES=("text2vec-contextionary" "text2vec-transformers" "text2vec-gpt4all" "multi2vec-clip" "multi2vec-bind" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers" "reranker-transformers")
   for mod in "${MODULES[@]}"
   do
   check_setting_has_value "--set modules.$mod.enabled=true --set modules.$mod.imagePullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
