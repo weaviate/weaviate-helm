@@ -580,10 +580,16 @@ modules:
             cpu: '1000m'
             memory: '3000Mi'
 
+            # enable if running with CUDA support
+            # nvidia.com/gpu: 1
+
           limits:
             cpu: '1000m'
             memory: '5000Mi'
-        
+
+            # enable if running with CUDA support
+            # nvidia.com/gpu: 1
+
         # You can guide where the pods are scheduled on a per-module basis,
         # as well as for Weaviate overall. Each module accepts nodeSelector,
         # tolerations, and affinity configuration. If it is set on a per-
