@@ -1,0 +1,71 @@
+{{ if index .Values "modules" "text2vec-gpt4all" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
+  labels:
+    name: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
+    app: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+spec:
+  replicas: {{ index .Values "modules" "text2vec-gpt4all" "replicas" }}
+  selector:
+    matchLabels:
+      app: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
+    spec:
+      securityContext:
+{{ toYaml (index .Values "modules" "text2vec-gpt4all" "securityContext") | indent 8}}
+      {{- if (index .Values "modules" "text2vec-gpt4all" "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "modules" "text2vec-gpt4all" "serviceAccountName" }}
+      {{- else if (index .Values "serviceAccountName") }}
+      serviceAccountName: {{ index .Values "serviceAccountName" }}
+      {{- end }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "text2vec-gpt4all" "imagePullSecrets")) | nindent 6 }}
+      containers:
+      - name: {{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}
+        image: {{ index .Values "modules" "text2vec-gpt4all" "registry" }}/{{ index .Values "modules" "text2vec-gpt4all" "repo" }}:{{ index .Values "modules" "text2vec-gpt4all" "tag" }}
+        imagePullPolicy: {{ index .Values "modules" "text2vec-gpt4all" "imagePullPolicy" }}
+        env:
+          - name: ENABLE_CUDA
+            value: "{{ if index .Values "modules" "text2vec-gpt4all" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index .Values "modules" "text2vec-gpt4all" "envconfig" "enable_cuda" }}
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: {{ index .Values "modules" "text2vec-gpt4all" "envconfig" "nvidia_visible_devices"}}
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: {{ index .Values "modules" "text2vec-gpt4all" "envconfig" "nvidia_driver_capabilities"}}
+          - name: LD_LIBRARY_PATH
+            value: {{ index .Values "modules" "text2vec-gpt4all" "envconfig" "ld_library_path"}}
+          {{ end }}
+        resources:
+{{ index .Values "modules" "text2vec-gpt4all" "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-gpt4all" "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "text2vec-gpt4all" "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index .Values "modules" "text2vec-gpt4all" "livenessProbe" "timeoutSeconds" }}
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: {{ index .Values "modules" "text2vec-gpt4all" "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index .Values "modules" "text2vec-gpt4all" "readinessProbe" "periodSeconds" }}
+      {{- with index .Values "modules" "text2vec-gpt4all" "nodeSelector" | default .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "text2vec-gpt4all" "affinity" | default .Values.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index .Values "modules" "text2vec-gpt4all" "tolerations" | default .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+{{ end }}

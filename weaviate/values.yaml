@@ -598,6 +598,75 @@ modules:
         tolerations:
         affinity:
 
+  # The text2vec-gpt4all is a vectorizer module that allows to run ML models from
+  # nomic-ai/gpt4all: https://docs.gpt4all.io/gpt4all_python_embedding.html
+  # The ML model is containerized in a Weaviate compatible way.
+  # If you want to run a different model that published ones you can follow the
+  # tutorial from here on how to create such a container: https://github.com/weaviate/t2v-gpt4all-models 
+  text2vec-gpt4all:
+    enabled: false
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
+    inferenceUrl: {}
+    tag: all-MiniLM-L6-v2
+    repo: semitechnologies/gpt4all-inference
+    registry: docker.io
+    replicas: 1
+    imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
+    fullnameOverride: gpt4all-inference
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+    envconfig:
+      # enable for CUDA support. Your K8s cluster needs to be configured
+      # accordingly and you need to explicitly set GPU requests & limits below
+      enable_cuda: false
+
+      # only used when cuda is enabled
+      nvidia_visible_devices: all
+      nvidia_driver_capabilities: compute,utility
+
+      # only used when cuda is enabled
+      ld_library_path: /usr/local/nvidia/lib64
+
+    resources:
+      requests:
+        cpu: '1000m'
+        memory: '3000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+      limits:
+        cpu: '1000m'
+        memory: '5000Mi'
+
+        # enable if running with CUDA support
+        # nvidia.com/gpu: 1
+
+    # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
+    
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
+    nodeSelector:
+    tolerations:
+    affinity:
+
   # The text2vec-openai module uses OpenAI Embeddings API
   # to dynamically compute vector embeddings based on the
   # sentence's context.
