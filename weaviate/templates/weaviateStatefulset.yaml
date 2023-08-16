@@ -121,6 +121,13 @@ spec:
           - name: CLIP_INFERENCE_API
             value: {{ index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
           {{- end }}
+          {{- if index .Values "modules" "multi2vec-bind" "enabled" }}
+          - name: BIND_INFERENCE_API
+            value: http://{{ index .Values "modules" "multi2vec-bind" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+          {{- else if index .Values "modules" "multi2vec-bind" "inferenceUrl" }}
+          - name: BIND_INFERENCE_API
+            value: {{ index .Values "modules" "multi2vec-bind" "inferenceUrl" }}
+          {{- end }}
           {{- if index .Values "modules" "qna-transformers" "enabled" }}
           - name: QNA_INFERENCE_API
             value: http://{{ index .Values "modules" "qna-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local:8080
