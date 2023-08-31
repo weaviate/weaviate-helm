@@ -817,7 +817,7 @@ modules:
     replicas: 1
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
-    fullnameOverride: clip-inference
+    fullnameOverride: bind-inference
     livenessProbe:
       initialDelaySeconds: 120
       periodSeconds: 3
