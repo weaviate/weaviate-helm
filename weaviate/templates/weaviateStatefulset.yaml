@@ -78,6 +78,16 @@ spec:
                 key: {{ $key | quote }}
           {{- end }}
           {{- end }}
+          - name: CLUSTER_BASIC_AUTH_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-cluster-api-basic-auth
+                key: username
+          - name: CLUSTER_BASIC_AUTH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-cluster-api-basic-auth
+                key: password
           - name: STANDALONE_MODE
             value: 'true'
           - name: PERSISTENCE_DATA_PATH
