@@ -18,7 +18,7 @@ function check_setting_has_value() {
 
   echo "$COUNTER: Test if '$setting' has value '$expected_value' using: '$helm_settings' settings"
   let COUNTER=COUNTER+1
-  helm template $helm_settings "weaviate.tgz" > out.yml
+  helm template $helm_settings weaviate . > out.yml
   res=$(grep -F -C 1 "${setting}" < ../weaviate/out.yml)
   if [[ $res != *$expected_value* ]]
   then
@@ -34,7 +34,7 @@ function check_no_setting() {
 
   echo "$COUNTER: Test if '$setting' is absent using: '$helm_settings' settings"
   let COUNTER=COUNTER+1
-  helm template $helm_settings "weaviate.tgz" > out.yml
+  helm template $helm_settings weaviate . > out.yml
   if grep -Fq "$setting" ../weaviate/out.yml; then
     echo "error: '$setting' was found"
     exit 1
@@ -48,7 +48,7 @@ function check_string_existence() {
 
   echo "$COUNTER: Test if '$expected_value' is present using: '$helm_settings' settings"
   let COUNTER=COUNTER+1
-  helm template $helm_settings "weaviate.tgz" > out.yml
+  helm template $helm_settings weaviate . > out.yml
   res=$(grep -F "${expected_value}" < ../weaviate/out.yml)
   if [[ $res != *$expected_value* ]]
   then
@@ -61,7 +61,7 @@ function check_string_existence() {
 function check_creates_template() {
   local helm_settings=$1
 
-  helm template $helm_settings "weaviate.tgz" > out.yml
+  helm template $helm_settings weaviate . > out.yml
   rm -fr ../weaviate/out.yml
 }
 
@@ -70,14 +70,8 @@ function check_creates_template() {
   VERSION=$( grep 'version:' < Chart.yaml | awk '{ print $2 }')
   echo "Running tests for version $VERSION"
 
-  # cleanup in case there is a previous release already
-  rm -rf "weaviate.tgz"
-
   helm dependencies build
   helm lint .
-  helm package .
-
-  mv "weaviate-$VERSION.tgz" "weaviate.tgz"
 
   check_no_setting "" "name: ENABLE_MODULES"
   check_setting_has_value "" "name: DEFAULT_VECTORIZER_MODULE" "value: none"
@@ -178,36 +172,38 @@ function check_creates_template() {
   check_string_existence "--set initContainers.sysctlInitContainer.enabled=false --set initContainers.extraInitContainers[0].name=test-init-container " "name: test-init-container"
 
   check_string_existence "--set securityContext.thisIsATest=true " "thisIsATest: true"
-
   check_string_existence "" "imagePullPolicy: IfNotPresent"
-  MODULES=("text2vec-transformers" "multi2vec-clip" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers" "reranker-transformers")
-  for mod in "${MODULES[@]}"
-  do
-  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.livenessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
-  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.livenessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
-  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.livenessProbe.timeoutSeconds=988888888888" "timeoutSeconds: 988888888888"
-  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.readinessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
-  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
-  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.imagePullPolicy=Always" "imagePullPolicy: Always"
-  check_string_existence "--set modules.$mod.enabled=true --set modules.$mod.securityContext.thisIsATestFrom$mod=true " "thisIsATestFrom$mod: true"
-  done
-
-  for modtransformers in "query" "passage"
-  do
-  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.livenessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
-  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.livenessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
-  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.livenessProbe.timeoutSeconds=988888888888" "timeoutSeconds: 988888888888"
-  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.readinessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
-  check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
-  check_setting_has_value "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.imagePullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
-  done
-
   check_setting_has_value "--set image.pullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
-  
-  MODULES=("text2vec-contextionary" "text2vec-transformers" "text2vec-gpt4all" "multi2vec-clip" "multi2vec-bind" "qna-transformers" "img2vec-neural" "text-spellcheck" "ner-transformers" "sum-transformers" "reranker-transformers")
-  for mod in "${MODULES[@]}"
+  check_setting_has_value "--set updateStrategy.type=OnDelete" "updateStrategy" "type: OnDelete"
+
+  DEPLOYMENT_MODULES=(
+    "text2vec-contextionary"
+    "text2vec-transformers"
+    "text2vec-transformers.passageQueryServices.passage"
+    "text2vec-transformers.passageQueryServices.query"
+    "text2vec-gpt4all"
+    "multi2vec-clip"
+    "multi2vec-bind"
+    "qna-transformers"
+    "img2vec-neural"
+    "text-spellcheck"
+    "ner-transformers"
+    "sum-transformers"
+    "reranker-transformers"
+  )
+
+  for module in "${DEPLOYMENT_MODULES[@]}"
   do
-  check_setting_has_value "--set modules.$mod.enabled=true --set modules.$mod.imagePullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
+  no_dots_module=$(echo $module | tr . -)
+  check_string_existence "--set modules.$module.enabled=true --set modules.$module.livenessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
+  check_string_existence "--set modules.$module.enabled=true --set modules.$module.livenessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
+  check_string_existence "--set modules.$module.enabled=true --set modules.$module.livenessProbe.timeoutSeconds=988888888888" "timeoutSeconds: 988888888888"
+  check_string_existence "--set modules.$module.enabled=true --set modules.$module.readinessProbe.initialDelaySeconds=988888888888" "initialDelaySeconds: 988888888888"
+  check_string_existence "--set modules.$module.enabled=true --set modules.$module.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
+  check_string_existence "--set modules.$module.enabled=true --set modules.$module.imagePullPolicy=$no_dots_module" "imagePullPolicy: $no_dots_module"
+  check_string_existence "--set modules.$module.enabled=true --set modules.$module.securityContext.thisIsATestFrom$no_dots_module-context=true" "thisIsATestFrom$no_dots_module-context: true"
+  check_setting_has_value "--set modules.$module.enabled=true --set modules.$module.imagePullSecrets[0]=$no_dots_module-pullSecrets" "imagePullSecrets" "name: $no_dots_module-pullSecrets"
+  check_setting_has_value "--set modules.$module.enabled=true --set modules.$module.strategy.type=$no_dots_module-strategy" "strategy" "type: $no_dots_module-strategy"
   done
 
   echo "Tests successful."

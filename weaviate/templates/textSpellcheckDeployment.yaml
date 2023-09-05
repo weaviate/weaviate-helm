@@ -1,60 +1,80 @@
-{{ if index .Values "modules" "text-spellcheck" "enabled" }}
+{{- $module := index .Values "modules" "text-spellcheck" -}}
+{{ if index $module "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
+  name: {{ index $module "fullnameOverride" }}
   labels:
-    name: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
-    app: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
+    name: {{ index $module "fullnameOverride" }}
+    app: {{ index $module "fullnameOverride" }}
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: helm
 spec:
-  replicas: {{ index .Values "modules" "text-spellcheck" "replicas" }}
+  replicas: {{ index $module "replicas" }}
+  strategy:
+{{ toYaml (index $module "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
+      app: {{ index $module "fullnameOverride" }}
   template:
     metadata:
       labels:
-        app: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
+        app: {{ index $module "fullnameOverride" }}
     spec:
       securityContext:
-{{ toYaml (index .Values "modules" "text-spellcheck" "securityContext") | indent 8}}
-      {{- if (index .Values "modules" "text-spellcheck" "serviceAccountName") }}
-      serviceAccountName: {{ index .Values "modules" "text-spellcheck" "serviceAccountName" }}
+{{ toYaml (index $module "securityContext") | indent 8}}
+      {{- if (index $module "serviceAccountName") }}
+      serviceAccountName: {{ index $module "serviceAccountName" }}
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
-      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "text-spellcheck" "imagePullSecrets")) | nindent 6 }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
       containers:
-      - name: {{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}
-        image: {{ index .Values "modules" "text-spellcheck" "registry" }}/{{ index .Values "modules" "text-spellcheck" "repo" }}:{{ index .Values "modules" "text-spellcheck" "tag" }}
-        imagePullPolicy: {{ index .Values "modules" "text-spellcheck" "imagePullPolicy" }}
+      - name: {{ index $module "fullnameOverride" }}
+        image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
+        imagePullPolicy: {{ index $module "imagePullPolicy" }}
         resources:
-{{ index .Values "modules" "text-spellcheck" "resources" | toYaml | indent 10 }}
+{{ index $module "resources" | toYaml | indent 10 }}
         livenessProbe:
           httpGet:
             path: /.well-known/live
             port: 8080
-          initialDelaySeconds: {{ index .Values "modules" "text-spellcheck" "livenessProbe" "initialDelaySeconds" }}
-          periodSeconds: {{ index .Values "modules" "text-spellcheck" "livenessProbe" "periodSeconds" }}
-          timeoutSeconds: {{ index .Values "modules" "text-spellcheck" "livenessProbe" "timeoutSeconds" }}
+          initialDelaySeconds: {{ index $module "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index $module "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index $module "livenessProbe" "timeoutSeconds" }}
         readinessProbe:
           httpGet:
             path: /.well-known/ready
             port: 8080
-          initialDelaySeconds: {{ index .Values "modules" "text-spellcheck" "readinessProbe" "initialDelaySeconds" }}
-          periodSeconds: {{ index .Values "modules" "text-spellcheck" "readinessProbe" "periodSeconds" }}
-      {{- with index .Values "modules" "text-spellcheck" "nodeSelector" | default .Values.nodeSelector }}
+          initialDelaySeconds: {{ index $module "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index $module "readinessProbe" "periodSeconds" }}
+      {{- with index $module "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "text-spellcheck" "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default .Values.affinity }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "text-spellcheck" "tolerations" | default .Values.tolerations }}
+      {{- with index $module "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ index $module "fullnameOverride" }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ index $module "fullnameOverride" }}
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
 {{ end }}

@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ .Values.replicas }}
+  updateStrategy:
+{{ toYaml .Values.updateStrategy | indent 4}}
   serviceName: {{ .Values.service.name }}-headless
   selector:
     matchLabels:

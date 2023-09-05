@@ -1,71 +1,90 @@
-{{ if index .Values "modules" "qna-transformers" "enabled" }}
+{{- $module := index .Values "modules" "qna-transformers" -}}
+{{ if index $module "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
+  name: {{ index $module "fullnameOverride" }}
   labels:
-    name: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
-    app: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
+    name: {{ index $module "fullnameOverride" }}
+    app: {{ index $module "fullnameOverride" }}
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: helm
 spec:
-  replicas: {{ index .Values "modules" "qna-transformers" "replicas" }}
+  replicas: {{ index $module "replicas" }}
+  strategy:
+{{ toYaml (index $module "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
+      app: {{ index $module "fullnameOverride" }}
   template:
     metadata:
       labels:
-        app: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
+        app: {{ index $module "fullnameOverride" }}
     spec:
       securityContext:
-{{ toYaml (index .Values "modules" "qna-transformers" "securityContext") | indent 8}}
-      {{- if (index .Values "modules" "qna-transformers" "serviceAccountName") }}
-      serviceAccountName: {{ index .Values "modules" "qna-transformers" "serviceAccountName" }}
+{{ toYaml (index $module "securityContext") | indent 8}}
+      {{- if (index $module "serviceAccountName") }}
+      serviceAccountName: {{ index $module "serviceAccountName" }}
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
-      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "qna-transformers" "imagePullSecrets")) | nindent 6 }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
       containers:
-      - name: {{ index .Values "modules" "qna-transformers" "fullnameOverride" }}
-        image: {{ index .Values "modules" "qna-transformers" "registry" }}/{{ index .Values "modules" "qna-transformers" "repo" }}:{{ index .Values "modules" "qna-transformers" "tag" }}
-        imagePullPolicy: {{ index .Values "modules" "qna-transformers" "imagePullPolicy" }}
+      - name: {{ index $module "fullnameOverride" }}
+        image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
+        imagePullPolicy: {{ index $module "imagePullPolicy" }}
         env:
           - name: ENABLE_CUDA
-            value: "{{ if index .Values "modules" "qna-transformers" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
-          {{ if index .Values "modules" "qna-transformers" "envconfig" "enable_cuda" }}
+            value: "{{ if index $module "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index $module "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
-            value: {{ index .Values "modules" "qna-transformers" "envconfig" "nvidia_visible_devices"}}
+            value: {{ index $module "envconfig" "nvidia_visible_devices"}}
           - name: NVIDIA_DRIVER_CAPABILITIES
-            value: {{ index .Values "modules" "qna-transformers" "envconfig" "nvidia_driver_capabilities"}}
+            value: {{ index $module "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
-            value: {{ index .Values "modules" "qna-transformers" "envconfig" "ld_library_path"}}
+            value: {{ index $module "envconfig" "ld_library_path"}}
           {{ end }}
         resources:
-{{ index .Values "modules" "qna-transformers" "resources" | toYaml | indent 10 }}
+{{ index $module "resources" | toYaml | indent 10 }}
         livenessProbe:
           httpGet:
             path: /.well-known/live
             port: 8080
-          initialDelaySeconds: {{ index .Values "modules" "qna-transformers" "livenessProbe" "initialDelaySeconds" }}
-          periodSeconds: {{ index .Values "modules" "qna-transformers" "livenessProbe" "periodSeconds" }}
-          timeoutSeconds: {{ index .Values "modules" "qna-transformers" "livenessProbe" "timeoutSeconds" }}
+          initialDelaySeconds: {{ index $module "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index $module "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index $module "livenessProbe" "timeoutSeconds" }}
         readinessProbe:
           httpGet:
             path: /.well-known/ready
             port: 8080
-          initialDelaySeconds: {{ index .Values "modules" "qna-transformers" "readinessProbe" "initialDelaySeconds" }}
-          periodSeconds: {{ index .Values "modules" "qna-transformers" "readinessProbe" "periodSeconds" }}
-      {{- with index .Values "modules" "qna-transformers" "nodeSelector" | default .Values.nodeSelector }}
+          initialDelaySeconds: {{ index $module "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index $module "readinessProbe" "periodSeconds" }}
+      {{- with index $module "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "qna-transformers" "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default .Values.affinity }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "qna-transformers" "tolerations" | default .Values.tolerations }}
+      {{- with index $module "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ index $module "fullnameOverride" }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ index $module "fullnameOverride" }}
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
 {{ end }}

@@ -62,6 +62,8 @@ initContainers:
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
 replicas: 1
+updateStrategy:
+  type: RollingUpdate
 resources: {}
   # requests:
   #   cpu: '500m'
@@ -194,6 +196,7 @@ env:
 
   # Expose metrics on port 2112 for Prometheus to scrape
   PROMETHEUS_MONITORING_ENABLED: false
+  PROMETHEUS_MONITORING_GROUP: false
 
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
@@ -373,12 +376,22 @@ modules:
 
     # The configuration below is ignored if enabled==false
     fullnameOverride: contextionary
-    tag: en0.16.0-v1.0.2
+    tag: en0.16.0-v1.2.1
     repo: semitechnologies/contextionary
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    fullnameOverride: contextionary
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
     envconfig:
       occurrence_weight_linear_factor: 0.75
       neighbor_occurrence_ignore_percentile: 5
@@ -429,10 +442,12 @@ modules:
     # replace with model of choice, see
     # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/text2vec-transformers
     # for all supported models or build your own container.
-    tag: distilbert-base-uncased
+    tag: sentence-transformers-paraphrase-multilingual-MiniLM-L12-v2
     repo: semitechnologies/transformers-inference
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: transformers-inference
@@ -486,7 +501,6 @@ modules:
     # as well as for Weaviate overall. Each module accepts nodeSelector,
     # tolerations, and affinity configuration. If it is set on a per-
     # module basis, this configuration overrides the global config.
-
     nodeSelector:
     tolerations:
     affinity:
@@ -502,8 +516,11 @@ modules:
         tag: facebook-dpr-ctx_encoder-single-nq-base
         repo: semitechnologies/transformers-inference
         registry: docker.io
+        imagePullPolicy: IfNotPresent
         imagePullSecrets: []
         replicas: 1
+        strategy:
+          type: RollingUpdate
         fullnameOverride: transformers-inference-passage
         livenessProbe:
           initialDelaySeconds: 120
@@ -537,6 +554,17 @@ modules:
 
             # enable if running with CUDA support
             # nvidia.com/gpu: 1
+
+        # security Context for the Transformers Pods. The configurations are the same as setting them
+        # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+        # applies to passageQueryService below
+        securityContext: {}
+        
+        # It is possible to add a ServiceAccount to this module's Pods, it can be
+        # used in cases where the module is in a private registry and you want to
+        # give access to the registry only to this pod.
+        # NOTE: if not set the root `serviceAccountName` config will be used.
+        serviceAccountName:
         
         # You can guide where the pods are scheduled on a per-module basis,
         # as well as for Weaviate overall. Each module accepts nodeSelector,
@@ -557,8 +585,11 @@ modules:
         tag: facebook-dpr-question_encoder-single-nq-base
         repo: semitechnologies/transformers-inference
         registry: docker.io
+        imagePullPolicy: IfNotPresent
         imagePullSecrets: []
         replicas: 1
+        strategy:
+          type: RollingUpdate
         fullnameOverride: transformers-inference-query
         livenessProbe:
           initialDelaySeconds: 120
@@ -594,6 +625,17 @@ modules:
             # enable if running with CUDA support
             # nvidia.com/gpu: 1
 
+                # security Context for the Transformers Pods. The configurations are the same as setting them
+        # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+        # applies to passageQueryService below
+        securityContext: {}
+        
+        # It is possible to add a ServiceAccount to this module's Pods, it can be
+        # used in cases where the module is in a private registry and you want to
+        # give access to the registry only to this pod.
+        # NOTE: if not set the root `serviceAccountName` config will be used.
+        serviceAccountName:
+
         # You can guide where the pods are scheduled on a per-module basis,
         # as well as for Weaviate overall. Each module accepts nodeSelector,
         # tolerations, and affinity configuration. If it is set on a per-
@@ -623,6 +665,8 @@ modules:
     repo: semitechnologies/gpt4all-inference
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: gpt4all-inference
@@ -746,6 +790,8 @@ modules:
     repo: semitechnologies/multi2vec-clip
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: clip-inference
@@ -815,9 +861,11 @@ modules:
     repo: semitechnologies/multi2vec-bind
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
-    fullnameOverride: clip-inference
+    fullnameOverride: bind-inference
     livenessProbe:
       initialDelaySeconds: 120
       periodSeconds: 3
@@ -840,13 +888,13 @@ modules:
     resources:
       requests:
         cpu: '1000m'
-        memory: '3000Mi'
+        memory: '7000Mi'
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
       limits:
         cpu: '1000m'
-        memory: '5000Mi'
+        memory: '7000Mi'
 
         # enable if running with CUDA support
         # nvidia.com/gpu: 1
@@ -877,10 +925,12 @@ modules:
     inferenceUrl: {}
 
     # The configuration below is ignored if enabled==false
-    tag: bert-large-uncased-whole-word-masking-finetuned-squad-34d66b1
+    tag: bert-large-uncased-whole-word-masking-finetuned-squad
     repo: semitechnologies/qna-transformers
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: qna-transformers
@@ -1005,6 +1055,8 @@ modules:
     repo: semitechnologies/img2vec-pytorch
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: img2vec-neural
@@ -1091,6 +1143,8 @@ modules:
     repo: semitechnologies/reranker-transformers
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: reranker-transformers
@@ -1162,6 +1216,8 @@ modules:
     repo: semitechnologies/text-spellcheck-model
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: text-spellcheck
@@ -1212,10 +1268,12 @@ modules:
     inferenceUrl: {}
 
     # The configuration below is ignored if enabled==false
-    tag: dbmdz-bert-large-cased-finetuned-conll03-english-0.0.2
+    tag: dbmdz-bert-large-cased-finetuned-conll03-english
     repo: semitechnologies/ner-transformers
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: ner-transformers
@@ -1282,10 +1340,12 @@ modules:
     inferenceUrl: {}
 
     # The configuration below is ignored if enabled==false
-    tag: facebook-bart-large-cnn-1.0.0
+    tag: facebook-bart-large-cnn
     repo: semitechnologies/sum-transformers
     registry: docker.io
     replicas: 1
+    strategy:
+      type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     fullnameOverride: sum-transformers
