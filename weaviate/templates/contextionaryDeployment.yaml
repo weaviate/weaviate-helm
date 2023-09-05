@@ -1,60 +1,92 @@
-{{ if index .Values "modules" "text2vec-contextionary" "enabled" }}
+{{- $module := index .Values "modules" "text2vec-contextionary" -}}
+{{ if index $module "enabled"  }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: contextionary
+  name: {{ index $module "fullnameOverride" }}
   labels:
-    name: contextionary
-    app: contextionary
+    name: {{ index $module "fullnameOverride" }}
+    app: {{ index $module "fullnameOverride" }}
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: helm
 spec:
-  replicas: {{ index .Values "modules" "text2vec-contextionary" "replicas" }}
+  replicas: {{ index $module "replicas" }}
+  strategy:
+{{ toYaml (index $module "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: contextionary
+      app: {{ index $module "fullnameOverride" }}
   template:
     metadata:
       labels:
-        app: contextionary
+        app: {{ index $module "fullnameOverride" }}
         app.kubernetes.io/name: weaviate
         app.kubernetes.io/managed-by: helm
     spec:
       securityContext:
-{{ toYaml (index .Values "modules" "text2vec-contextionary" "securityContext") | indent 8}}
-      {{- if (index .Values "modules" "text2vec-contextionary" "serviceAccountName") }}
-      serviceAccountName: {{ index .Values "modules" "text2vec-contextionary" "serviceAccountName" }}
+{{ toYaml (index $module "securityContext") | indent 8}}
+      {{- if (index $module "serviceAccountName") }}
+      serviceAccountName: {{ index $module "serviceAccountName" }}
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
-      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "text2vec-contextionary" "imagePullSecrets")) | nindent 6 }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
       containers:
-      - name: contextionary
-        image: {{ index .Values "modules" "text2vec-contextionary" "registry" }}/{{ index .Values "modules" "text2vec-contextionary" "repo" }}:{{ index .Values "modules" "text2vec-contextionary" "tag" }}
-        imagePullPolicy: {{ index .Values "modules" "text2vec-contextionary" "imagePullPolicy" }}
+      - name: {{ index $module "fullnameOverride" }}
+        image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
+        imagePullPolicy: {{ index $module "imagePullPolicy" }}
         env:
           - name: OCCURRENCE_WEIGHT_LINEAR_FACTOR
-            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "occurrence_weight_linear_factor" | quote }}
+            value: {{ index $module "envconfig" "occurrence_weight_linear_factor" | quote }}
           - name: EXTENSIONS_STORAGE_MODE
-            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "extensions_storage_mode" | quote }}
+            value: {{ index $module "envconfig" "extensions_storage_mode" | quote }}
           - name: EXTENSIONS_STORAGE_ORIGIN
             value: http://{{ .Values.service.name }}.{{ .Release.Namespace }}.svc.cluster.local
           - name: NEIGHBOR_OCCURRENCE_IGNORE_PERCENTILE
-            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "neighbor_occurrence_ignore_percentile" | quote }}
+            value: {{ index $module "envconfig" "neighbor_occurrence_ignore_percentile" | quote }}
           - name: ENABLE_COMPOUND_SPLITTING
-            value: {{ index .Values "modules" "text2vec-contextionary" "envconfig" "enable_compound_splitting" | quote }}
+            value: {{ index $module "envconfig" "enable_compound_splitting" | quote }}
         resources:
-{{ index .Values "modules" "text2vec-contextionary" "resources" | toYaml | indent 10 }}
-      {{- with index .Values "modules" "text2vec-contextionary" "nodeSelector" | default .Values.nodeSelector }}
+{{ index $module "resources" | toYaml | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /.well-known/live
+            port: 8080
+          initialDelaySeconds: {{ index $module "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index $module "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index $module "livenessProbe" "timeoutSeconds" }}
+        readinessProbe:
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+          initialDelaySeconds: {{ index $module "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index $module "readinessProbe" "periodSeconds" }}
+      {{- with index $module "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "text2vec-contextionary" "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default .Values.affinity }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "text2vec-contextionary" "tolerations" | default .Values.tolerations }}
+      {{- with index $module "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ index $module "fullnameOverride" }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ index $module "fullnameOverride" }}
+  ports:
+    - protocol: TCP
+      port: 9999
+      targetPort: 9999
 {{ end }}

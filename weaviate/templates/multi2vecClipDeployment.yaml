@@ -1,71 +1,90 @@
-{{ if index .Values "modules" "multi2vec-clip" "enabled" }}
+{{- $module := index .Values "modules" "multi2vec-clip" -}}
+{{ if index $module "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
+  name: {{ index $module "fullnameOverride" }}
   labels:
-    name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
-    app: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
+    name: {{ index $module "fullnameOverride" }}
+    app: {{ index $module "fullnameOverride" }}
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: helm
 spec:
-  replicas: {{ index .Values "modules" "multi2vec-clip" "replicas" }}
+  replicas: {{ index $module "replicas" }}
+  strategy:
+{{ toYaml (index $module "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
+      app: {{ index $module "fullnameOverride" }}
   template:
     metadata:
       labels:
-        app: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
+        app: {{ index $module "fullnameOverride" }}
     spec:
       securityContext:
-{{ toYaml (index .Values "modules" "multi2vec-clip" "securityContext") | indent 8}}
-      {{- if (index .Values "modules" "multi2vec-clip" "serviceAccountName") }}
-      serviceAccountName: {{ index .Values "modules" "multi2vec-clip" "serviceAccountName" }}
+{{ toYaml (index $module "securityContext") | indent 8}}
+      {{- if (index $module "serviceAccountName") }}
+      serviceAccountName: {{ index $module "serviceAccountName" }}
       {{- else if (index .Values "serviceAccountName") }}
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
-      {{- include "image.pullSecrets" (dict "pullSecrets" (index .Values "modules" "multi2vec-clip" "imagePullSecrets")) | nindent 6 }}
+      {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
       containers:
-      - name: {{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}
-        image: {{ index .Values "modules" "multi2vec-clip" "registry" }}/{{ index .Values "modules" "multi2vec-clip" "repo" }}:{{ index .Values "modules" "multi2vec-clip" "tag" }}
-        imagePullPolicy: {{ index .Values "modules" "multi2vec-clip" "imagePullPolicy" }}
+      - name: {{ index $module "fullnameOverride" }}
+        image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
+        imagePullPolicy: {{ index $module "imagePullPolicy" }}
         env:
           - name: ENABLE_CUDA
-            value: "{{ if index .Values "modules" "multi2vec-clip" "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
-          {{ if index .Values "modules" "multi2vec-clip" "envconfig" "enable_cuda" }}
+            value: "{{ if index $module "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
+          {{ if index $module "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
-            value: {{ index .Values "modules" "multi2vec-clip" "envconfig" "nvidia_visible_devices"}}
+            value: {{ index $module "envconfig" "nvidia_visible_devices"}}
           - name: NVIDIA_DRIVER_CAPABILITIES
-            value: {{ index .Values "modules" "multi2vec-clip" "envconfig" "nvidia_driver_capabilities"}}
+            value: {{ index $module "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
-            value: {{ index .Values "modules" "multi2vec-clip" "envconfig" "ld_library_path"}}
+            value: {{ index $module "envconfig" "ld_library_path"}}
           {{ end }}
         resources:
-{{ index .Values "modules" "multi2vec-clip" "resources" | toYaml | indent 10 }}
+{{ index $module "resources" | toYaml | indent 10 }}
         livenessProbe:
           httpGet:
             path: /.well-known/live
             port: 8080
-          initialDelaySeconds: {{ index .Values "modules" "multi2vec-clip" "livenessProbe" "initialDelaySeconds" }}
-          periodSeconds: {{ index .Values "modules" "multi2vec-clip" "livenessProbe" "periodSeconds" }}
-          timeoutSeconds: {{ index .Values "modules" "multi2vec-clip" "livenessProbe" "timeoutSeconds" }}
+          initialDelaySeconds: {{ index $module "livenessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index $module "livenessProbe" "periodSeconds" }}
+          timeoutSeconds: {{ index $module "livenessProbe" "timeoutSeconds" }}
         readinessProbe:
           httpGet:
             path: /.well-known/ready
             port: 8080
-          initialDelaySeconds: {{ index .Values "modules" "multi2vec-clip" "readinessProbe" "initialDelaySeconds" }}
-          periodSeconds: {{ index .Values "modules" "multi2vec-clip" "readinessProbe" "periodSeconds" }}
-      {{- with index .Values "modules" "multi2vec-clip" "nodeSelector" | default .Values.nodeSelector }}
+          initialDelaySeconds: {{ index $module "readinessProbe" "initialDelaySeconds" }}
+          periodSeconds: {{ index $module "readinessProbe" "periodSeconds" }}
+      {{- with index $module "nodeSelector" | default .Values.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "multi2vec-clip" "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default .Values.affinity }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index .Values "modules" "multi2vec-clip" "tolerations" | default .Values.tolerations }}
+      {{- with index $module "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ index $module "fullnameOverride" }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ index $module "fullnameOverride" }}
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
 {{ end }}
