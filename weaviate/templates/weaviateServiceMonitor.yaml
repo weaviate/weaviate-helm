@@ -18,8 +18,8 @@ spec:
     matchNames:
       - {{ .Release.Namespace | quote }}
   endpoints:
-  - targetPort: {{ .Values.serviceMonitor.port }}
-    path: {{ .Values.serviceMonitor.path }}
+  - targetPort: metrics
+    path: /metrics
     interval: {{ .Values.serviceMonitor.interval }}
     scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
 {{- end }}
