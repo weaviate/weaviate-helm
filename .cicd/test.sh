@@ -178,5 +178,8 @@ function check_creates_template() {
   check_string_existence "--set modules.text2vec-transformers.passageQueryServices.$modtransformers.enabled=true --set modules.text2vec-transformers.passageQueryServices.$modtransformers.readinessProbe.periodSeconds=988888888888" "periodSeconds: 988888888888"
   done
 
+  _settingScrapePromMetrics="--set env.PROMETHEUS_MONITORING_ENABLED=true --set serviceMonitor.enabled=true"
+  check_setting_has_value "$_settingScrapePromMetrics" "name: metrics" "containerPort: 2112"
+  check_setting_has_value "$_settingScrapePromMetrics" "apiVersion: monitoring.coreos.com/v1" "kind: ServiceMonitor"
   echo "Tests successful."
 )
