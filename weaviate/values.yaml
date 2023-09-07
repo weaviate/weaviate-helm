@@ -106,6 +106,13 @@ service:
   clusterIP:
   annotations: {}
 
+# The service monitor defines prometheus monitoring for a set of services
+# https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.ServiceMonitor
+serviceMonitor:
+  enabled: false
+  interval: 30s
+  scrapeTimeout: 10s
+
 # Adjust liveness, readiness and startup probes configuration
 startupProbe:
   # For kubernetes versions prior to 1.18 startupProbe is not supported thus can be disabled.
