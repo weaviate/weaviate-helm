@@ -181,5 +181,9 @@ function check_creates_template() {
   _settingScrapePromMetrics="--set env.PROMETHEUS_MONITORING_ENABLED=true --set serviceMonitor.enabled=true"
   check_setting_has_value "$_settingScrapePromMetrics" "name: metrics" "containerPort: 2112"
   check_setting_has_value "$_settingScrapePromMetrics" "apiVersion: monitoring.coreos.com/v1" "kind: ServiceMonitor"
+  check_setting_has_value "--set env.PROMETHEUS_MONITORING_ENABLED=true --set serviceMonitor.enabled=false" "name: metrics" "containerPort: 2112"
+  check_no_setting "--set env.PROMETHEUS_MONITORING_ENABLED=false --set serviceMonitor.enabled=true" "kind: ServiceMonitor"
+  check_no_setting "--set env.PROMETHEUS_MONITORING_ENABLED=false --set serviceMonitor.enabled=false" "kind: ServiceMonitor"
+
   echo "Tests successful."
 )
