@@ -130,6 +130,7 @@ spec:
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $passage "imagePullSecrets")) | nindent 6 }}
+      {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $passage "priorityClassName")) | nindent 6 }}
       containers:
       - name: {{ index $passage "fullnameOverride" }}
         image: {{ index $passage "registry" }}/{{ index $passage "repo" }}:{{ index $passage "tag" }}
@@ -217,6 +218,7 @@ spec:
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $query "imagePullSecrets")) | nindent 6 }}
+      {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $query "priorityClassName")) | nindent 6 }}
       containers:
       - name: {{ index $query "fullnameOverride" }}
         image: {{ index $query "registry" }}/{{ index $query "repo" }}:{{ index $query "tag" }}
