@@ -175,6 +175,8 @@ function check_creates_template() {
   check_string_existence "" "imagePullPolicy: IfNotPresent"
   check_setting_has_value "--set image.pullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
   check_setting_has_value "--set updateStrategy.type=OnDelete" "updateStrategy" "type: OnDelete"
+  check_string_existence "--set priorityClassName=critical" "priorityClassName: critical"
+  check_string_existence "--set globalPriorityClassName=high" "priorityClassName: high"
 
   DEPLOYMENT_MODULES=(
     "text2vec-contextionary"
@@ -204,6 +206,8 @@ function check_creates_template() {
   check_string_existence "--set modules.$module.enabled=true --set modules.$module.securityContext.thisIsATestFrom$no_dots_module-context=true" "thisIsATestFrom$no_dots_module-context: true"
   check_setting_has_value "--set modules.$module.enabled=true --set modules.$module.imagePullSecrets[0]=$no_dots_module-pullSecrets" "imagePullSecrets" "name: $no_dots_module-pullSecrets"
   check_setting_has_value "--set modules.$module.enabled=true --set modules.$module.strategy.type=$no_dots_module-strategy" "strategy" "type: $no_dots_module-strategy"
+  check_string_existence "--set modules.$module.enabled=true --set modules.$module.priorityClassName=$no_dots_module" "priorityClassName: $no_dots_module"
+  check_string_existence "--set modules.$module.enabled=true --set globalPriorityClassName=high" "priorityClassName: high"
   done
 
   _settingScrapePromMetrics="--set env.PROMETHEUS_MONITORING_ENABLED=true --set serviceMonitor.enabled=true"
