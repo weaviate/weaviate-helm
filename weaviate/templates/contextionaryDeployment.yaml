@@ -31,6 +31,7 @@ spec:
       serviceAccountName: {{ index .Values "serviceAccountName" }}
       {{- end }}
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
+      {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $module "priorityClassName")) | nindent 6 }}
       containers:
       - name: {{ index $module "fullnameOverride" }}
         image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
