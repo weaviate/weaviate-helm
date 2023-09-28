@@ -96,9 +96,15 @@ storage:
 service:
   name: weaviate
   ports:
-    - name: http
-      protocol: TCP
-      port: 80
+  - name: http
+    protocol: TCP
+    port: 80
+    tagetPort: 8080
+  - name: grpc
+    protocol: TCP
+    port: 50051
+    tagetPort: 50051
+
       # Target port is going to be the same for every port
   type: LoadBalancer
   loadBalancerSourceRanges: []
@@ -117,7 +123,9 @@ serviceMonitor:
 startupProbe:
   # For kubernetes versions prior to 1.18 startupProbe is not supported thus can be disabled.
   enabled: false
-
+  httpGet:
+    path: /v1/.well-known/ready
+    port: 8080
   initialDelaySeconds: 300
   periodSeconds: 60
   failureThreshold: 50
@@ -125,6 +133,9 @@ startupProbe:
   timeoutSeconds: 3
 
 livenessProbe:
+  httpGet:
+    path: /v1/.well-known/live
+    port: 8080
   initialDelaySeconds: 900
   periodSeconds: 10
   failureThreshold: 30
@@ -132,6 +143,9 @@ livenessProbe:
   timeoutSeconds: 3
 
 readinessProbe:
+  httpGet:
+    path: /v1/.well-known/ready
+    port: 8080
   initialDelaySeconds: 3
   periodSeconds: 10
   failureThreshold: 3

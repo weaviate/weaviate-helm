@@ -309,7 +309,12 @@ spec:
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.cluster.local
         ports:
-          - containerPort: 8080
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+          - name: grpc
+            containerPort: 50051
+            protocol: TCP
           {{- if .Values.env.PROMETHEUS_MONITORING_ENABLED }}
           - name: metrics
             containerPort: 2112
@@ -330,34 +335,15 @@ spec:
             {{- end }}
           {{- end }}
         {{- if .Values.startupProbe.enabled }}
+        {{ $noEnable := .Values.startupProbe }}
+        {{ $_ := unset $noEnable "enabled" }}
         startupProbe:
-          httpGet:
-            path: /v1/.well-known/ready
-            port: 8080
-          initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.startupProbe.periodSeconds }}
-          failureThreshold: {{ .Values.startupProbe.failureThreshold }}
-          successThreshold: {{ .Values.startupProbe.successThreshold }}
-          timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
+{{ toYaml .Values.startupProbe | indent 10 }}
         {{- end }}
         livenessProbe:
-          httpGet:
-            path: /v1/.well-known/live
-            port: 8080
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          successThreshold: {{ .Values.livenessProbe.successThreshold }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+{{ toYaml .Values.livenessProbe | indent 10 }}
         readinessProbe:
-          httpGet:
-            path: /v1/.well-known/ready
-            port: 8080
-          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-          successThreshold: {{ .Values.readinessProbe.successThreshold }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+{{ toYaml .Values.readinessProbe | indent 10 }}
       volumes:
         - name: weaviate-config
           configMap:
