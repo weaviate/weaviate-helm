@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/managed-by: helm
 spec:
   replicas: {{ .Values.replicas }}
+  podManagementPolicy: {{ .Values.podManagementPolicy }}
   updateStrategy:
 {{ toYaml .Values.updateStrategy | indent 4}}
   serviceName: {{ .Values.service.name }}-headless
@@ -98,6 +99,7 @@ spec:
           - name: DEFAULT_VECTORIZER_MODULE
             value: {{ index .Values "modules" "default_vectorizer_module" | trim }}
           {{ template "enabled_modules" . }}
+          {{ template "raft_configuration" . }}
           {{- if index .Values "modules" "text2vec-transformers" "enabled" }}
           - name: TRANSFORMERS_INFERENCE_API
             value: http://{{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
