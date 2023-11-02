@@ -391,7 +391,6 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
-    fullnameOverride: contextionary
     livenessProbe:
       initialDelaySeconds: 120
       periodSeconds: 3
