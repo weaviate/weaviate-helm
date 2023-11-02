@@ -62,6 +62,11 @@ initContainers:
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
 replicas: 1
+
+# Define how pods will be created. Possible values: OrderedReady | Parallel
+# OrderedReady - pods will be created one after another
+# Parallel - all pods will be created at once
+podManagementPolicy: Parallel
 updateStrategy:
   type: RollingUpdate
 resources: {}
@@ -254,6 +259,10 @@ env:
   # Expose metrics on port 2112 for Prometheus to scrape
   PROMETHEUS_MONITORING_ENABLED: false
   PROMETHEUS_MONITORING_GROUP: false
+
+  # Raft settings are generated automatically by "raft_configuration" template
+  # Set Raft cluster bootstrap timeout (in seconds), default is 10 (seconds)
+  # RAFT_BOOTSTRAP_TIMEOUT: 30
 
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
