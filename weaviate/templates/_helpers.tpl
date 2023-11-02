@@ -108,3 +108,24 @@ imagePullSecrets:
     {{- end -}}
   {{- end -}}
 {{- end -}}
+
+
+{{/*
+Cluster API Secrets
+*/}}
+{{- define "cluster_api.secret" -}}
+{{- $secret := lookup "v1" "Secret" .Release.Namespace "weaviate-cluster-api-basic-auth" -}}
+{{- if $secret -}}
+{{/*
+   Reusing value of secret if exist
+*/}}
+username: {{ $secret.data.username }}
+password: {{ $secret.data.password }}
+{{- else -}}
+{{/*
+    add new data
+*/}}
+username: {{ randAlphaNum 32 | b64enc | quote }}
+password: {{ randAlphaNum 32 | b64enc | quote }}
+{{- end -}}
+{{- end -}}
