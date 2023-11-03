@@ -315,6 +315,9 @@ spec:
             containerPort: 2112
             protocol: TCP
           {{- end }}
+          - name: grpc
+            containerPort: 50051
+            protocol: TCP
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
