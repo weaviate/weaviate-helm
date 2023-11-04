@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.21.2
+  tag: 1.22.2
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -95,6 +95,22 @@ storage:
 # weaviate only accessible within your cluster.
 service:
   name: weaviate
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      # Target port is going to be the same for every port
+  type: LoadBalancer
+  loadBalancerSourceRanges: []
+  # optionally set cluster IP if you want to set a static IP
+  clusterIP:
+  annotations: {}
+
+# The service controls how weaviate gRPC endpoint is exposed to the outside world.
+# If you don't want a public load balancer, you can also choose 'ClusterIP' to make
+# weaviate gRPC port be only accessible within your cluster.
+grpcService:
+  name: weaviate-grpc
   ports:
     - name: http
       protocol: TCP
