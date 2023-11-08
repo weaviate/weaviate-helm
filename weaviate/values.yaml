@@ -110,13 +110,15 @@ service:
 # If you don't want a public load balancer, you can also choose 'ClusterIP' to make
 # weaviate gRPC port be only accessible within your cluster.
 grpcService:
+  # Set this to true in order to deploy Weaviate gRPC service
+  enabled: false
   name: weaviate-grpc
   ports:
-    - name: http
+    - name: grpc
       protocol: TCP
-      port: 80
+      port: 50051
       # Target port is going to be the same for every port
-  type: LoadBalancer
+  type: NodePort
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
