@@ -218,6 +218,13 @@ spec:
                 name: weaviate-palm
                 key: apiKey
           {{- end  }}
+          {{- if and (index .Values "modules" "text2vec-jinaai" "enabled") (index .Values "modules" "text2vec-jinaai" "apiKey") }}
+          - name: JINAAI_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-jinaai
+                key: apiKey
+          {{- end  }}
           {{- if and (index .Values "backups" "filesystem" "enabled") (index .Values "backups" "filesystem" "envconfig") }}
             {{- range $key, $value := index .Values "backups" "filesystem" "envconfig" }}
           - name: {{ $key }}
@@ -314,6 +321,11 @@ spec:
           {{- if .Values.env.PROMETHEUS_MONITORING_ENABLED }}
           - name: metrics
             containerPort: 2112
+            protocol: TCP
+          {{- end }}
+          {{ if .Values.grpcService.enabled }}
+          - name: grpc
+            containerPort: 50051
             protocol: TCP
           {{- end }}
         volumeMounts:

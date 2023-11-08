@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.21.2
+  tag: 1.22.3
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -101,6 +101,24 @@ service:
       port: 80
       # Target port is going to be the same for every port
   type: LoadBalancer
+  loadBalancerSourceRanges: []
+  # optionally set cluster IP if you want to set a static IP
+  clusterIP:
+  annotations: {}
+
+# The service controls how weaviate gRPC endpoint is exposed to the outside world.
+# If you don't want a public load balancer, you can also choose 'ClusterIP' to make
+# weaviate gRPC port be only accessible within your cluster.
+grpcService:
+  # Set this to true in order to deploy Weaviate gRPC service
+  enabled: false
+  name: weaviate-grpc
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 50051
+      # Target port is going to be the same for every port
+  type: NodePort
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
@@ -392,7 +410,6 @@ modules:
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
     priorityClassName: ""
-    fullnameOverride: contextionary
     livenessProbe:
       initialDelaySeconds: 120
       periodSeconds: 3
@@ -772,6 +789,20 @@ modules:
     enabled: false
 
     # Set your Google PaLM API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The text2vec-jinaai module uses JinaAI Embeddings API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about JinaAI Embeddings API can be found here:
+  # https://jina.ai/embeddings
+  text2vec-jinaai:
+
+    # enable if you want to use JinaAI module
+    enabled: false
+
+    # Set your JinaAI API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
 

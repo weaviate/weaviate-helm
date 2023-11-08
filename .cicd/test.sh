@@ -140,6 +140,7 @@ function check_creates_template() {
   check_modules "--set modules.text2vec-gpt4all.enabled=true --set modules.text-spellcheck.enabled=true" "value: text2vec-gpt4all,text-spellcheck"
   check_modules "--set modules.multi2vec-bind.enabled=true" "value: multi2vec-bind"
   check_modules "--set modules.multi2vec-bind.enabled=true --set modules.text-spellcheck.enabled=true" "value: text-spellcheck,multi2vec-bind"
+  check_modules "--set modules.text2vec-jinaai.enabled=true" "value: text2vec-jinaai"
 
   check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
   check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"
@@ -148,6 +149,9 @@ function check_creates_template() {
   check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "name: AZURE_APIKEY"
   check_string_existence "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "name: AZURE_APIKEY"
   check_string_existence "--set modules.generative-openai.enabled=true --set modules.generative-openai.azureApiKey=azureApiKey" "name: AZURE_APIKEY"
+  check_string_existence "--set modules.text2vec-jinaai.enabled=true --set modules.text2vec-jinaai.apiKey=jinaaiApiKey" "name: JINAAI_APIKEY"
+  check_string_existence "--set grpcService.enabled=true" "containerPort: 50051"
+  check_string_existence "--set grpcService.enabled=true --set grpcService.name=weaviate-grpc-service-custom-name" "name: weaviate-grpc-service-custom-name"
 
   _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local:8080"
