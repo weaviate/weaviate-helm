@@ -59,6 +59,9 @@
   {{- if (index .Values "modules" "text2vec-palm" "enabled") -}}
     {{ $modules = append $modules "text2vec-palm" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2vec-jinaai" "enabled") -}}
+    {{ $modules = append $modules "text2vec-jinaai" }}
+  {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
   {{- end -}}
