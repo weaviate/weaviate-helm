@@ -112,11 +112,11 @@ service:
 grpcService:
   name: weaviate-grpc
   ports:
-    - name: http
+    - name: grpc
       protocol: TCP
-      port: 80
+      port: 50051
       # Target port is going to be the same for every port
-  type: LoadBalancer
+  type: NodePort
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
