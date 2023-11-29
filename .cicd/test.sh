@@ -175,6 +175,9 @@ function check_creates_template() {
   check_string_existence "--set initContainers.extraInitContainers[0].name=test-init-container " "name: test-init-container"
   check_string_existence "--set initContainers.sysctlInitContainer.enabled=false --set initContainers.extraInitContainers[0].name=test-init-container " "name: test-init-container"
 
+  check_string_existence "--set extraVolumes[0].name=test-extra-volume" "name: test-extra-volume"
+  check_string_existence "--set extraVolumeMounts[0].name=test-extra-volumemount" "name: test-extra-volumemount"
+
   check_string_existence "--set securityContext.thisIsATest=true " "thisIsATest: true"
   check_string_existence "" "imagePullPolicy: IfNotPresent"
   check_setting_has_value "--set image.pullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"

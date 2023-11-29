@@ -342,6 +342,9 @@ spec:
               {{- end }}
             {{- end }}
           {{- end }}
+          {{ with .Values.extraVolumeMounts }}
+            {{ toYaml . | nindent 10 }}
+          {{- end }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:
           httpGet:
@@ -392,6 +395,9 @@ spec:
             - key: GOOGLE_APPLICATION_CREDENTIALS
               path: credentials.json
           {{- end }}
+        {{- end }}
+        {{ with .Values.extraVolumes }}
+          {{ toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
