@@ -238,8 +238,26 @@ spec:
             value: {{ $value | quote }}
               {{- end }}
             {{- end }}
+          {{- end  }}
+          {{- if or (index .Values "backups" "s3" "enabled") (index .Values "modules" "text2vec-aws" "enabled") (index .Values "modules" "generative-aws" "enabled") }}
             {{- if index .Values "backups" "s3" "envSecrets" }}
               {{- range $key, $secret := $.Values.backups.s3.envSecrets }}
+          - name: {{ $key }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secret }}
+                key: {{ $key | quote }}
+              {{- end }}
+            {{- else if index .Values "modules" "text2vec-aws" "envSecrets" }}
+              {{- range $key, $secret := (index .Values "modules" "text2vec-aws" "envSecrets") }}
+          - name: {{ $key }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secret }}
+                key: {{ $key | quote }}
+              {{- end }}
+            {{- else if index .Values "modules" "generative-aws" "envSecrets" }}
+              {{- range $key, $secret := (index .Values "modules" "generative-aws" "envSecrets") }}
           - name: {{ $key }}
             valueFrom:
               secretKeyRef:
@@ -253,12 +271,24 @@ spec:
               secretKeyRef:
                 name: backup-s3
                 key: AWS_ACCESS_KEY_ID
+            {{- else if or (and (index .Values "modules" "text2vec-aws" "secrets") (index .Values "modules" "text2vec-aws" "secrets" "AWS_ACCESS_KEY_ID")) (and (index .Values "modules" "generative-aws" "secrets") (index .Values "modules" "generative-aws" "secrets" "AWS_ACCESS_KEY_ID")) }}
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-aws
+                key: AWS_ACCESS_KEY_ID
             {{- end }}
             {{- if and (index .Values "backups" "s3" "secrets") (index .Values "backups" "s3" "secrets" "AWS_SECRET_ACCESS_KEY") }}
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
                 name: backup-s3
+                key: AWS_SECRET_ACCESS_KEY
+            {{- else if or (and (index .Values "modules" "text2vec-aws" "secrets") (index .Values "modules" "text2vec-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) (and (index .Values "modules" "generative-aws" "secrets") (index .Values "modules" "generative-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) }}
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-aws
                 key: AWS_SECRET_ACCESS_KEY
             {{- end }}
           {{- end  }}
