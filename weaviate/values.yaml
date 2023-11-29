@@ -409,6 +409,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     livenessProbe:
       initialDelaySeconds: 120
       periodSeconds: 3
@@ -474,6 +475,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: transformers-inference
     # Deprecated setting use initialDelaySeconds instead in each probe instead
     # probeInitialDelaySeconds: 120
@@ -542,6 +544,7 @@ modules:
         registry: docker.io
         imagePullPolicy: IfNotPresent
         imagePullSecrets: []
+        priorityClassName: ""
         replicas: 1
         strategy:
           type: RollingUpdate
@@ -611,6 +614,7 @@ modules:
         registry: docker.io
         imagePullPolicy: IfNotPresent
         imagePullSecrets: []
+        priorityClassName: ""
         replicas: 1
         strategy:
           type: RollingUpdate
@@ -693,6 +697,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: gpt4all-inference
     livenessProbe:
       initialDelaySeconds: 120
@@ -832,6 +837,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: clip-inference
     livenessProbe:
       initialDelaySeconds: 120
@@ -903,6 +909,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: bind-inference
     livenessProbe:
       initialDelaySeconds: 120
@@ -971,6 +978,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: qna-transformers
     livenessProbe:
       initialDelaySeconds: 120
@@ -1097,6 +1105,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: img2vec-neural
     livenessProbe:
       initialDelaySeconds: 120
@@ -1185,6 +1194,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: reranker-transformers
     livenessProbe:
       initialDelaySeconds: 120
@@ -1258,6 +1268,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: text-spellcheck
     livenessProbe:
       initialDelaySeconds: 120
@@ -1314,6 +1325,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: ner-transformers
     livenessProbe:
       initialDelaySeconds: 120
@@ -1386,6 +1398,7 @@ modules:
       type: RollingUpdate
     imagePullPolicy: IfNotPresent
     imagePullSecrets: []
+    priorityClassName: ""
     fullnameOverride: sum-transformers
     livenessProbe:
       initialDelaySeconds: 120
@@ -1471,3 +1484,9 @@ affinity:
                 operator: In
                 values:
                   - weaviate
+
+## Optionally specify priorityClass name for the pod
+## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#pod-priority
+##
+priorityClassName: ""
+globalPriorityClassName: ""

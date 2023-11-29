@@ -132,3 +132,23 @@ username: {{ randAlphaNum 32 | b64enc | quote }}
 password: {{ randAlphaNum 32 | b64enc | quote }}
 {{- end -}}
 {{- end -}}
+
+
+{{/* 
+Return PriorityClassName
+Usage:
+{{- include "pod.priorityClassName" ( dict "global" .Values.path.to.global.priorityClassName "priorityClassName" .Values.path.to.priorityClassName) | nindent 6 }}
+*/}}
+{{- define "pod.priorityClassName" -}}
+  {{- $priorityClassName := "" -}}
+
+  {{- if .global -}}
+    {{- $priorityClassName = .global -}}
+  {{- else if .priorityClassName -}}
+    {{- $priorityClassName = .priorityClassName -}}
+  {{- end -}}
+
+  {{- if (not (empty $priorityClassName)) -}}
+    {{- printf "priorityClassName: %s" $priorityClassName -}}
+  {{- end -}}
+{{- end -}}
