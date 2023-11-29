@@ -50,16 +50,14 @@ spec:
         resources:
 {{ index $module "resources" | toYaml | indent 10 }}
         livenessProbe:
-          httpGet:
-            path: /.well-known/live
-            port: 8080
+          tcpSocket:
+            port: 9999
           initialDelaySeconds: {{ index $module "livenessProbe" "initialDelaySeconds" }}
           periodSeconds: {{ index $module "livenessProbe" "periodSeconds" }}
           timeoutSeconds: {{ index $module "livenessProbe" "timeoutSeconds" }}
         readinessProbe:
-          httpGet:
-            path: /.well-known/ready
-            port: 8080
+          tcpSocket:
+            port: 9999
           initialDelaySeconds: {{ index $module "readinessProbe" "initialDelaySeconds" }}
           periodSeconds: {{ index $module "readinessProbe" "periodSeconds" }}
       {{- with index $module "nodeSelector" | default .Values.nodeSelector }}
