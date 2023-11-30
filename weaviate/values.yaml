@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.22.3
+  tag: 1.22.5
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -812,6 +812,32 @@ modules:
     # enable if you want to use Centroid module
     enabled: false
 
+  # The text2vec-aws module uses AWS Bedrock service
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about AWS Bedrock service can be found here: https://docs.aws.amazon.com/bedrock/
+  text2vec-aws:
+
+    # enable if you want to use AWS module
+    enabled: false
+
+    # For Weaviate to be able to use AWS Bedrock service it needs a user credentials to authenticate to AWS.
+    # The User must have permissions to use AWS Bedrock service AI.
+    # You can pass the User credentials (access-key id and access-secret-key) in 2 ways:
+    # 1. by setting the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY plain values in the `secrets` section below
+    #     this chart will create a kubernetes secret for you with these key-values pairs
+    # 2. create Kubernetes secret/s with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY keys and their respective values
+    #     Set the Key and the secret where it is set in `envSecrets` section below
+    secrets: {}
+    #   AWS_ACCESS_KEY_ID: access-key-id (plain text)
+    #   AWS_SECRET_ACCESS_KEY: secret-access-key (plain text)
+
+    # If one has already defined secrets with AWS credentials one can pass them using
+    # this setting:
+    envSecrets: {}
+    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
+    #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.
@@ -1085,6 +1111,31 @@ modules:
     # Set your Google PaLM API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
+
+  # The generative-aws module uses AWS Bedrock service.
+  # More information about AWS Bedrock service can be found here:
+  # https://docs.aws.amazon.com/bedrock/
+  generative-aws:
+
+    # enable if you want to use AWS module
+    enabled: false
+
+    # For Weaviate to be able to use AWS Bedrock service it needs a user credentials to authenticate to AWS.
+    # The User must have permissions to use AWS Bedrock service AI.
+    # You can pass the User credentials (access-key id and access-secret-key) in 2 ways:
+    # 1. by setting the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY plain values in the `secrets` section below
+    #     this chart will create a kubernetes secret for you with these key-values pairs
+    # 2. create Kubernetes secret/s with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY keys and their respective values
+    #     Set the Key and the secret where it is set in `envSecrets` section below
+    secrets: {}
+    #   AWS_ACCESS_KEY_ID: access-key-id (plain text)
+    #   AWS_SECRET_ACCESS_KEY: secret-access-key (plain text)
+
+    # If one has already defined secrets with AWS credentials one can pass them using
+    # this setting:
+    envSecrets: {}
+    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
+    #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
 
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
