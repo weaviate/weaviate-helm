@@ -6,7 +6,7 @@ metadata:
     name: weaviate
     app: weaviate
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicas }}
   updateStrategy:
@@ -20,7 +20,7 @@ spec:
       labels:
         app: weaviate
         app.kubernetes.io/name: weaviate
-        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
       annotations:
         # To restart Pods if the ConfigMap is updated.
         checksum/config: {{ include (print $.Template.BasePath "/weaviateConfigMap.yaml") . | sha256sum }}
@@ -447,7 +447,7 @@ spec:
       name: weaviate-data
       labels:
         app.kubernetes.io/name: weaviate
-        app.kubernetes.io/managed-by: helm
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ .Values.storage.storageClassName }}

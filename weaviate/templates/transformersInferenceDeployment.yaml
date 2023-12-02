@@ -10,7 +10,7 @@ metadata:
     name: {{ index $module "fullnameOverride" }}
     app: {{ index $module "fullnameOverride" }}
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ index $module "replicas" }}
   strategy:
@@ -89,7 +89,7 @@ metadata:
   name: {{ index $module "fullnameOverride" }}
   labels:
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ClusterIP
   selector:
