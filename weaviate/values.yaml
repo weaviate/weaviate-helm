@@ -83,6 +83,13 @@ securityContext: {}
 # By default, use the default ServiceAccount
 serviceAccountName:
 
+# Kubernetes Cluster domain name, used for resolving intra-cluster requests, i.e
+# between instances of weaviate.
+# Note: The final '.' on the end of the hostname makes it a FQDN, and is required for
+# DNS to resolve in all kubernetes environments. 
+# See https://github.com/weaviate/weaviate-helm/issues/175 for details.
+clusterDomain: cluster.local.
+
 # The Persistent Volume Claim settings for Weaviate. If there's a
 # storage.fullnameOverride field set, then the default pvc will not be
 # created, instead the one defined in fullnameOverride will be used
