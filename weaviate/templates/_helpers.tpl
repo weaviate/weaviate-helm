@@ -164,14 +164,25 @@ Usage:
 Raft cluster configuration settings
 */}}
 {{- define "raft_configuration" -}}
+  {{- $replicas := .Values.replicas | int -}}
   {{- $voters := .Values.env.RAFT_BOOTSTRAP_EXPECT | int -}}
-  {{- $nodes := list -}}
-  {{- range $i := until $voters -}}
-    {{- $node_name := list -}}
-    {{- $node_name = append $node_name "weaviate" -}}
-    {{- $node_name = append $node_name $i -}}
-    {{- $nodes = append $nodes (join "-" $node_name) -}}
-  {{- end }}
+  {{- if gt $voters $replicas  -}}
+    {{- fail "env.RAFT_BOOTSTRAP_EXPECT value cannot be greater than replicas value" -}}
+  {{- end -}}
+  {{- if empty .Values.env.RAFT_JOIN -}}
+    {{- $nodes := list -}}
+    {{- range $i := until $voters -}}
+      {{- $node_name := list -}}
+      {{- $node_name = append $node_name "weaviate" -}}
+      {{- $node_name = append $node_name $i -}}
+      {{- $nodes = append $nodes (join "-" $node_name) -}}
+    {{- end -}}
           - name: RAFT_JOIN
             value: "{{ join "," $nodes }}"
+  {{- else -}}
+    {{- $votersCount := len (split "," .Values.env.RAFT_JOIN) -}}
+    {{- if not (eq $votersCount $voters)  -}}
+      {{- fail "env.RAFT_BOOTSTRAP_EXPECT value needs to be equal to number of env.RAFT_JOIN nodes" -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
