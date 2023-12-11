@@ -177,9 +177,14 @@ function check_creates_template() {
   check_string_existence "--set modules.generative-mistral.enabled=true --set modules.generative-mistral.apiKey=apiKey" "name: MISTRAL_APIKEY"
   check_string_existence "--set modules.multi2vec-palm.enabled=true --set modules.multi2vec-palm.apiKey=palmApiKey" "name: PALM_APIKEY"
 
-  check_setting_has_value "--set replicas=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
-  check_setting_has_value "--set replicas=1" "name: RAFT_JOIN" "value: \"weaviate-0\""
-  check_setting_has_value "--set replicas=4" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"4\""
+  check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
+  check_setting_has_value "--set replicas=8 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
+  check_setting_has_value "--set replicas=1 --set env.RAFT_BOOTSTRAP_EXPECT=1" "name: RAFT_JOIN" "value: \"weaviate-0\""
+  check_setting_has_value "--set replicas=4 --set env.RAFT_BOOTSTRAP_EXPECT=4" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"4\""
+  check_setting_has_value "--set replicas=4 --set env.RAFT_BOOTSTRAP_EXPECT=4" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2,weaviate-3\""
+  check_setting_has_value "--set replicas=10 --set env.RAFT_BOOTSTRAP_EXPECT=4" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2,weaviate-3\""
+  check_setting_has_value "--set replicas=10 --set env.RAFT_JOIN=weaviate-100" "name: RAFT_JOIN" "value: \"weaviate-100\""
+  check_setting_has_value "--set replicas=10 --set env.RAFT_JOIN=weaviate-100 --set env.RAFT_BOOTSTRAP_EXPECT=1" "name: RAFT_JOIN" "value: \"weaviate-100\""
 
   _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local.:8080"
