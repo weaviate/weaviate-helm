@@ -179,9 +179,9 @@ Usage:
 Raft cluster configuration settings
 */}}
 {{- define "raft_configuration" -}}
-  {{- $replicas := .Values.replicas | int -}}
+  {{- $voters := .Values.env.RAFT_BOOTSTRAP_EXPECT | int -}}
   {{- $nodes := list -}}
-  {{- range $i := until $replicas -}}
+  {{- range $i := until $voters -}}
     {{- $node_name := list -}}
     {{- $node_name = append $node_name "weaviate" -}}
     {{- $node_name = append $node_name $i -}}
@@ -189,6 +189,4 @@ Raft cluster configuration settings
   {{- end }}
           - name: RAFT_JOIN
             value: "{{ join "," $nodes }}"
-          - name: RAFT_BOOTSTRAP_EXPECT
-            value: {{ $replicas | quote }}
 {{- end -}}

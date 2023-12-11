@@ -262,7 +262,9 @@ env:
 
   # Raft settings are generated automatically by "raft_configuration" template
   # Set Raft cluster bootstrap timeout (in seconds), default is 10 (seconds)
-  # RAFT_BOOTSTRAP_TIMEOUT: 30
+  RAFT_BOOTSTRAP_TIMEOUT: 30
+  RAFT_BOOTSTRAP_EXPECT: 1
+
 
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
