@@ -7,8 +7,8 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.24.3
-  repo: semitechnologies/weaviate
+  tag: latest
+  repo: library/module_test_image_raft
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
   pullSecrets: []
@@ -236,7 +236,9 @@ env:
 
   # Raft settings are generated automatically by "raft_configuration" template
   # Set Raft cluster bootstrap timeout (in seconds), default is 10 (seconds)
-  # RAFT_BOOTSTRAP_TIMEOUT: 30
+  RAFT_BOOTSTRAP_TIMEOUT: 30
+  RAFT_BOOTSTRAP_EXPECT: 1
+
 
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
