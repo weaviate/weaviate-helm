@@ -106,7 +106,7 @@ service:
     - name: http
       protocol: TCP
       port: 80
-      # Target port is going to be the same for every port
+      targetPort: 8080
   type: LoadBalancer
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
@@ -137,6 +137,7 @@ serviceMonitor:
   enabled: false
   interval: 30s
   scrapeTimeout: 10s
+  additionalLabels: {}
 
 # Adjust liveness, readiness and startup probes configuration
 startupProbe:
@@ -229,6 +230,7 @@ env:
   # Expose metrics on port 2112 for Prometheus to scrape
   PROMETHEUS_MONITORING_ENABLED: false
   PROMETHEUS_MONITORING_GROUP: false
+  PROMETHEUS_MONITORING_PORT: 2112
 
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
