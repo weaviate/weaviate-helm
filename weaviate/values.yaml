@@ -231,7 +231,12 @@ env:
 
   # Set RAFT cluster expected number of voter nodes at bootstrap
   RAFT_BOOTSTRAP_EXPECT: 1
-
+  # RAFT_HEARTBEAT_TIMEOUT: 1
+  # RAFT_ELECTION_TIMEOUT: 1
+  # Control how often raft checks if it should perform a snapshot
+  # RAFT_SNAPSHOT_INTERVAL: 120
+  # Number of outstanding log entries before performing a snapshot
+  # RAFT_SNAPSHOT_THRESHOLD: 8192
   # Set RAFT cluster bootstrap timeout (in seconds), default is 10 (seconds)
   # RAFT_BOOTSTRAP_TIMEOUT: 10
 
