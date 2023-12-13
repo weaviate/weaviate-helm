@@ -8,6 +8,9 @@ metadata:
     app: weaviate
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: helm
+{{- if .Values.serviceMonitor.additionalLabels }}
+    {{- toYaml .Values.serviceMonitor.additionalLabels | nindent 4 }}
+{{- end }}
 spec:
   jobLabel: weaviate
   selector:
