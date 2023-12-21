@@ -112,6 +112,7 @@ service:
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
   annotations: {}
+  labels: {}
 
 # The service controls how weaviate gRPC endpoint is exposed to the outside world.
 # If you don't want a public load balancer, you can also choose 'ClusterIP' to make
@@ -130,6 +131,7 @@ grpcService:
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
   annotations: {}
+  labels: {}
 
 # The service monitor defines prometheus monitoring for a set of services
 # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.ServiceMonitor
