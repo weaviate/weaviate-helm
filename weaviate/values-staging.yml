@@ -1,0 +1,20 @@
+modules:
+  text2vec-openai:
+    enabled: true
+    apiKey: 'MODULES_API_KEY'
+  generative-openai:
+    enabled: true
+    apiKey: 'MODULES_API_KEY'
+
+authentication:
+  anonymous_access:
+    enabled: false
+  apikey:
+    enabled: true
+    allowed_keys:
+      - VAULT_ALLOWED_KEYS
+    users:
+      - admin
+
+query_defaults:
+  limit: QUERY_LIMMIT
