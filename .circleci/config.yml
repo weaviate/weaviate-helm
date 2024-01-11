@@ -1,0 +1,159 @@
+version: 2.1
+orbs: 
+  browser-tools: circleci/browser-tools@1.4.0
+  moneysmart-orb: moneysmartco/circleci-orb@1.0.16
+  aws-cli: circleci/aws-cli@3.1
+  helm: circleci/helm@1.0
+
+defaults: &defaults
+  working_directory: ~/app
+  docker:
+    # the Docker image with Cypress dependencies
+    - image: cypress/base:16.14.0
+      environment:
+        ## this enables colors in the output
+        TERM: xterm
+aliases:
+  - &prod_aws_creds
+    aws-cli/setup:
+      aws-access-key-id: AWS_ACCESS_KEY
+      aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      aws-region: AWS_REGION
+  - &stg_aws_creds
+    aws-cli/setup:
+      aws-access-key-id: STAGING_AWS_ACCESS_KEY
+      aws-secret-access-key: STAGING_AWS_SECRET_ACCESS_KEY
+      aws-region: AWS_REGION
+default-image: &default-image
+  machine:
+    image: ubuntu-2004:current
+    docker_layer_caching: true
+docker: &docker-image
+  docker:
+    # the Docker image with Cypress dependencies
+    - image: cimg/python:3.11.4
+      environment:
+        ## this enables colors in the output
+        TERM: xterm
+jobs:
+#---------------------------------------------
+# weaviate Staging Jobs
+#---------------------------------------------
+  get_env_var_from_vault_sg_staging_eks:
+    <<: *docker-image
+    steps:
+      - checkout
+      - *prod_aws_creds
+      - moneysmart-orb/get_env_var_from_vault:
+          secret_path: staging/sg/weaviate
+          repo_name: weaviate-helm
+          output_format: helm
+
+  deploy_to_sg_staging_eks:
+    docker:
+      - image: 'cimg/python:3.10'
+    steps:
+      - checkout
+      - *stg_aws_creds
+      - attach_workspace:
+          at: /tmp/workspace
+      - helm/upgrade-helm-chart:
+          chart: weaviate
+          release-name: my-weaviate
+          namespace: labs
+          values-to-override: image.tag=1.23.0
+          values: /tmp/workspace/staging-sg-weaviate-env.yaml,weaviate/values.yaml
+          helm-version: v3.9.0
+
+# workflows:
+#   version: 2.1
+
+#---------------------------------------------
+# personal-finance-ai SG and HK Production Jobs
+#---------------------------------------------
+  release_tag_validation:
+    <<: *default-image
+    steps:
+      - moneysmart-orb/tag_validation:
+          repo_name: weaviate-helm
+          branch_name: master
+
+  get_env_var_from_vault_sg_prod_eks:
+    <<: *docker-image
+    steps:
+      - checkout
+      - *prod_aws_creds
+      - moneysmart-orb/get_env_var_from_vault:
+          secret_path: production/sg/weaviate
+          repo_name: weaviate-helm
+          output_format: helm
+
+  deploy_to_sg_prod_eks:
+    docker:
+      - image: 'cimg/python:3.10'
+    steps:
+      - checkout
+      - *prod_aws_creds
+      - attach_workspace:
+          at: /tmp/workspace
+      - helm/upgrade-helm-chart:
+          chart: weaviate
+          release-name: my-weaviate
+          namespace: labs
+          values-to-override: image.tag=1.23.0
+          values: /tmp/workspace/production-sg-weaviate-env.yaml,weaviate/values.yaml
+          helm-version: v3.9.0
+
+workflows:
+  version: 2.1
+#---------------------------------------------
+# weaviate-helm Staging Pipeline
+#---------------------------------------------
+  staging-build-deploy:
+    jobs:
+      - get_env_var_from_vault_sg_staging_eks:
+          context: common-eks-vars
+          filters:
+            branches:
+              only: master
+
+      - deploy_to_sg_staging_eks:
+          context: common-eks-vars
+          requires:
+            - get_env_var_from_vault_sg_staging_eks
+          filters:
+            branches:
+              only: master
+
+#---------------------------------------------
+# weaviate-helm Production Pipeline
+#---------------------------------------------
+  prod-build-deploy:
+    jobs:
+      - release_tag_validation:
+          context: circleci-token
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
+      - get_env_var_from_vault_sg_prod_eks:
+          context: common-eks-vars
+          requires:
+            - release_tag_validation
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
+      - deploy_to_sg_prod_eks:
+          context: common-eks-vars
+          requires:
+            - get_env_var_from_vault_sg_prod_eks
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
