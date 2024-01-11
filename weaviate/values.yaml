@@ -61,7 +61,7 @@ initContainers:
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
-replicas: 1
+replicas: {{ .Values.envs.replicaCount }}
 updateStrategy:
   type: RollingUpdate
 resources: {}
@@ -94,7 +94,7 @@ clusterDomain: cluster.local.
 # storage.fullnameOverride field set, then the default pvc will not be
 # created, instead the one defined in fullnameOverride will be used
 storage:
-  size: 32Gi
+  size: {{ .Values.envs.storageSize }}
   storageClassName: ""
 
 # The service controls how weaviate is exposed to the outside world. If you
@@ -107,7 +107,7 @@ service:
       protocol: TCP
       port: 80
       # Target port is going to be the same for every port
-  type: LoadBalancer
+  type: NodePort
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
@@ -174,25 +174,25 @@ terminationGracePeriodSeconds: 600
 # configuration.
 authentication:
   anonymous_access:
-    enabled: true
+    enabled: false
   # This configuration allows to add API keys to Weaviate. This configuration allows only
   # plain text API Keys, if you want to store the API Keys in a Kubernetes secret you can
   # configure the same configuration with ENV Vars. Read the `env` section below on what
   # needs to be configured. If using ENV Vars over this make sure to comment out the whole
   # `apikey` section (as it is by default). ENV Vars has priority over this config.
-  # apikey:
-  #   enabled: false
+  apikey:
+    enabled: true
   #   # Any number of allowed API Keys as plain text
-  #   allowed_keys:
+    allowed_keys:
+      - {{ .Values.envs.AUTHENTICATION_API_KEY }}
   #     - readOnly-plainText-API-Key
   #     - admin-plainText-API-Key
   #   # You can either set a single user for all the listed Allowed API keys OR
   #   # one user per API Key, i.e. length(apikey.allowed_keys) == length(apikey.users) OR
   #   # length(apikey.users) == 1
   #   # NOTE: Make sure the lister Users are added to the Authorization as well.
-  #   users:
-  #     - api-key-user-readOnly
-  #     - api-key-user-admin
+    users:
+      - admin
   oidc:
     enabled: false
     # issuer: ''
@@ -213,7 +213,7 @@ authorization:
     # - api-key-user-readOnly
 
 query_defaults:
-  limit: 100
+  limit: {{ .Values.envs.queryLimits }}
 debug: false
 
 
@@ -750,12 +750,12 @@ modules:
   text2vec-openai:
 
     # enable if you want to use OpenAI module
-    enabled: false
+    enabled: true
 
     # Set your OpenAI API Key to be passed to Weaviate pod as
     # an environment variable. You can set either the OpenAI's Service API key
     # OR the Azure OpenAI's Service Key. Note that you cannot set both of the at the same time.
-    apiKey: ''
+    apiKey: {{ .Values.envs.MODULES_API_KEY }}
     azureApiKey: ''
 
   # The text2vec-huggingface module uses HuggingFace API
@@ -1087,12 +1087,12 @@ modules:
   generative-openai:
 
     # enable if you want to use OpenAI module
-    enabled: false
+    enabled: true
 
     # Set your OpenAI API Key to be passed to Weaviate pod as
     # an environment variable. You can set either the OpenAI's Service API key
     # OR the Azure OpenAI's Service Key. Note that you cannot set both of the at the same time.
-    apiKey: ''
+    apiKey: {{ .Values.envs.MODULES_API_KEY }}
     azureApiKey: ''
 
   # The generative-cohere module uses Cohere Generate API
