@@ -73,16 +73,15 @@ jobs:
             
             sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-staging.yml
             sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-staging.yml
-            sed -i "s|'MODULES_API_KEY'|$MODULES_API_KEY|g" weaviate/values-staging.yml
+            sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-staging.yml
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-staging.yml
-            cat weaviate/values-staging.yml
-      #- helm/upgrade-helm-chart:
-      #    chart: weaviate
-      #    release-name: my-weaviate
-      #    namespace: labs
-      #    values-to-override: image.tag=1.23.0
-      #    values: /tmp/workspace/staging-sg-weaviate-env.yaml,weaviate/values-staging.yml
-      #    helm-version: v3.9.0
+      - helm/upgrade-helm-chart:
+          chart: weaviate
+          release-name: my-weaviate
+          namespace: labs
+          values-to-override: image.tag=1.23.0
+          values: /tmp/workspace/staging-sg-weaviate-env.yaml,weaviate/values-staging.yml
+          helm-version: v3.9.0
 
 # workflows:
 #   version: 2.1
