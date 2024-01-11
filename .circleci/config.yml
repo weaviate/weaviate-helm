@@ -61,13 +61,17 @@ jobs:
           name: Update config
           command: |
             aws eks update-kubeconfig --name product-listing-staging
-      - helm/upgrade-helm-chart:
-          chart: weaviate
-          release-name: my-weaviate
-          namespace: labs
-          values-to-override: image.tag=1.23.0
-          values: /tmp/workspace/staging-sg-weaviate-env.yaml,weaviate/values.yaml
-          helm-version: v3.9.0
+      - run:
+          name: Update values.yml
+          command: |
+            cat /tmp/workspace/staging-sg-weaviate-env.yaml
+      #- helm/upgrade-helm-chart:
+      #    chart: weaviate
+      #    release-name: my-weaviate
+      #    namespace: labs
+      #    values-to-override: image.tag=1.23.0
+      #    values: /tmp/workspace/staging-sg-weaviate-env.yaml,weaviate/values-staging.yml
+      #    helm-version: v3.9.0
 
 # workflows:
 #   version: 2.1
