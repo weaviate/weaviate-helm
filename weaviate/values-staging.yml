@@ -18,3 +18,12 @@ authentication:
 
 query_defaults:
   limit: QUERY_LIMMIT
+
+service:
+  name: weaviate
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      # Target port is going to be the same for every port
+  type: SERVICE_TYPE
