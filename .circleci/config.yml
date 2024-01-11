@@ -57,6 +57,10 @@ jobs:
       - *stg_aws_creds
       - attach_workspace:
           at: /tmp/workspace
+      - run: |
+          name: Update config
+          command: |
+            aws eks update-kubeconfig --name product-listing-staging
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: my-weaviate
@@ -96,6 +100,10 @@ jobs:
       - *prod_aws_creds
       - attach_workspace:
           at: /tmp/workspace
+      - run: |
+          name: Update config
+          command: |
+            aws eks update-kubeconfig --name product-listing-prod
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: my-weaviate
