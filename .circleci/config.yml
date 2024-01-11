@@ -66,10 +66,11 @@ jobs:
           command: |
             while IFS=': ' read -r key value; do
             if [ "$key" ]; then
+                echo $key
                 export "$key=$value"
             fi
             done < <(grep -E '^\s+\w+\s*:' /tmp/workspace/staging-sg-weaviate-env.yaml)
-
+            
             sed -i "s|'QUERY_LIMIT'|$QUERY_LIMIT|g" weaviate/values-staging.yml
             sed -i "s|'AUTHENTICATION_API_KEY'|$AUTHENTICATION_API_KEY|g" weaviate/values-staging.yml
             sed -i "s|'MODULES_API_KEY'|$MODULES_API_KEY|g" weaviate/values-staging.yml
