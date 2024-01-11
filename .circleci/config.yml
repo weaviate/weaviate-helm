@@ -79,8 +79,8 @@ jobs:
           chart: weaviate
           release-name: my-weaviate
           namespace: labs
-          values-to-override: image.tag=1.23.0
-          values: /tmp/workspace/staging-sg-weaviate-env.yaml,weaviate/values-staging.yml,weaviate/values.yaml
+          values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
+          values: weaviate/values-staging.yml,weaviate/values.yaml
           helm-version: v3.9.0
 
 # workflows:
