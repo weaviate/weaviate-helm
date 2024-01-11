@@ -17,7 +17,7 @@ authentication:
       - admin
 
 query_defaults:
-  limit: QUERY_LIMMIT
+  limit: QUERY_LIMIT
 
 service:
   name: weaviate
