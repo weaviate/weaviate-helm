@@ -115,7 +115,7 @@ workflows:
           context: common-eks-vars
           filters:
             branches:
-              only: master
+              only: circleci
 
       - deploy_to_sg_staging_eks:
           context: common-eks-vars
@@ -123,7 +123,7 @@ workflows:
             - get_env_var_from_vault_sg_staging_eks
           filters:
             branches:
-              only: master
+              only: circleci
 
 #---------------------------------------------
 # weaviate-helm Production Pipeline
