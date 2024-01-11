@@ -57,7 +57,7 @@ jobs:
       - *stg_aws_creds
       - attach_workspace:
           at: /tmp/workspace
-      - run: |
+      - run:
           name: Update config
           command: |
             aws eks update-kubeconfig --name product-listing-staging
@@ -100,7 +100,7 @@ jobs:
       - *prod_aws_creds
       - attach_workspace:
           at: /tmp/workspace
-      - run: |
+      - run:
           name: Update config
           command: |
             aws eks update-kubeconfig --name product-listing-prod
