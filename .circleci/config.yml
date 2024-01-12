@@ -77,10 +77,10 @@ jobs:
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-staging.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
-          release-name: my-weaviate
-          namespace: labs
-          values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
-          values: weaviate/values-staging.yml,weaviate/values.yaml
+          release-name: weaviate
+          namespace: test
+          values-to-override: image.tag=1.23.0,replicas=1,storage.size=1Gi
+          values: weaviate/values-staging.yml
           helm-version: v3.9.0
 
 # workflows:
@@ -120,7 +120,7 @@ jobs:
             aws eks update-kubeconfig --name product-listing-prod
       - helm/upgrade-helm-chart:
           chart: weaviate
-          release-name: my-weaviate
+          release-name: weaviate
           namespace: labs
           values-to-override: image.tag=1.23.0
           values: /tmp/workspace/production-sg-weaviate-env.yaml,weaviate/values.yaml
