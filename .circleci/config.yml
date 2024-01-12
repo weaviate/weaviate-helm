@@ -77,9 +77,9 @@ jobs:
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-staging.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
-          release-name: weaviate
-          namespace: test
-          values-to-override: image.tag=1.23.0,replicas=1,storage.size=1Gi
+          release-name: my-weaviate
+          namespace: labs
+          values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
           values: weaviate/values-staging.yml
           helm-version: v3.9.0
 
@@ -118,12 +118,26 @@ jobs:
           name: Update config
           command: |
             aws eks update-kubeconfig --name product-listing-prod
+      - run:
+          name: Update values.yml
+          command: |
+            while IFS=': ' read -r key value; do
+            if [ "$key" ]; then
+                value=$(echo "$value" | tr -d '"')
+                export "$key=$value"
+            fi
+            done < <(grep -E '^\s+\w+\s*:' /tmp/workspace/production-sg-weaviate-env.yaml)
+            
+            sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-staging.yml
+            sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-staging.yml
+            sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-staging.yml
+            sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-staging.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
-          release-name: weaviate
+          release-name: my-weaviate
           namespace: labs
           values-to-override: image.tag=1.23.0
-          values: /tmp/workspace/production-sg-weaviate-env.yaml,weaviate/values.yaml
+          values: weaviate/values-staging.yml
           helm-version: v3.9.0
 
 workflows:
@@ -137,7 +151,7 @@ workflows:
           context: common-eks-vars
           filters:
             branches:
-              only: circleci
+              only: master
 
       - deploy_to_sg_staging_eks:
           context: common-eks-vars
@@ -145,7 +159,7 @@ workflows:
             - get_env_var_from_vault_sg_staging_eks
           filters:
             branches:
-              only: circleci
+              only: master
 
 #---------------------------------------------
 # weaviate-helm Production Pipeline
