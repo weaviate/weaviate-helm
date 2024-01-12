@@ -77,8 +77,8 @@ jobs:
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
-          release-name: my-weaviate
-          namespace: labs
+          release-name: ms-labs-weaviate
+          namespace: labs-db
           values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
           values: weaviate/values-override.yml
           helm-version: v3.9.0
@@ -134,8 +134,8 @@ jobs:
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
-          release-name: my-weaviate
-          namespace: labs
+          release-name: ms-labs-weaviate
+          namespace: labs-db
           values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
           values: weaviate/values-override.yml
           helm-version: v3.9.0
