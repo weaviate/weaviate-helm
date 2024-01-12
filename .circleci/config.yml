@@ -71,16 +71,16 @@ jobs:
             fi
             done < <(grep -E '^\s+\w+\s*:' /tmp/workspace/staging-sg-weaviate-env.yaml)
             
-            sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-staging.yml
-            sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-staging.yml
-            sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-staging.yml
-            sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-staging.yml
+            sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-override.yml
+            sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
+            sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
+            sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: my-weaviate
           namespace: labs
           values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
-          values: weaviate/values-staging.yml
+          values: weaviate/values-override.yml
           helm-version: v3.9.0
 
 # workflows:
@@ -128,16 +128,16 @@ jobs:
             fi
             done < <(grep -E '^\s+\w+\s*:' /tmp/workspace/production-sg-weaviate-env.yaml)
             
-            sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-staging.yml
-            sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-staging.yml
-            sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-staging.yml
-            sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-staging.yml
+            sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-override.yml
+            sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
+            sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
+            sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: my-weaviate
           namespace: labs
-          values-to-override: image.tag=1.23.0
-          values: weaviate/values-staging.yml
+          values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
+          values: weaviate/values-override.yml
           helm-version: v3.9.0
 
 workflows:
