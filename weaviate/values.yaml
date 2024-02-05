@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.22.5
+  tag: 1.23.7
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -1143,6 +1143,18 @@ modules:
     envSecrets: {}
     #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
     #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
+
+  # The generative-anyscale module uses Anyscale API
+  # More information about Anyscale API can be found here:
+  # https://docs.anyscale.com/endpoints/overview
+  generative-anyscale:
+
+    # enable if you want to use Anyscale module
+    enabled: false
+
+    # Set your Anyscale API Key to be passed to Weaviate pod as
+    # an environment variable.
+    apiKey: ''
 
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
