@@ -144,6 +144,8 @@ function check_creates_template() {
   check_modules "--set modules.text2vec-aws.enabled=true" "value: text2vec-aws"
   check_modules "--set modules.generative-aws.enabled=true" "value: generative-aws"
   check_modules "--set modules.text2vec-aws.enabled=true --set modules.generative-aws.enabled=true" "value: generative-aws,text2vec-aws"
+  check_modules "--set modules.generative-anyscale.enabled=true" "value: generative-anyscale"
+  check_modules "--set modules.generative-anyscale.enabled=true --set modules.generative-anyscale.apiKey=apiKey" "value: generative-anyscale"
 
   check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
   check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"
@@ -165,6 +167,7 @@ function check_creates_template() {
   check_string_existence "--set backups.s3.enabled=true --set modules.generative-aws.enabled=true --set backups.s3.secrets.AWS_ACCESS_KEY_ID=key --set backups.s3.secrets.AWS_SECRET_ACCESS_KEY=secret --set modules.text2vec-aws.enabled=true" "name: backup-s3"
   check_string_existence "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.envSecrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.envSecrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_ACCESS_KEY_ID"
   check_string_existence "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.envSecrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.envSecrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_SECRET_ACCESS_KEY"
+  check_string_existence "--set modules.generative-anyscale.enabled=true --set modules.generative-anyscale.apiKey=apiKey" "name: ANYSCALE_APIKEY"
 
   _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local.:8080"
