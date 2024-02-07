@@ -1564,3 +1564,7 @@ affinity:
 ##
 priorityClassName: ""
 globalPriorityClassName: ""
+cluster_api:
+  secret:
+    create: true
+    name: "weaviate-cluster-api-basic-auth"
