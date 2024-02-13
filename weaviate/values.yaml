@@ -76,6 +76,9 @@ resources: {}
 # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 securityContext: {}
 
+# Security context for the Weaviate container. Override overlapping settings made at the Pod level.
+containerSecurityContext: {}
+
 
 # Add a service account ot the Weaviate pods if you need Weaviate to have permissions to
 # access kubernetes resources or cloud provider resources. For example for it to have

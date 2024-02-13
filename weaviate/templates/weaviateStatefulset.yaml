@@ -411,6 +411,8 @@ spec:
           failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           successThreshold: {{ .Values.readinessProbe.successThreshold }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        securityContext:
+{{ toYaml .Values.containerSecurityContext | indent 10}}
       volumes:
         - name: weaviate-config
           configMap:
