@@ -368,7 +368,7 @@ spec:
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
-          - name: weaviate-data
+          - name: {{ if .Values.storage.fullnameOverride }}pvc-mount{{ else }}weaviate-data{{ end }}
             mountPath: /var/lib/weaviate
           {{- if index .Values "backups" "gcs" "enabled" }}
             {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
@@ -412,6 +412,11 @@ spec:
           successThreshold: {{ .Values.readinessProbe.successThreshold }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
       volumes:
+        {{- if .Values.storage.fullnameOverride }}
+        - name: pvc-mount
+          persistentVolumeClaim:
+            claimName: {{ .Values.storage.fullnameOverride }}
+        {{- end }}
         - name: weaviate-config
           configMap:
             {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: weaviate-config{{ end }}
@@ -448,7 +453,7 @@ spec:
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-
+  {{- if not .Values.storage.fullnameOverride }}
   volumeClaimTemplates:
   - metadata:
       name: weaviate-data
@@ -461,3 +466,4 @@ spec:
       resources:
         requests:
           storage: {{ .Values.storage.size }}
+  {{- end }}
