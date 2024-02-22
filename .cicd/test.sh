@@ -195,6 +195,7 @@ function check_creates_template() {
   check_string_existence "--set extraVolumeMounts[0].name=test-extra-volumemount" "name: test-extra-volumemount"
 
   check_string_existence "--set securityContext.thisIsATest=true " "thisIsATest: true"
+  check_string_existence "--set containerSecurityContext.allowPrivilegeEscalation=false " "allowPrivilegeEscalation: false"
   check_string_existence "" "imagePullPolicy: IfNotPresent"
   check_setting_has_value "--set image.pullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
   check_setting_has_value "--set updateStrategy.type=OnDelete" "updateStrategy" "type: OnDelete"
