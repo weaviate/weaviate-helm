@@ -5,6 +5,9 @@ metadata:
   labels:
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: helm
+{{- with .Values.service.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
   {{- with .Values.service.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}
