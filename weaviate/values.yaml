@@ -1549,6 +1549,8 @@ nodeSelector:
 
 tolerations:
 
+hostAliases:
+
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
