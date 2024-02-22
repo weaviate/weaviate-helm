@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.service.name }}
   labels:
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   {{- with .Values.service.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}

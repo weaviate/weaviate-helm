@@ -7,13 +7,13 @@ metadata:
     name: weaviate
     app: weaviate
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   jobLabel: weaviate
   selector:
     matchLabels:
       app.kubernetes.io/name: weaviate
-      app.kubernetes.io/managed-by: helm
+      app.kubernetes.io/managed-by: {{ .Release.Service }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace | quote }}
