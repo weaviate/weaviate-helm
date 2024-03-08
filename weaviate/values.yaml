@@ -1,6 +1,6 @@
 image:
   # registry where weaviate image is stored
-  registry: docker.io
+  registry: cr.weaviate.io
   # Tag of weaviate image to deploy
   # Note: We strongly recommend you overwrite this value in your own values.yaml.
   # Otherwise a mere upgrade of the chart could lead to an unexpected upgrade
@@ -8,7 +8,7 @@ image:
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
   tag: 1.24.1
-  repo: cr.weaviate.io/semitechnologies/weaviate
+  repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
   pullSecrets: []
@@ -412,7 +412,7 @@ modules:
     # The configuration below is ignored if enabled==false
     fullnameOverride: contextionary
     tag: en0.16.0-v1.2.1
-    repo: cr.weaviate.io/semitechnologies/contextionary
+    repo: semitechnologies/contextionary
     registry: docker.io
     replicas: 1
     strategy:
@@ -478,7 +478,7 @@ modules:
     # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/text2vec-transformers
     # for all supported models or build your own container.
     tag: sentence-transformers-paraphrase-multilingual-MiniLM-L12-v2
-    repo: cr.weaviate.io/semitechnologies/transformers-inference
+    repo: semitechnologies/transformers-inference
     registry: docker.io
     replicas: 1
     strategy:
@@ -550,7 +550,7 @@ modules:
 
         # The configuration below is ignored if enabled==false
         tag: facebook-dpr-ctx_encoder-single-nq-base
-        repo: cr.weaviate.io/semitechnologies/transformers-inference
+        repo: semitechnologies/transformers-inference
         registry: docker.io
         imagePullPolicy: IfNotPresent
         imagePullSecrets: []
@@ -620,7 +620,7 @@ modules:
 
         # The configuration below is ignored if enabled==false
         tag: facebook-dpr-question_encoder-single-nq-base
-        repo: cr.weaviate.io/semitechnologies/transformers-inference
+        repo: semitechnologies/transformers-inference
         registry: docker.io
         imagePullPolicy: IfNotPresent
         imagePullSecrets: []
@@ -700,7 +700,7 @@ modules:
     
     # The configuration below is ignored if enabled==false
     tag: all-MiniLM-L6-v2
-    repo: cr.weaviate.io/semitechnologies/gpt4all-inference
+    repo: semitechnologies/gpt4all-inference
     registry: docker.io
     replicas: 1
     strategy:
@@ -866,7 +866,7 @@ modules:
     # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/multi2vec-clip
     # for all supported models or build your own container.
     tag: sentence-transformers-clip-ViT-B-32-multilingual-v1
-    repo: cr.weaviate.io/semitechnologies/multi2vec-clip
+    repo: semitechnologies/multi2vec-clip
     registry: docker.io
     replicas: 1
     strategy:
@@ -938,7 +938,7 @@ modules:
 
     # The configuration below is ignored if enabled==false
     tag: imagebind
-    repo: cr.weaviate.io/semitechnologies/multi2vec-bind
+    repo: semitechnologies/multi2vec-bind
     registry: docker.io
     replicas: 1
     strategy:
@@ -1007,7 +1007,7 @@ modules:
 
     # The configuration below is ignored if enabled==false
     tag: bert-large-uncased-whole-word-masking-finetuned-squad
-    repo: cr.weaviate.io/semitechnologies/qna-transformers
+    repo: semitechnologies/qna-transformers
     registry: docker.io
     replicas: 1
     strategy:
@@ -1171,7 +1171,7 @@ modules:
     inferenceUrl: {}
 
     tag: resnet50
-    repo: cr.weaviate.io/semitechnologies/img2vec-pytorch
+    repo: semitechnologies/img2vec-pytorch
     registry: docker.io
     replicas: 1
     strategy:
@@ -1260,7 +1260,7 @@ modules:
 
     # The configuration below is ignored if enabled==false
     tag: cross-encoder-ms-marco-MiniLM-L-6-v2
-    repo: cr.weaviate.io/semitechnologies/reranker-transformers
+    repo: semitechnologies/reranker-transformers
     registry: docker.io
     replicas: 1
     strategy:
@@ -1334,7 +1334,7 @@ modules:
 
     # The configuration below is ignored if enabled==false
     tag: pyspellchecker-en
-    repo: cr.weaviate.io/semitechnologies/text-spellcheck-model
+    repo: semitechnologies/text-spellcheck-model
     registry: docker.io
     replicas: 1
     strategy:
@@ -1391,7 +1391,7 @@ modules:
 
     # The configuration below is ignored if enabled==false
     tag: dbmdz-bert-large-cased-finetuned-conll03-english
-    repo: cr.weaviate.io/semitechnologies/ner-transformers
+    repo: semitechnologies/ner-transformers
     registry: docker.io
     replicas: 1
     strategy:
@@ -1464,7 +1464,7 @@ modules:
 
     # The configuration below is ignored if enabled==false
     tag: facebook-bart-large-cnn
-    repo: cr.weaviate.io/semitechnologies/sum-transformers
+    repo: semitechnologies/sum-transformers
     registry: docker.io
     replicas: 1
     strategy:
