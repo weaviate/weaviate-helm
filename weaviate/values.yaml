@@ -413,7 +413,7 @@ modules:
     fullnameOverride: contextionary
     tag: en0.16.0-v1.2.1
     repo: semitechnologies/contextionary
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -479,7 +479,7 @@ modules:
     # for all supported models or build your own container.
     tag: sentence-transformers-paraphrase-multilingual-MiniLM-L12-v2
     repo: semitechnologies/transformers-inference
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -551,7 +551,7 @@ modules:
         # The configuration below is ignored if enabled==false
         tag: facebook-dpr-ctx_encoder-single-nq-base
         repo: semitechnologies/transformers-inference
-        registry: docker.io
+        registry: cr.weaviate.io
         imagePullPolicy: IfNotPresent
         imagePullSecrets: []
         priorityClassName: ""
@@ -621,7 +621,7 @@ modules:
         # The configuration below is ignored if enabled==false
         tag: facebook-dpr-question_encoder-single-nq-base
         repo: semitechnologies/transformers-inference
-        registry: docker.io
+        registry: cr.weaviate.io
         imagePullPolicy: IfNotPresent
         imagePullSecrets: []
         priorityClassName: ""
@@ -701,7 +701,7 @@ modules:
     # The configuration below is ignored if enabled==false
     tag: all-MiniLM-L6-v2
     repo: semitechnologies/gpt4all-inference
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -867,7 +867,7 @@ modules:
     # for all supported models or build your own container.
     tag: sentence-transformers-clip-ViT-B-32-multilingual-v1
     repo: semitechnologies/multi2vec-clip
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -939,7 +939,7 @@ modules:
     # The configuration below is ignored if enabled==false
     tag: imagebind
     repo: semitechnologies/multi2vec-bind
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -1008,7 +1008,7 @@ modules:
     # The configuration below is ignored if enabled==false
     tag: bert-large-uncased-whole-word-masking-finetuned-squad
     repo: semitechnologies/qna-transformers
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -1172,7 +1172,7 @@ modules:
 
     tag: resnet50
     repo: semitechnologies/img2vec-pytorch
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -1261,7 +1261,7 @@ modules:
     # The configuration below is ignored if enabled==false
     tag: cross-encoder-ms-marco-MiniLM-L-6-v2
     repo: semitechnologies/reranker-transformers
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -1335,7 +1335,7 @@ modules:
     # The configuration below is ignored if enabled==false
     tag: pyspellchecker-en
     repo: semitechnologies/text-spellcheck-model
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -1392,7 +1392,7 @@ modules:
     # The configuration below is ignored if enabled==false
     tag: dbmdz-bert-large-cased-finetuned-conll03-english
     repo: semitechnologies/ner-transformers
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
@@ -1465,7 +1465,7 @@ modules:
     # The configuration below is ignored if enabled==false
     tag: facebook-bart-large-cnn
     repo: semitechnologies/sum-transformers
-    registry: docker.io
+    registry: cr.weaviate.io
     replicas: 1
     strategy:
       type: RollingUpdate
