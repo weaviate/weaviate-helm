@@ -1173,6 +1173,18 @@ modules:
     # an environment variable.
     apiKey: ''
 
+  # The generative-mistral module uses MISTRAL AI Generative API
+  # More information about MISTRAL AI's Generative API can be found here:
+  # https://docs.mistral.ai/
+  generative-mistral:
+
+    # enable if you want to use MISTRAL AI generative module
+    enabled: false
+
+    # Set your MISTRAL API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
