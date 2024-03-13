@@ -71,6 +71,9 @@
   {{- if (index .Values "modules" "text2vec-aws" "enabled") -}}
     {{ $modules = append $modules "text2vec-aws" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2vec-voyageai" "enabled") -}}
+    {{ $modules = append $modules "text2vec-voyageai" }}
+  {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
   {{- end -}}
