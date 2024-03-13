@@ -35,6 +35,9 @@
   {{- if (index .Values "modules" "generative-anyscale" "enabled") -}}
     {{ $modules = append $modules "generative-anyscale" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-mistral" "enabled") -}}
+    {{ $modules = append $modules "generative-mistral" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
