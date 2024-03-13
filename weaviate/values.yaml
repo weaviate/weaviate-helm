@@ -848,6 +848,20 @@ modules:
     #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
     #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
 
+  # The text2vec-voyageai module uses VoaygeAI Embeddings API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about VoaygeAI Embeddings API can be found here:
+  # https://www.voyageai.com/
+  text2vec-voyageai:
+
+    # enable if you want to use VoaygeAI module
+    enabled: false
+
+    # Set your VoaygeAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.

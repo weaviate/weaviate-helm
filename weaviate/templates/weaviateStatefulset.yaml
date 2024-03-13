@@ -225,6 +225,13 @@ spec:
                 name: weaviate-jinaai
                 key: apiKey
           {{- end  }}
+          {{- if and (index .Values "modules" "text2vec-voyageai" "enabled") (index .Values "modules" "text2vec-voyageai" "apiKey") }}
+          - name: VOYAGEAI_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-voyageai
+                key: apiKey
+          {{- end  }}
           {{- if and (index .Values "modules" "generative-anyscale" "enabled") (index .Values "modules" "generative-anyscale" "apiKey") }}
           - name: ANYSCALE_APIKEY
             valueFrom:
