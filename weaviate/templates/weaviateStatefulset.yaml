@@ -211,7 +211,7 @@ spec:
                 name: weaviate-cohere
                 key: apiKey
           {{- end  }}
-          {{- if or (and (index .Values "modules" "text2vec-palm" "enabled") (index .Values "modules" "text2vec-palm" "apiKey")) (and (index .Values "modules" "generative-palm" "enabled") (index .Values "modules" "generative-palm" "apiKey")) }}
+          {{- if or (and (index .Values "modules" "text2vec-palm" "enabled") (index .Values "modules" "text2vec-palm" "apiKey")) (and (index .Values "modules" "generative-palm" "enabled") (index .Values "modules" "generative-palm" "apiKey")) (and (index .Values "modules" "multi2vec-palm" "enabled") (index .Values "modules" "multi2vec-palm" "apiKey")) }}
           - name: PALM_APIKEY
             valueFrom:
               secretKeyRef:
