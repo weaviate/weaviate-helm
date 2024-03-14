@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.24.2
+  tag: 1.24.3
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -1007,6 +1007,19 @@ modules:
     annotations:
     nodeSelector:
     tolerations:
+
+  # The multi2vec-palm module uses Google PaLM Embeddings API
+  # to dynamically compute vector embeddings.
+  # More information about Google PaLM Embeddings API can be found here:
+  # https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-multimodal-embeddings
+  multi2vec-palm:
+
+    # enable if you want to use Google Multimodal PaLM module
+    enabled: false
+
+    # Set your Google PaLM API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
 
   # The qna-transformers module uses neural networks, such as BERT,
   # DistilBERT, to find an answer in text to a given question

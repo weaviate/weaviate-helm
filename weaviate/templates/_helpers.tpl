@@ -56,6 +56,9 @@
   {{- if or (index .Values "modules" "multi2vec-bind" "enabled") (index .Values "modules" "multi2vec-bind" "inferenceUrl") -}}
     {{ $modules = append $modules "multi2vec-bind" }}
   {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-palm" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-palm" }}
+  {{- end -}}
   {{- if (index .Values "modules" "text2vec-openai" "enabled") -}}
     {{ $modules = append $modules "text2vec-openai" }}
   {{- end -}}
