@@ -136,7 +136,13 @@ Cluster API Secrets
 */}}
 {{- define "cluster_api.secret" -}}
 {{- $secret := lookup "v1" "Secret" .Release.Namespace "weaviate-cluster-api-basic-auth" -}}
-{{- if $secret -}}
+{{- if and .Values.basicAuth.username .Values.basicAuth.password -}}
+{{/*
+   Reusing existing username and password
+*/}}
+username: {{ .Values.basicAuth.username }}
+password: {{ .Values.basicAuth.password }}
+{{- else if $secret -}}
 {{/*
    Reusing value of secret if exist
 */}}
