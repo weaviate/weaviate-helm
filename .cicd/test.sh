@@ -151,6 +151,9 @@ function check_creates_template() {
   check_modules "--set modules.generative-mistral.enabled=true --set modules.generative-mistral.apiKey=apiKey" "value: generative-mistral"
   check_modules "--set modules.multi2vec-palm.enabled=true" "value: multi2vec-palm"
   check_modules "--set modules.multi2vec-palm.enabled=true --set modules.multi2vec-palm.apiKey=apiKey --set modules.generative-palm.enabled=true --set modules.generative-palm.apiKey=apiKey" "value: generative-palm,multi2vec-palm"
+  check_modules "--set modules.reranker-voyageai.enabled=true" "value: reranker-voyageai"
+  check_modules "--set modules.reranker-voyageai.enabled=true --set modules.reranker-voyageai.apiKey=apiKey" "value: reranker-voyageai"
+  check_modules "--set modules.text2vec-voyageai.enabled=true --set modules.text2vec-voyageai.apiKey=apiKey --set modules.reranker-voyageai.enabled=true --set modules.reranker-voyageai.apiKey=apiKey" "value: text2vec-voyageai,reranker-voyageai"
 
   check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
   check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"
@@ -176,6 +179,8 @@ function check_creates_template() {
   check_string_existence "--set modules.text2vec-voyageai.enabled=true --set modules.text2vec-voyageai.apiKey=voyageaiApiKey" "name: VOYAGEAI_APIKEY"
   check_string_existence "--set modules.generative-mistral.enabled=true --set modules.generative-mistral.apiKey=apiKey" "name: MISTRAL_APIKEY"
   check_string_existence "--set modules.multi2vec-palm.enabled=true --set modules.multi2vec-palm.apiKey=palmApiKey" "name: PALM_APIKEY"
+  check_string_existence "--set modules.reranker-voyageai.enabled=true --set modules.reranker-voyageai.apiKey=voyageaiApiKey" "name: VOYAGEAI_APIKEY"
+  check_string_existence "--set modules.text2vec-voyageai.enabled=true --set modules.text2vec-voyageai.apiKey=voyageaiApiKey --set modules.reranker-voyageai.enabled=true --set modules.reranker-voyageai.apiKey=voyageaiApiKey" "name: VOYAGEAI_APIKEY"
 
   _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local.:8080"

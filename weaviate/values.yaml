@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.24.3
+  tag: 1.24.8
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -1281,6 +1281,19 @@ modules:
     enabled: false
 
     # Set your Cohere API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The reranker-voyageai module uses VoaygeAI API
+  # to dynamically compute a score for the relevance 
+  # of the query with each of the initial search results.
+  # More information about Cohere API can be found here: https://www.voyageai.com/
+  reranker-voyageai:
+
+    # enable if you want to use VoaygeAI module
+    enabled: false
+
+    # Set your VoaygeAI API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
 
