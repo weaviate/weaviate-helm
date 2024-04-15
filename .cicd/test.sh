@@ -221,7 +221,8 @@ function check_creates_template() {
   check_string_existence "--set containerSecurityContext.allowPrivilegeEscalation=false " "allowPrivilegeEscalation: false"
   check_string_existence "" "imagePullPolicy: IfNotPresent"
   check_setting_has_value "--set image.pullSecrets[0]=weaviate-image-pull-secret" "imagePullSecrets" "name: weaviate-image-pull-secret"
-  check_setting_has_value "--set updateStrategy.type=OnDelete" "updateStrategy" "type: OnDelete"
+  check_string_existence "--set updateStrategy.type=OnDelete" "type: OnDelete"
+  check_setting_has_value "--set updateStrategy.rollingUpdate.maxUnavailable=10%" "rollingUpdate" "maxUnavailable: 10%"
   check_string_existence "--set priorityClassName=critical" "priorityClassName: critical"
   check_string_existence "--set globalPriorityClassName=high" "priorityClassName: high"
 

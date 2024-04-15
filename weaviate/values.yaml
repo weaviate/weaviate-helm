@@ -69,6 +69,11 @@ replicas: 1
 podManagementPolicy: Parallel
 updateStrategy:
   type: RollingUpdate
+  # This setting is only available in K8s v1.24 and higher.
+  # Setting maxUnavailable to 100% results in removing all of the pods
+  # and re-creating them in parallel all at once.
+  # rollingUpdate:
+  #   maxUnavailable: 100%
 resources: {}
   # requests:
   #   cpu: '500m'
