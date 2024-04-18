@@ -165,6 +165,7 @@ function check_creates_template() {
   check_string_existence "--set modules.text2vec-jinaai.enabled=true --set modules.text2vec-jinaai.apiKey=jinaaiApiKey" "name: JINAAI_APIKEY"
   check_string_existence "--set grpcService.enabled=true" "containerPort: 50051"
   check_string_existence "--set grpcService.enabled=true --set grpcService.name=weaviate-grpc-service-custom-name" "name: weaviate-grpc-service-custom-name"
+  check_string_existence "--set grpcService.name=weaviate-grpc-defult-service-custom-name" "name: weaviate-grpc-defult-service-custom-name"
   check_string_existence "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.secrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_ACCESS_KEY_ID"
   check_string_existence "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.secrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_SECRET_ACCESS_KEY"
   check_string_existence "--set modules.generative-aws.enabled=true --set modules.generative-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.generative-aws.secrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_ACCESS_KEY_ID"
