@@ -1622,3 +1622,7 @@ affinity:
 ##
 priorityClassName: ""
 globalPriorityClassName: ""
+
+basicAuth:
+  username: ""
+  password: ""
