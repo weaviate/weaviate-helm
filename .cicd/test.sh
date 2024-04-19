@@ -255,5 +255,9 @@ function check_creates_template() {
   check_no_setting "--set env.PROMETHEUS_MONITORING_ENABLED=false --set serviceMonitor.enabled=true" "kind: ServiceMonitor"
   check_no_setting "--set env.PROMETHEUS_MONITORING_ENABLED=false --set serviceMonitor.enabled=false" "kind: ServiceMonitor"
 
+  check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "exec:"
+  check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "command:"
+  check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "test-probe-cmd"
+  
   echo "Tests successful."
 )
