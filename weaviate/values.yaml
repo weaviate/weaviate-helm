@@ -143,10 +143,21 @@ serviceMonitor:
   scrapeTimeout: 10s
 
 # Adjust liveness, readiness and startup probes configuration
+# below is an example that can be used to switch the probeType to exec command
+# readinessProbe: # (Compatible with liveness, readiness and startup probe configurations)
+#   probeType: exec
+#   probe:
+#     exec:
+#       command: ["/bin/sh", "-c", "wget --spider --server-response --tries=1 --timeout=30 -o /dev/null localhost:8080/v1/.well-known/ready"]
+
 startupProbe:
   # For kubernetes versions prior to 1.18 startupProbe is not supported thus can be disabled.
   enabled: false
-
+  probeType: httpGet
+  probe:
+    httpGet:
+      path: /v1/.well-known/ready
+      port: 8080
   initialDelaySeconds: 300
   periodSeconds: 60
   failureThreshold: 50
@@ -154,6 +165,11 @@ startupProbe:
   timeoutSeconds: 3
 
 livenessProbe:
+  probeType: httpGet
+  probe:
+    httpGet:
+      path: /v1/.well-known/live
+      port: 8080
   initialDelaySeconds: 900
   periodSeconds: 10
   failureThreshold: 30
@@ -161,6 +177,11 @@ livenessProbe:
   timeoutSeconds: 3
 
 readinessProbe:
+  probeType: httpGet
+  probe:
+    httpGet:
+      path: /v1/.well-known/ready
+      port: 8080
   initialDelaySeconds: 3
   periodSeconds: 10
   failureThreshold: 3
