@@ -398,9 +398,10 @@ spec:
           {{- end }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:
-          httpGet:
-            path: /v1/.well-known/ready
-            port: 8080
+          {{- $probeType := .Values.startupProbe.probeType }}
+          {{- $probe := index .Values.startupProbe.probe $probeType }}
+          {{ $probeType }}:
+            {{- toYaml $probe | nindent 12 }}
           initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.startupProbe.periodSeconds }}
           failureThreshold: {{ .Values.startupProbe.failureThreshold }}
@@ -408,18 +409,20 @@ spec:
           timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
         {{- end }}
         livenessProbe:
-          httpGet:
-            path: /v1/.well-known/live
-            port: 8080
+          {{- $probeType := .Values.livenessProbe.probeType }}
+          {{- $probe := index .Values.livenessProbe.probe $probeType }}
+          {{ $probeType }}:
+            {{- toYaml $probe | nindent 12 }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           successThreshold: {{ .Values.livenessProbe.successThreshold }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         readinessProbe:
-          httpGet:
-            path: /v1/.well-known/ready
-            port: 8080
+          {{- $probeType := .Values.readinessProbe.probeType }}
+          {{- $probe := index .Values.readinessProbe.probe $probeType }}
+          {{ $probeType }}:
+            {{- toYaml $probe | nindent 12 }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
