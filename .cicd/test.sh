@@ -231,6 +231,10 @@ function check_creates_template() {
   check_setting_has_value "--set replicas=100" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2,weaviate-3,weaviate-4\""
   check_setting_has_value "--set replicas=100" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"5\""
 
+  check_setting_has_value "--set replicas=9 --set env.RAFT_METADATA_ONLY_VOTERS=true" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""
+  check_setting_has_value "--set replicas=9 --set env.RAFT_METADATA_ONLY_VOTERS=true" "name: RAFT_METADATA_ONLY_VOTERS" "value: \"true\""
+  check_setting_has_value "--set replicas=3 --set env.RAFT_METADATA_ONLY_VOTERS=false" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""
+
   _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local.:8080"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_QUERY_INFERENCE_API" "value: http://transformers-inference-query.default.svc.cluster.local.:8080"

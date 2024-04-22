@@ -181,6 +181,10 @@ Raft cluster configuration settings
 {{- define "raft_configuration" -}}
   {{- $replicas := .Values.replicas | int -}}
   {{- $voters := .Values.env.RAFT_BOOTSTRAP_EXPECT | int -}}
+  {{- $metada_only_voters := false -}}
+  {{- if not (empty .Values.env.RAFT_METADATA_ONLY_VOTERS) -}}
+    {{- $metada_only_voters = .Values.env.RAFT_METADATA_ONLY_VOTERS -}}
+  {{- end -}} 
   {{- if empty .Values.env.RAFT_BOOTSTRAP_EXPECT -}}
     {{- if ge $replicas 10 -}}
       {{- $voters = 5 -}}
@@ -215,5 +219,8 @@ Raft cluster configuration settings
   {{- if empty .Values.env.RAFT_BOOTSTRAP_EXPECT }}
           - name: RAFT_BOOTSTRAP_EXPECT
             value: "{{ $voters }}"
+  {{- end -}}
+  {{- if and ($metada_only_voters) (le $replicas $voters) -}}
+    {{- fail "env.RAFT_METADATA_ONLY_VOTERS is true then .replicas size must be greater than env.RAFT_BOOTSTRAP_EXPECT" -}}
   {{- end -}}
 {{- end -}}
