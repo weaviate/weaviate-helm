@@ -275,6 +275,11 @@ env:
   # then RAFT_BOOTSTRAP_EXPECT needs to be equal 2 also.
   # RAFT_JOIN: "weaviate-0"
 
+  # Set to true if voters nodes should handle only schema. With this setting enabled
+  # voter nodes will not accept any data, one needs to resize the cluster using replicas
+  # setting so that replicas > voters.
+  # RAFT_METADATA_ONLY_VOTERS: false
+
   # The aggressiveness of the Go Garbage Collector. 100 is the default value.
   GOGC: 100
 
