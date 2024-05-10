@@ -9,7 +9,7 @@ metadata:
   labels:
     name: {{ index $module "fullnameOverride" }}
     app: {{ index $module "fullnameOverride" }}
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ index $module "replicas" }}
@@ -88,7 +88,7 @@ kind: Service
 metadata:
   name: {{ index $module "fullnameOverride" }}
   labels:
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ClusterIP
@@ -187,7 +187,7 @@ spec:
       port: 8080
       targetPort: 8080
   {{- end }}
----    
+---
   {{- if index $query "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
