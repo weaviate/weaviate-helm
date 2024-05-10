@@ -244,7 +244,7 @@ podAntiAffinity:
 {{- end }}
 
 {{/*
-Affinity configuration
+Affinity configuration, try to use the provided affinity configuration, otherwise use the default one
 */}}
 {{- define "affinity" -}}
 {{- if .Values.affinity }}
