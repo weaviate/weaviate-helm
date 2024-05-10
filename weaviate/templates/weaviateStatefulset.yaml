@@ -292,7 +292,7 @@ spec:
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
-                name: backup-s3
+                name: {{ .Release.Name }}-backup-s3
                 key: AWS_ACCESS_KEY_ID
             {{- else if or (and (index .Values "modules" "text2vec-aws" "secrets") (index .Values "modules" "text2vec-aws" "secrets" "AWS_ACCESS_KEY_ID")) (and (index .Values "modules" "generative-aws" "secrets") (index .Values "modules" "generative-aws" "secrets" "AWS_ACCESS_KEY_ID")) }}
           - name: AWS_ACCESS_KEY_ID
@@ -305,7 +305,7 @@ spec:
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
-                name: backup-s3
+                name: {{ .Release.Name }}-backup-s3
                 key: AWS_SECRET_ACCESS_KEY
             {{- else if or (and (index .Values "modules" "text2vec-aws" "secrets") (index .Values "modules" "text2vec-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) (and (index .Values "modules" "generative-aws" "secrets") (index .Values "modules" "generative-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) }}
           - name: AWS_SECRET_ACCESS_KEY
@@ -349,21 +349,21 @@ spec:
           - name: AZURE_STORAGE_ACCOUNT
             valueFrom:
               secretKeyRef:
-                name: backup-azure
+                name: {{ .Release.Name }}-backup-azure
                 key: AZURE_STORAGE_ACCOUNT
             {{- end }}
             {{- if and (index .Values "backups" "azure" "secrets") (index .Values "backups" "azure" "secrets" "AZURE_STORAGE_KEY") }}
           - name: AZURE_STORAGE_KEY
             valueFrom:
               secretKeyRef:
-                name: backup-azure
+                name: {{ .Release.Name }}-backup-azure
                 key: AZURE_STORAGE_KEY
             {{- end }}
             {{- if and (index .Values "backups" "azure" "secrets") (index .Values "backups" "azure" "secrets" "AZURE_STORAGE_CONNECTION_STRING") }}
           - name: AZURE_STORAGE_CONNECTION_STRING
             valueFrom:
               secretKeyRef:
-                name: backup-azure
+                name: {{ .Release.Name }}-backup-azure
                 key: AZURE_STORAGE_CONNECTION_STRING
             {{- end }}
           {{- end  }}
@@ -440,7 +440,7 @@ spec:
           {{- if and (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
         - name: gcs-service-account-credentials-volume
           secret:
-            secretName: backup-gcs
+            secretName: {{ .Release.Name }}-backup-gcs
             items:
             - key: GOOGLE_APPLICATION_CREDENTIALS
               path: credentials.json
