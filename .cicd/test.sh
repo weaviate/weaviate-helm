@@ -154,6 +154,9 @@ function check_creates_template() {
   check_modules "--set modules.reranker-voyageai.enabled=true" "value: reranker-voyageai"
   check_modules "--set modules.reranker-voyageai.enabled=true --set modules.reranker-voyageai.apiKey=apiKey" "value: reranker-voyageai"
   check_modules "--set modules.text2vec-voyageai.enabled=true --set modules.text2vec-voyageai.apiKey=apiKey --set modules.reranker-voyageai.enabled=true --set modules.reranker-voyageai.apiKey=apiKey" "value: text2vec-voyageai,reranker-voyageai"
+  check_modules "--set modules.text2vec-ollama.enabled=true" "value: text2vec-ollama"
+  check_modules "--set modules.generative-ollama.enabled=true" "value: generative-ollama"
+  check_modules "--set modules.generative-ollama.enabled=true --set modules.text2vec-ollama.enabled=true" "value: generative-ollama,text2vec-ollama"
 
   check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
   check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"

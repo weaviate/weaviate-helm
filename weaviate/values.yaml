@@ -916,6 +916,20 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The text2vec-ollama module uses Ollama Embeddings API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about Ollama Embeddings API can be found here:
+  # https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings
+  # Please note that you have to deploy Ollama container by yourself
+  # and then properly point the Ollama endpoint using module settings.
+  # More about this configuration can be found here:
+  # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/text2vec-ollama#ollama-endpoint
+  text2vec-ollama:
+
+    # enable if you want to use Ollama module
+    enabled: false
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.
@@ -1251,6 +1265,18 @@ modules:
     # Set your MISTRAL API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
+
+  # The generative-ollama module uses Ollama Generate API
+  # More information about Ollama's Generate API can be found here:
+  # https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion
+  # Please note that you have to deploy Ollama container by yourself
+  # and then properly point the Ollama endpoint using module settings.
+  # More about this configuration can be found here:
+  # https://weaviate.io/developers/weaviate/modules/reader-generator-modules/generative-ollama#ollama-endpoint
+  generative-ollama:
+
+    # enable if you want to use Ollama module
+    enabled: false
 
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
