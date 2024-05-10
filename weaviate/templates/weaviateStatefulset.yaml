@@ -384,7 +384,7 @@ spec:
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
-          - name: weaviate-data
+          - name: {{ .Release.Name }}-data
             mountPath: /var/lib/weaviate
           {{- if index .Values "backups" "gcs" "enabled" }}
             {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
