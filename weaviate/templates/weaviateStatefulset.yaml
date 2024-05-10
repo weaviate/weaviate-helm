@@ -252,7 +252,7 @@ spec:
           - name: OCTOAI_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-octoai
+                name: {{ .Release.Name }}-octoai
                 key: apiKey
           {{- end  }}
           {{- if and (index .Values "backups" "filesystem" "enabled") (index .Values "backups" "filesystem" "envconfig") }}
