@@ -157,6 +157,8 @@ function check_creates_template() {
   check_modules "--set modules.text2vec-ollama.enabled=true" "value: text2vec-ollama"
   check_modules "--set modules.generative-ollama.enabled=true" "value: generative-ollama"
   check_modules "--set modules.generative-ollama.enabled=true --set modules.text2vec-ollama.enabled=true" "value: generative-ollama,text2vec-ollama"
+  check_modules "--set modules.text2vec-octoai.enabled=true" "value: text2vec-octoai"
+  check_modules "--set modules.generative-octoai.enabled=true" "value: generative-octoai"
 
   check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
   check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"
@@ -185,6 +187,9 @@ function check_creates_template() {
   check_string_existence "--set modules.multi2vec-palm.enabled=true --set modules.multi2vec-palm.apiKey=palmApiKey" "name: PALM_APIKEY"
   check_string_existence "--set modules.reranker-voyageai.enabled=true --set modules.reranker-voyageai.apiKey=voyageaiApiKey" "name: VOYAGEAI_APIKEY"
   check_string_existence "--set modules.text2vec-voyageai.enabled=true --set modules.text2vec-voyageai.apiKey=voyageaiApiKey --set modules.reranker-voyageai.enabled=true --set modules.reranker-voyageai.apiKey=voyageaiApiKey" "name: VOYAGEAI_APIKEY"
+  check_string_existence "--set modules.text2vec-octoai.enabled=true --set modules.text2vec-octoai.apiKey=octoaiApiKey" "name: OCTOAI_APIKEY"
+  check_string_existence "--set modules.generative-octoai.enabled=true --set modules.generative-octoai.apiKey=octoaiApiKey" "name: OCTOAI_APIKEY"
+  check_string_existence "--set modules.generative-octoai.enabled=true --set modules.generative-octoai.apiKey=octoaiApiKey --set modules.text2vec-octoai.enabled=true --set modules.text2vec-octoai.apiKey=octoaiApiKey" "name: OCTOAI_APIKEY"
 
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""
