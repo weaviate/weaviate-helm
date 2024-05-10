@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.24.9
+  tag: 1.25.0
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -916,6 +916,34 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The text2vec-ollama module uses Ollama Embeddings API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about Ollama Embeddings API can be found here:
+  # https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings
+  # Please note that you have to deploy Ollama container by yourself
+  # and then properly point the Ollama endpoint using module settings.
+  # More about this configuration can be found here:
+  # https://weaviate.io/developers/weaviate/modules/retriever-vectorizer-modules/text2vec-ollama#ollama-endpoint
+  text2vec-ollama:
+
+    # enable if you want to use Ollama module
+    enabled: false
+
+  # The text2vec-octoai module uses OctoAI Embeddings API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about OctoAI Embeddings API can be found here:
+  # https://octo.ai/docs/text-gen-solution/getting-started
+  text2vec-octoai:
+
+    # enable if you want to use OctoAI module
+    enabled: false
+
+    # Set your OctoAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.
@@ -1249,6 +1277,30 @@ modules:
     enabled: false
 
     # Set your MISTRAL API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The generative-ollama module uses Ollama Generate API
+  # More information about Ollama's Generate API can be found here:
+  # https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion
+  # Please note that you have to deploy Ollama container by yourself
+  # and then properly point the Ollama endpoint using module settings.
+  # More about this configuration can be found here:
+  # https://weaviate.io/developers/weaviate/modules/reader-generator-modules/generative-ollama#ollama-endpoint
+  generative-ollama:
+
+    # enable if you want to use Ollama module
+    enabled: false
+
+  # The generative-octoai module uses OctoAI API.
+  # More information about OctoAI API can be found here:
+  # https://octo.ai/docs/text-gen-solution/getting-started
+  generative-octoai:
+
+    # enable if you want to use OctoAI module
+    enabled: false
+
+    # Set your OctoAI API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
 

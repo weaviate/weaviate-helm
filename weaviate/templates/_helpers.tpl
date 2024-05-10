@@ -38,6 +38,12 @@
   {{- if (index .Values "modules" "generative-mistral" "enabled") -}}
     {{ $modules = append $modules "generative-mistral" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-ollama" "enabled") -}}
+    {{ $modules = append $modules "generative-ollama" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-octoai" "enabled") -}}
+    {{ $modules = append $modules "generative-octoai" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
@@ -79,6 +85,12 @@
   {{- end -}}
   {{- if (index .Values "modules" "text2vec-voyageai" "enabled") -}}
     {{ $modules = append $modules "text2vec-voyageai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-ollama" "enabled") -}}
+    {{ $modules = append $modules "text2vec-ollama" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-octoai" "enabled") -}}
+    {{ $modules = append $modules "text2vec-octoai" }}
   {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
