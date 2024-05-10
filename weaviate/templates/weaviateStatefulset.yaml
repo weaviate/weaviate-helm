@@ -12,7 +12,7 @@ spec:
   podManagementPolicy: {{ .Values.podManagementPolicy }}
   updateStrategy:
 {{ toYaml .Values.updateStrategy | indent 4}}
-  serviceName: {{ .Values.service.name }}-headless
+  serviceName: {{ .Release.Name }}-headless
   selector:
     matchLabels:
       app: {{ .Release.Name }}
@@ -368,7 +368,7 @@ spec:
             {{- end }}
           {{- end  }}
           - name: CLUSTER_JOIN
-            value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
+            value: {{ .Release.Name }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
         ports:
           - containerPort: 8080
           {{- if .Values.env.PROMETHEUS_MONITORING_ENABLED }}
