@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: weaviate
+  name: {{ .Release.Name }}
   labels:
-    name: weaviate
-    app: weaviate
-    app.kubernetes.io/name: weaviate
+    name: {{ .Release.Name }}
+    app: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicas }}
@@ -15,12 +15,12 @@ spec:
   serviceName: {{ .Values.service.name }}-headless
   selector:
     matchLabels:
-      app: weaviate
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: weaviate
-        app.kubernetes.io/name: weaviate
+        app: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ .Release.Name }}
         app.kubernetes.io/managed-by: {{ .Release.Service }}
       annotations:
         # To restart Pods if the ConfigMap is updated.
@@ -85,12 +85,12 @@ spec:
           - name: CLUSTER_BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
-                name: weaviate-cluster-api-basic-auth
+                name: {{ .Release.Name }}-cluster-api-basic-auth
                 key: username
           - name: CLUSTER_BASIC_AUTH_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: weaviate-cluster-api-basic-auth
+                name: {{ .Release.Name }}-cluster-api-basic-auth
                 key: password
           - name: STANDALONE_MODE
             value: 'true'
@@ -189,63 +189,63 @@ spec:
           - name: OPENAI_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-openai
+                name: {{ .Release.Name }}-openai
                 key: apiKey
           {{- end  }}
           {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "azureApiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "azureApiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "azureApiKey")) }}
           - name: AZURE_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-openai
+                name: {{ .Release.Name }}-openai
                 key: apiKey
           {{- end  }}
           {{- if and (index .Values "modules" "text2vec-huggingface" "enabled") (index .Values "modules" "text2vec-huggingface" "apiKey") }}
           - name: HUGGINGFACE_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-huggingface
+                name: {{ .Release.Name }}-huggingface
                 key: apiKey
           {{- end  }}
           {{- if or (and (index .Values "modules" "text2vec-cohere" "enabled") (index .Values "modules" "text2vec-cohere" "apiKey")) (and (index .Values "modules" "generative-cohere" "enabled") (index .Values "modules" "generative-cohere" "apiKey")) (and (index .Values "modules" "reranker-cohere" "enabled") (index .Values "modules" "reranker-cohere" "apiKey")) }}
           - name: COHERE_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-cohere
+                name: {{ .Release.Name }}-cohere
                 key: apiKey
           {{- end  }}
           {{- if or (and (index .Values "modules" "text2vec-palm" "enabled") (index .Values "modules" "text2vec-palm" "apiKey")) (and (index .Values "modules" "generative-palm" "enabled") (index .Values "modules" "generative-palm" "apiKey")) (and (index .Values "modules" "multi2vec-palm" "enabled") (index .Values "modules" "multi2vec-palm" "apiKey")) }}
           - name: PALM_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-palm
+                name: {{ .Release.Name }}-palm
                 key: apiKey
           {{- end  }}
           {{- if and (index .Values "modules" "text2vec-jinaai" "enabled") (index .Values "modules" "text2vec-jinaai" "apiKey") }}
           - name: JINAAI_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-jinaai
+                name: {{ .Release.Name }}-jinaai
                 key: apiKey
           {{- end  }}
           {{- if or (and (index .Values "modules" "text2vec-voyageai" "enabled") (index .Values "modules" "text2vec-voyageai" "apiKey")) (and (index .Values "modules" "reranker-voyageai" "enabled") (index .Values "modules" "reranker-voyageai" "apiKey")) }}
           - name: VOYAGEAI_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-voyageai
+                name: {{ .Release.Name }}-voyageai
                 key: apiKey
           {{- end  }}
           {{- if and (index .Values "modules" "generative-anyscale" "enabled") (index .Values "modules" "generative-anyscale" "apiKey") }}
           - name: ANYSCALE_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-anyscale
+                name: {{ .Release.Name }}-anyscale
                 key: apiKey
           {{- end  }}
           {{- if and (index .Values "modules" "generative-mistral" "enabled") (index .Values "modules" "generative-mistral" "apiKey") }}
           - name: MISTRAL_APIKEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-mistral
+                name: {{ .Release.Name }}-mistral
                 key: apiKey
           {{- end  }}
           {{- if and (index .Values "backups" "filesystem" "enabled") (index .Values "backups" "filesystem" "envconfig") }}
@@ -298,7 +298,7 @@ spec:
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
-                name: weaviate-aws
+                name: {{ .Release.Name }}-aws
                 key: AWS_ACCESS_KEY_ID
             {{- end }}
             {{- if and (index .Values "backups" "s3" "secrets") (index .Values "backups" "s3" "secrets" "AWS_SECRET_ACCESS_KEY") }}
@@ -311,7 +311,7 @@ spec:
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
-                name: weaviate-aws
+                name: {{ .Release.Name }}-aws
                 key: AWS_SECRET_ACCESS_KEY
             {{- end }}
           {{- end  }}
@@ -435,7 +435,7 @@ spec:
       volumes:
         - name: weaviate-config
           configMap:
-            {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: weaviate-config{{ end }}
+            {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: {{ .Release.Name }}-config{{ end }}
         {{- if index .Values "backups" "gcs" "enabled" }}
           {{- if and (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
         - name: gcs-service-account-credentials-volume
@@ -476,9 +476,9 @@ spec:
 
   volumeClaimTemplates:
   - metadata:
-      name: weaviate-data
+      name: {{ .Release.Name }}-data
       labels:
-        app.kubernetes.io/name: weaviate
+        app.kubernetes.io/name: {{ .Release.Name }}
         app.kubernetes.io/managed-by: {{ .Release.Service }}
     spec:
       accessModes: [ "ReadWriteOnce" ]

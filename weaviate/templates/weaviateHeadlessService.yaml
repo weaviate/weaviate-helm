@@ -1,15 +1,16 @@
+{{/*TODO: update (remove all service names from values)*/}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.name }}-headless
+  name: {{ .Release.Name }}-headless
   labels:
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ClusterIP
   clusterIP: None
   selector:
-    app: weaviate
+    app: {{ .Release.Name }}
   ports:
     - protocol: TCP
       port: 80
