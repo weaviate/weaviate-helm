@@ -21,7 +21,7 @@ Weaviate `v1.25` has brought a significant change in how we bootstrap the Weavia
 
 Please note that once the Raft cluster is established, rolling updates are possible. This change will only take effect during migration from versions prior to v1.25 (or when bootstrapping a new v1.25 cluster).
 
-If you are upgrading from a version older than v1.25 to v1.25 and above, you must first delete Weaviate's Statefulset. This is a one-time operation and will not remove your data, it is necessary only to update Statefulset settings.
+If you are upgrading from a version older than v1.25 to v1.25 and above, you must first delete Weaviate's Statefulset. This is a one-time operation and will not remove your data, it is necessary to make the update of Statefulset settings possible.
 
 Detailed information can be found in the [documentation](https://weaviate.io/developers/weaviate/more-resources/migration/weaviate-1-25).
 
