@@ -227,7 +227,7 @@ Raft cluster configuration settings
 
 
 {{/*
-Default affinity for the chart
+Default affinity configuration
 */}}
 {{- define "default_affinity" -}}
 podAntiAffinity:
@@ -241,4 +241,15 @@ podAntiAffinity:
               operator: In
               values:
                 - {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Affinity configuration
+*/}}
+{{- define "affinity" -}}
+{{- if .Values.affinity }}
+{{- toYaml .Values.affinity | nindent 0 }}
+{{- else }}
+{{- include "default_affinity" . }}
+{{- end }}
 {{- end }}
