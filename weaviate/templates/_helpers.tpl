@@ -111,7 +111,7 @@
 {{- end -}}
 
 
-{{/* 
+{{/*
 Return Image pull secret Names
 Usage:
 {{- include "image.pullSecrets" (dict "pullSecrets" path_to_image_pullSecrets) | nindent 6 }}
@@ -155,7 +155,7 @@ password: {{ randAlphaNum 32 | b64enc | quote }}
 {{- end -}}
 
 
-{{/* 
+{{/*
 Return PriorityClassName
 Usage:
 {{- include "pod.priorityClassName" ( dict "global" .Values.path.to.global.priorityClassName "priorityClassName" .Values.path.to.priorityClassName) | nindent 6 }}
@@ -184,7 +184,7 @@ Raft cluster configuration settings
   {{- $metada_only_voters := false -}}
   {{- if not (empty .Values.env.RAFT_METADATA_ONLY_VOTERS) -}}
     {{- $metada_only_voters = .Values.env.RAFT_METADATA_ONLY_VOTERS -}}
-  {{- end -}} 
+  {{- end -}}
   {{- if empty .Values.env.RAFT_BOOTSTRAP_EXPECT -}}
     {{- if ge $replicas 10 -}}
       {{- $voters = 5 -}}
@@ -224,3 +224,21 @@ Raft cluster configuration settings
     {{- fail "env.RAFT_METADATA_ONLY_VOTERS is true then .replicas size must be greater than env.RAFT_BOOTSTRAP_EXPECT" -}}
   {{- end -}}
 {{- end -}}
+
+
+{{/*
+Default affinity for the chart
+*/}}
+{{- define "default_affinity" -}}
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 1
+      podAffinityTerm:
+        topologyKey: "kubernetes.io/hostname"
+        labelSelector:
+          matchExpressions:
+            - key: "app"
+              operator: In
+              values:
+                - {{ .Release.Name }}
+{{- end }}

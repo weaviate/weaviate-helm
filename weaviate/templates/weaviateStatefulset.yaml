@@ -461,7 +461,7 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.affinity | default (include "default_affinity" . | fromYaml) }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
