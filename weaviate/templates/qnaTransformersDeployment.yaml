@@ -3,10 +3,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index $module "fullnameOverride" }}
+  name:  {{ .Release.Name }}-qna-transformers
   labels:
-    name: {{ index $module "fullnameOverride" }}
-    app: {{ index $module "fullnameOverride" }}
+    name: {{ .Release.Name }}-qna-transformers
+    app: {{ .Release.Name }}-qna-transformers
     app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
@@ -15,11 +15,11 @@ spec:
 {{ toYaml (index $module "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index $module "fullnameOverride" }}
+      app: {{ .Release.Name }}-qna-transformers
   template:
     metadata:
       labels:
-        app: {{ index $module "fullnameOverride" }}
+        app: {{ .Release.Name }}-qna-transformers
     spec:
       securityContext:
 {{ toYaml (index $module "securityContext") | indent 8}}
@@ -31,7 +31,7 @@ spec:
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
       {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $module "priorityClassName")) | nindent 6 }}
       containers:
-      - name: {{ index $module "fullnameOverride" }}
+      - name: {{ .Release.Name }}-qna-transformers
         image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
         imagePullPolicy: {{ index $module "imagePullPolicy" }}
         env:
@@ -76,14 +76,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ index $module "fullnameOverride" }}
+  name: {{ .Release.Name }}-qna-transformers
   labels:
     app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ClusterIP
   selector:
-    app: {{ index $module "fullnameOverride" }}
+    app: {{ .Release.Name }}-qna-transformers
   ports:
     - protocol: TCP
       port: 8080
