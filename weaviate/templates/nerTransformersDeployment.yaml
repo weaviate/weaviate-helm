@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  {{ .Release.Name }}-ner-transformers
+  name: {{ .Release.Name }}-ner-transformers
   labels:
     name: {{ .Release.Name }}-ner-transformers
     app: {{ .Release.Name }}-ner-transformers
