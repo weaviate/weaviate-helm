@@ -165,7 +165,7 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index $passage "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default (include "affinity" . | fromYaml) }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
@@ -253,7 +253,7 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index $query "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default (include "affinity" . | fromYaml) }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
