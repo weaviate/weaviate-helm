@@ -61,7 +61,7 @@ initContainers:
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
-replicas: 3
+replicas: 1
 
 # Define how pods will be created. Possible values: OrderedReady | Parallel
 # OrderedReady - pods will be created one after another
@@ -107,7 +107,7 @@ clusterDomain: cluster.local.
 # storage.fullnameOverride field set, then the default pvc will not be
 # created, instead the one defined in fullnameOverride will be used
 storage:
-  size: 2Gi
+  size: 32Gi
   storageClassName: ""
 
 # The service controls how weaviate is exposed to the outside world. If you
@@ -1695,17 +1695,6 @@ tolerations:
 hostAliases:
 
 affinity:
-#  podAntiAffinity:
-#    preferredDuringSchedulingIgnoredDuringExecution:
-#      - weight: 1
-#        podAffinityTerm:
-#          topologyKey: "kubernetes.io/hostname"
-#          labelSelector:
-#            matchExpressions:
-#              - key: "app"
-#                operator: In
-#                values:
-#                  - weaviate
 
 ## Optionally specify priorityClass name for the pod
 ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#pod-priority
