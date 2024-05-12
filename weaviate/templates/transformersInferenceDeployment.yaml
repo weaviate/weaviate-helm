@@ -83,7 +83,6 @@ spec:
         {{ toYaml . | nindent 8 }}
       {{- end }}
 ---
-{{/*TODO: update this*/}}
 apiVersion: v1
 kind: Service
 metadata:
