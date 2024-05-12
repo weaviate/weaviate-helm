@@ -15,7 +15,7 @@ data:
       {{ toYaml .Values.authorization | nindent 6 | trim }}
     {{ if index .Values "modules" "text2vec-contextionary" "enabled" }}
     contextionary:
-      url: {{ index .Values "modules" "text2vec-contextionary" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:9999
+      url: {{ .Release.Name}}-contextionary.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:9999
     {{ end }}
     query_defaults:
       {{ toYaml .Values.query_defaults | nindent 6 | trim }}

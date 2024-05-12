@@ -124,63 +124,63 @@ spec:
           {{- end }}
           {{- if index .Values "modules" "text2vec-gpt4all" "enabled" }}
           - name: GPT4ALL_INFERENCE_API
-            value: http://{{ index .Values "modules" "text2vec-gpt4all" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-gpt4all-inference.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "text2vec-gpt4all" "inferenceUrl" }}
           - name: GPT4ALL_INFERENCE_API
             value: {{ index .Values "modules" "text2vec-gpt4all" "inferenceUrl" }}
           {{- end }}
           {{- if index .Values "modules" "multi2vec-clip" "enabled" }}
           - name: CLIP_INFERENCE_API
-            value: http://{{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-clip-inference.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
           - name: CLIP_INFERENCE_API
             value: {{ index .Values "modules" "multi2vec-clip" "inferenceUrl" }}
           {{- end }}
           {{- if index .Values "modules" "multi2vec-bind" "enabled" }}
           - name: BIND_INFERENCE_API
-            value: http://{{ index .Values "modules" "multi2vec-bind" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-bind-inference.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "multi2vec-bind" "inferenceUrl" }}
           - name: BIND_INFERENCE_API
             value: {{ index .Values "modules" "multi2vec-bind" "inferenceUrl" }}
           {{- end }}
           {{- if index .Values "modules" "qna-transformers" "enabled" }}
           - name: QNA_INFERENCE_API
-            value: http://{{ index .Values "modules" "qna-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-qna-transformers.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "qna-transformers" "inferenceUrl" }}
           - name: QNA_INFERENCE_API
             value: {{ index .Values "modules" "qna-transformers" "inferenceUrl" }}
           {{- end }}
           {{- if index .Values "modules" "img2vec-neural" "enabled" }}
           - name: IMAGE_INFERENCE_API
-            value: http://{{ index .Values "modules" "img2vec-neural" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-img2vec-neural.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "img2vec-neural" "inferenceUrl" }}
           - name: IMAGE_INFERENCE_API
             value: {{ index .Values "modules" "img2vec-neural" "inferenceUrl" }}
           {{- end }}
           {{- if index .Values "modules" "text-spellcheck" "enabled" }}
           - name: SPELLCHECK_INFERENCE_API
-            value: http://{{ index .Values "modules" "text-spellcheck" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-text-spellcheck.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "text-spellcheck" "inferenceUrl" }}
           - name: SPELLCHECK_INFERENCE_API
             value: {{ index .Values "modules" "text-spellcheck" "inferenceUrl" }}
           {{- end }}
           {{- if index .Values "modules" "ner-transformers" "enabled" }}
           - name: NER_INFERENCE_API
-            value: http://{{ index .Values "modules" "ner-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-ner-transformers.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "ner-transformers" "inferenceUrl" }}
           - name: NER_INFERENCE_API
             value: {{ index .Values "modules" "ner-transformers" "inferenceUrl" }}
           {{- end }}
           {{- if index .Values "modules" "sum-transformers" "enabled" }}
           - name: SUM_INFERENCE_API
-            value: http://{{ index .Values "modules" "sum-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-sum-transformers.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "sum-transformers" "inferenceUrl" }}
           - name: SUM_INFERENCE_API
             value: {{ index .Values "modules" "sum-transformers" "inferenceUrl" }}
           {{- end }}
           {{- if index .Values "modules" "reranker-transformers" "enabled" }}
           - name: RERANKER_INFERENCE_API
-            value: http://{{ index .Values "modules" "reranker-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-reranker-transformers.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "reranker-transformers" "inferenceUrl" }}
           - name: RERANKER_INFERENCE_API
             value: {{ index .Values "modules" "reranker-transformers" "inferenceUrl" }}
