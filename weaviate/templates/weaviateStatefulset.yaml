@@ -102,21 +102,21 @@ spec:
           {{ template "raft_configuration" . }}
           {{- if index .Values "modules" "text2vec-transformers" "enabled" }}
           - name: TRANSFORMERS_INFERENCE_API
-            value: http://{{ index .Values "modules" "text2vec-transformers" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-transformers-inference.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
           {{- else if index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
           - name: TRANSFORMERS_INFERENCE_API
             value: {{ index .Values "modules" "text2vec-transformers" "inferenceUrl" }}
           {{- else }}
               {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "enabled" }}
           - name: TRANSFORMERS_PASSAGE_INFERENCE_API
-            value: http://{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-transformers-inference-passage.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
               {{- else if index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "inferenceUrl" }}
           - name: TRANSFORMERS_PASSAGE_INFERENCE_API
             value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "passage" "inferenceUrl" }}
               {{- end }}
               {{- if index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "enabled" }}
           - name: TRANSFORMERS_QUERY_INFERENCE_API
-            value: http://{{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+            value: http://{{ .Release.Name }}-transformers-inference-query.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
               {{- else if index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "inferenceUrl" }}
           - name: TRANSFORMERS_QUERY_INFERENCE_API
             value: {{ index .Values "modules" "text2vec-transformers" "passageQueryServices" "query" "inferenceUrl" }}
