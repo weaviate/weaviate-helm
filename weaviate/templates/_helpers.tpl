@@ -150,7 +150,8 @@ imagePullSecrets:
 Cluster API Secrets
 */}}
 {{- define "cluster_api.secret" -}}
-{{- $secret := lookup "v1" "Secret" .Release.Namespace "weaviate-cluster-api-basic-auth" -}}
+{{/*TODO: udpate all secret usage, also search for weaviate-* */}}
+{{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-cluster-api-basic-auth" .Release.Name) -}}
 {{- if $secret -}}
 {{/*
    Reusing value of secret if exist
