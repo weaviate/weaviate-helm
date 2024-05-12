@@ -114,7 +114,6 @@ storage:
 # don't want a public load balancer, you can also choose 'ClusterIP' to make
 # weaviate only accessible within your cluster.
 service:
-  name: weaviate
   ports:
     - name: http
       protocol: TCP
@@ -133,7 +132,6 @@ service:
 # environment then it can be disabled by setting enabled: false option.
 grpcService:
   enabled: true
-  name: weaviate-grpc
   ports:
     - name: grpc
       protocol: TCP
