@@ -150,7 +150,6 @@ imagePullSecrets:
 Cluster API Secrets
 */}}
 {{- define "cluster_api.secret" -}}
-{{/*TODO: udpate all secret usage, also search for weaviate-* */}}
 {{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-cluster-api-basic-auth" .Release.Name) -}}
 {{- if $secret -}}
 {{/*
@@ -192,6 +191,7 @@ Usage:
 Raft cluster configuration settings
 */}}
 {{- define "raft_configuration" -}}
+  {{- $release_name := .Release.Name -}}
   {{- $replicas := .Values.replicas | int -}}
   {{- $voters := .Values.env.RAFT_BOOTSTRAP_EXPECT | int -}}
   {{- $metada_only_voters := false -}}
@@ -214,7 +214,7 @@ Raft cluster configuration settings
     {{- $nodes := list -}}
     {{- range $i := until $voters -}}
       {{- $node_name := list -}}
-      {{- $node_name = append $node_name "weaviate" -}}
+      {{- $node_name = append $node_name $release_name -}}
       {{- $node_name = append $node_name $i -}}
       {{- $nodes = append $nodes (join "-" $node_name) -}}
     {{- end -}}

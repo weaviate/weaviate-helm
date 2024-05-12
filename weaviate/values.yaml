@@ -61,7 +61,7 @@ initContainers:
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
-replicas: 1
+replicas: 3
 
 # Define how pods will be created. Possible values: OrderedReady | Parallel
 # OrderedReady - pods will be created one after another
@@ -107,7 +107,7 @@ clusterDomain: cluster.local.
 # storage.fullnameOverride field set, then the default pvc will not be
 # created, instead the one defined in fullnameOverride will be used
 storage:
-  size: 32Gi
+  size: 2Gi
   storageClassName: ""
 
 # The service controls how weaviate is exposed to the outside world. If you
