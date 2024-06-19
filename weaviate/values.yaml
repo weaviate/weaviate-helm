@@ -53,7 +53,15 @@ initContainers:
       repo: alpine
       tag: latest
       pullPolicy: IfNotPresent
-  
+  ensureFileOwnershipContainer:
+    # This init container sets the file ownerships of /var/lib/weaviate directory to the ones set in
+    # containerSecurityContext.runAsUser and containerSecurityContext.fsGroup settings to ensure that Weaviate is able
+    # to start in unprivileged configuration.
+    # Enable this init container only if Weaviate was configured previously without security context
+    # and now containerSecurityContext is provided to run Weaviate container with non-root user.
+    # Please be sure to set at least containerSecurityContext.runAsUser and containerSecurityContext.fsGroup.
+    enabled: false
+
   extraInitContainers: {}
   # - image: some-image
   #   name: some-name
@@ -88,7 +96,14 @@ securityContext: {}
 
 # Security context for the Weaviate container. Override overlapping settings made at the Pod level.
 containerSecurityContext: {}
-
+  # runAsUser: 1000
+  # runAsGroup: 1000
+  # fsGroup: 1000
+  # fsGroupChangePolicy: "OnRootMismatch"
+  # runAsNonRoot: true
+  # allowPrivilegeEscalation: false
+  # privileged: false
+  # readOnlyRootFilesystem: true
 
 # Add a service account to the Weaviate pods if you need Weaviate to have permissions to
 # access kubernetes resources or cloud provider resources. For example for it to have

@@ -196,6 +196,7 @@ function check_creates_template() {
   check_string_existence "--set offload.s3.enabled=true --set modules.generative-aws.enabled=true --set offload.s3.envSecrets.AWS_ACCESS_KEY_ID=key-secret-name --set offload.s3.envSecrets.AWS_SECRET_ACCESS_KEY=secret --set modules.text2vec-aws.enabled=true" "name: key-secret-name"
   check_string_existence "--set offload.s3.enabled=true --set modules.generative-aws.enabled=true --set offload.s3.envconfig.OFFLOAD_S3_BUCKET=/custom-bucket --set modules.text2vec-aws.enabled=true" "name: OFFLOAD_S3_BUCKET"
   check_string_existence "--set offload.s3.enabled=true --set modules.generative-aws.enabled=true --set offload.s3.envconfig.OFFLOAD_S3_PATH=/custom-path --set modules.text2vec-aws.enabled=true" "name: OFFLOAD_S3_PATH"
+  check_string_existence "--set initContainers.ensureFileOwnershipContainer.enabled=true --set containerSecurityContext.runAsUser=1000 --set containerSecurityContext.fsGroup=2000" "name: ensure-file-ownership"
 
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""
