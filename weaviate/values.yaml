@@ -326,6 +326,57 @@ envSecrets:
   # create a Kubernetes secret with AUTHENTICATION_APIKEY_ALLOWED_KEYS key and its respective value
   # AUTHENTICATION_APIKEY_ALLOWED_KEYS: name-of-the-k8s-secret-containing-the-comma-separated-api-keys
 
+# Configure offload providers
+offload:
+  s3:
+    enabled: false
+    # If one is using AWS EKS and has already configured K8s Service Account
+    # that holds the AWS credentials one can pass a name of that service account
+    # here using this setting.
+    # NOTE: the root `serviceAccountName` config has priority over this one, and 
+    # if the root one is set this one will NOT overwrite it. This one is here for
+    # backwards compatibility.
+    serviceAccountName:
+
+    envconfig:
+      # Configure bucket where data should be saved, this setting is mandatory
+      OFFLOAD_S3_BUCKET: weaviate-offload
+
+      # Optional setting. Defaults to empty string.
+      # Set this option if you want to save data to a given location
+      # inside the bucket
+      # OFFLOAD_S3_PATH: path/inside/bucket
+
+      # Optional setting. Defaults to AWS S3 (s3.amazonaws.com). 
+      # Set this option if you have a MinIO storage configured in your environment
+      # and want to use it instead of the AWS S3.
+      # OFFLOAD_S3_ENDPOINT: custom.minio.endpoint.address
+
+      # Optional setting. Defaults to true.
+      # Set this option if you don't want to use SSL.
+      # OFFLOAD_S3_USE_SSL: true
+
+      # You can pass environment AWS settings here:
+      # Define the region
+      # AWS_REGION: eu-west-1
+
+    # For Weaviate to be able to create bucket objects it needs a user credentials to authenticate to AWS.
+    # The User must have permissions to read/create/delete bucket objects.
+    # You can pass the User credentials (access-key id and access-secret-key) in 2 ways:
+    # 1. by setting the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY plain values in the `secrets` section below
+    #     this chart will create a kubernetes secret for you with these key-values pairs
+    # 2. create Kubernetes secret/s with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY  keys and their respective values
+    #     Set the Key and the secret where it is set in `envSecrets` section below
+    secrets: {}
+    #   AWS_ACCESS_KEY_ID: access-key-id (plain text)
+    #   AWS_SECRET_ACCESS_KEY: secret-access-key (plain text)
+
+    # If one has already defined secrets with AWS credentials one can pass them using
+    # this setting:
+    envSecrets: {}
+    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
+    #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
+
 # Configure backup providers
 backups:
   # The backup-filesystem module enables creation of the DB backups in
