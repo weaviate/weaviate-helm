@@ -104,6 +104,9 @@
   {{- if (index .Values "modules" "reranker-voyageai" "enabled") -}}
     {{ $modules = append $modules "reranker-voyageai" }}
   {{- end -}}
+  {{- if (index .Values "offload" "s3" "enabled") -}}
+    {{ $modules = append $modules "offload-s3" }}
+  {{- end -}}
   {{- if (index .Values "backups" "filesystem" "enabled") -}}
     {{ $modules = append $modules "backup-filesystem" }}
   {{- end -}}
