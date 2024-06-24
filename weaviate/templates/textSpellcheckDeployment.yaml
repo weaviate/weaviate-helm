@@ -3,11 +3,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index $module "fullnameOverride" }}
+  name: {{ .Release.Name }}-text-spellcheck
   labels:
-    name: {{ index $module "fullnameOverride" }}
-    app: {{ index $module "fullnameOverride" }}
-    app.kubernetes.io/name: weaviate
+    name: {{ .Release.Name }}-text-spellcheck
+    app: {{ .Release.Name }}-text-spellcheck
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ index $module "replicas" }}
@@ -15,11 +15,11 @@ spec:
 {{ toYaml (index $module "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index $module "fullnameOverride" }}
+      app: {{ .Release.Name }}-text-spellcheck
   template:
     metadata:
       labels:
-        app: {{ index $module "fullnameOverride" }}
+        app: {{ .Release.Name }}-text-spellcheck
     spec:
       securityContext:
 {{ toYaml (index $module "securityContext") | indent 8}}
@@ -31,7 +31,7 @@ spec:
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
       {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $module "priorityClassName")) | nindent 6 }}
       containers:
-      - name: {{ index $module "fullnameOverride" }}
+      - name: {{ .Release.Name }}-text-spellcheck
         image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
         imagePullPolicy: {{ index $module "imagePullPolicy" }}
         resources:
@@ -53,7 +53,7 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index $module "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default (include "affinity" . | fromYaml) }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
@@ -65,15 +65,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ index $module "fullnameOverride" }}
+  name: {{ .Release.Name }}-text-spellcheck
   labels:
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 
 spec:
   type: ClusterIP
   selector:
-    app: {{ index $module "fullnameOverride" }}
+    app: {{ .Release.Name }}-text-spellcheck
   ports:
     - protocol: TCP
       port: 8080

@@ -3,11 +3,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index $module "fullnameOverride" }}
+  name: {{ .Release.Name}}-contextionary
   labels:
-    name: {{ index $module "fullnameOverride" }}
-    app: {{ index $module "fullnameOverride" }}
-    app.kubernetes.io/name: weaviate
+    name: {{ .Release.Name}}-contextionary
+    app: {{ .Release.Name}}-contextionary
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ index $module "replicas" }}
@@ -15,12 +15,12 @@ spec:
 {{ toYaml (index $module "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index $module "fullnameOverride" }}
+      app: {{ .Release.Name}}-contextionary
   template:
     metadata:
       labels:
-        app: {{ index $module "fullnameOverride" }}
-        app.kubernetes.io/name: weaviate
+        app: {{ .Release.Name}}-contextionary
+        app.kubernetes.io/name: {{ .Release.Name }}
         app.kubernetes.io/managed-by: {{ .Release.Service }}
     spec:
       securityContext:
@@ -33,7 +33,7 @@ spec:
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
       {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $module "priorityClassName")) | nindent 6 }}
       containers:
-      - name: {{ index $module "fullnameOverride" }}
+      - name: {{ .Release.Name}}-contextionary
         image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
         imagePullPolicy: {{ index $module "imagePullPolicy" }}
         env:
@@ -42,7 +42,7 @@ spec:
           - name: EXTENSIONS_STORAGE_MODE
             value: {{ index $module "envconfig" "extensions_storage_mode" | quote }}
           - name: EXTENSIONS_STORAGE_ORIGIN
-            value: http://{{ .Values.service.name }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
+            value: http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
           - name: NEIGHBOR_OCCURRENCE_IGNORE_PERCENTILE
             value: {{ index $module "envconfig" "neighbor_occurrence_ignore_percentile" | quote }}
           - name: ENABLE_COMPOUND_SPLITTING
@@ -64,7 +64,7 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index $module "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default (include "affinity" . | fromYaml) }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
@@ -76,14 +76,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ index $module "fullnameOverride" }}
+  name: {{ .Release.Name}}-contextionary
   labels:
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ClusterIP
   selector:
-    app: {{ index $module "fullnameOverride" }}
+    app: {{ .Release.Name}}-contextionary
   ports:
     - protocol: TCP
       port: 9999

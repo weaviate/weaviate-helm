@@ -5,11 +5,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index $module "fullnameOverride" }}
+  name: {{ .Release.Name }}-transformers-inference
   labels:
-    name: {{ index $module "fullnameOverride" }}
-    app: {{ index $module "fullnameOverride" }}
-    app.kubernetes.io/name: weaviate
+    name: {{ .Release.Name }}-transformers-inference
+    app: {{ .Release.Name }}-transformers-inference
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ index $module "replicas" }}
@@ -17,11 +17,11 @@ spec:
 {{ toYaml (index $module "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index $module "fullnameOverride" }}
+      app: {{ .Release.Name }}-transformers-inference
   template:
     metadata:
       labels:
-        app: {{ index $module "fullnameOverride" }}
+        app: {{ .Release.Name }}-transformers-inference
     spec:
       securityContext:
 {{ toYaml (index $module "securityContext") | indent 8}}
@@ -33,7 +33,7 @@ spec:
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $module "imagePullSecrets")) | nindent 6 }}
       {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $module "priorityClassName")) | nindent 6 }}
       containers:
-      - name: {{ index $module "fullnameOverride" }}
+      - name: {{ .Release.Name }}-transformers-inference
         image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
         imagePullPolicy: {{ index $module "imagePullPolicy" }}
         env:
@@ -74,7 +74,7 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index $module "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default (include "affinity" . | fromYaml) }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
@@ -86,14 +86,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ index $module "fullnameOverride" }}
+  name: {{ .Release.Name }}-transformers-inference
   labels:
-    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ClusterIP
   selector:
-    app: {{ index $module "fullnameOverride" }}
+    app: {{ .Release.Name }}-transformers-inference
   ports:
     - protocol: TCP
       port: 8080
@@ -104,21 +104,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index $passage "fullnameOverride" }}
+  name: {{ .Release.Name }}-transformers-inference-passage
   labels:
-    name: {{ index $passage "fullnameOverride" }}
-    app: {{ index $passage "fullnameOverride" }}
+    name: {{ .Release.Name }}-transformers-inference-passage
+    app: {{ .Release.Name }}-transformers-inference-passage
 spec:
   replicas: {{ index $passage "replicas" }}
   strategy:
 {{ toYaml (index $passage "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index $passage "fullnameOverride" }}
+      app: {{ .Release.Name }}-transformers-inference-passage
   template:
     metadata:
       labels:
-        app: {{ index $passage "fullnameOverride" }}
+        app: {{ .Release.Name }}-transformers-inference-passage
     spec:
       securityContext:
 {{ toYaml (index $passage "securityContext") | indent 8}}
@@ -132,7 +132,7 @@ spec:
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $passage "imagePullSecrets")) | nindent 6 }}
       {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $passage "priorityClassName")) | nindent 6 }}
       containers:
-      - name: {{ index $passage "fullnameOverride" }}
+      - name: {{ .Release.Name }}-transformers-inference-passage
         image: {{ index $passage "registry" }}/{{ index $passage "repo" }}:{{ index $passage "tag" }}
         imagePullPolicy: {{ index $passage "imagePullPolicy" }}
         env:
@@ -165,7 +165,7 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index $passage "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default (include "affinity" . | fromYaml) }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
@@ -177,36 +177,36 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ index $passage "fullnameOverride" }}
+  name: {{ .Release.Name }}-transformers-inference-passage
 spec:
   type: ClusterIP
   selector:
-    app: {{ index $passage "fullnameOverride" }}
+    app: {{ .Release.Name }}-transformers-inference-passage
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
   {{- end }}
----    
+---
   {{- if index $query "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ index $query "fullnameOverride" }}
+  name: {{ .Release.Name }}-transformers-inference-query
   labels:
-    name: {{ index $query "fullnameOverride" }}
-    app: {{ index $query "fullnameOverride" }}
+    name: {{ .Release.Name }}-transformers-inference-query
+    app: {{ .Release.Name }}-transformers-inference-query
 spec:
   replicas: {{ index $query "replicas" }}
   strategy:
 {{ toYaml (index $query "strategy") | indent 4}}
   selector:
     matchLabels:
-      app: {{ index $query "fullnameOverride" }}
+      app: {{ .Release.Name }}-transformers-inference-query
   template:
     metadata:
       labels:
-        app: {{ index $query "fullnameOverride" }}
+        app: {{ .Release.Name }}-transformers-inference-query
     spec:
       securityContext:
 {{ toYaml (index $query "securityContext") | indent 8}}
@@ -220,7 +220,7 @@ spec:
       {{- include "image.pullSecrets" (dict "pullSecrets" (index $query "imagePullSecrets")) | nindent 6 }}
       {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" (index $query "priorityClassName")) | nindent 6 }}
       containers:
-      - name: {{ index $query "fullnameOverride" }}
+      - name: {{ .Release.Name }}-transformers-inference-query
         image: {{ index $query "registry" }}/{{ index $query "repo" }}:{{ index $query "tag" }}
         imagePullPolicy: {{ index $query "imagePullPolicy" }}
         env:
@@ -253,7 +253,7 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with index $query "affinity" | default .Values.affinity }}
+      {{- with index $module "affinity" | default (include "affinity" . | fromYaml) }}
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
@@ -265,11 +265,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ index $query "fullnameOverride" }}
+  name: {{ .Release.Name }}-transformers-inference-query
 spec:
   type: ClusterIP
   selector:
-    app: {{ index $query "fullnameOverride" }}
+    app: {{ .Release.Name }}-transformers-inference-query
   ports:
     - protocol: TCP
       port: 8080

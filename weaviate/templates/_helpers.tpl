@@ -126,7 +126,7 @@
 {{- end -}}
 
 
-{{/* 
+{{/*
 Return Image pull secret Names
 Usage:
 {{- include "image.pullSecrets" (dict "pullSecrets" path_to_image_pullSecrets) | nindent 6 }}
@@ -153,7 +153,7 @@ imagePullSecrets:
 Cluster API Secrets
 */}}
 {{- define "cluster_api.secret" -}}
-{{- $secret := lookup "v1" "Secret" .Release.Namespace "weaviate-cluster-api-basic-auth" -}}
+{{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-cluster-api-basic-auth" .Release.Name) -}}
 {{- if $secret -}}
 {{/*
    Reusing value of secret if exist
@@ -170,7 +170,7 @@ password: {{ randAlphaNum 32 | b64enc | quote }}
 {{- end -}}
 
 
-{{/* 
+{{/*
 Return PriorityClassName
 Usage:
 {{- include "pod.priorityClassName" ( dict "global" .Values.path.to.global.priorityClassName "priorityClassName" .Values.path.to.priorityClassName) | nindent 6 }}
@@ -194,12 +194,13 @@ Usage:
 Raft cluster configuration settings
 */}}
 {{- define "raft_configuration" -}}
+  {{- $release_name := .Release.Name -}}
   {{- $replicas := .Values.replicas | int -}}
   {{- $voters := .Values.env.RAFT_BOOTSTRAP_EXPECT | int -}}
   {{- $metada_only_voters := false -}}
   {{- if not (empty .Values.env.RAFT_METADATA_ONLY_VOTERS) -}}
     {{- $metada_only_voters = .Values.env.RAFT_METADATA_ONLY_VOTERS -}}
-  {{- end -}} 
+  {{- end -}}
   {{- if empty .Values.env.RAFT_BOOTSTRAP_EXPECT -}}
     {{- if ge $replicas 10 -}}
       {{- $voters = 5 -}}
@@ -216,7 +217,7 @@ Raft cluster configuration settings
     {{- $nodes := list -}}
     {{- range $i := until $voters -}}
       {{- $node_name := list -}}
-      {{- $node_name = append $node_name "weaviate" -}}
+      {{- $node_name = append $node_name $release_name -}}
       {{- $node_name = append $node_name $i -}}
       {{- $nodes = append $nodes (join "-" $node_name) -}}
     {{- end -}}
@@ -239,3 +240,32 @@ Raft cluster configuration settings
     {{- fail "env.RAFT_METADATA_ONLY_VOTERS is true then .replicas size must be greater than env.RAFT_BOOTSTRAP_EXPECT" -}}
   {{- end -}}
 {{- end -}}
+
+
+{{/*
+Default affinity configuration
+*/}}
+{{- define "default_affinity" -}}
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 1
+      podAffinityTerm:
+        topologyKey: "kubernetes.io/hostname"
+        labelSelector:
+          matchExpressions:
+            - key: "app"
+              operator: In
+              values:
+                - {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Affinity configuration, try to use the provided affinity configuration, otherwise use the default one
+*/}}
+{{- define "affinity" -}}
+{{- if .Values.affinity }}
+{{- toYaml .Values.affinity | nindent 0 }}
+{{- else }}
+{{- include "default_affinity" . }}
+{{- end }}
+{{- end }}
