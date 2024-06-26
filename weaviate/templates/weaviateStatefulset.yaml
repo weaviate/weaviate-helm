@@ -49,7 +49,21 @@ spec:
           privileged: true
         image: "{{ .image.registry }}/{{ .image.repo }}:{{ .image.tag }}"
         imagePullPolicy: "{{ .image.pullPolicy }}"
-        command: ["sysctl", "-w", "vm.max_map_count={{ .sysctlVmMaxMapCount }}", "vm.overcommit_memory=1" ]
+        command: ["sysctl", "-w", "vm.max_map_count={{ .sysctlVmMaxMapCount }}", "vm.overcommit_memory=1"]
+      {{- end }}
+      {{- end }}
+      {{- if .Values.initContainers.ensureFileOwnershipContainer.enabled }}
+      {{- if and .Values.containerSecurityContext .Values.containerSecurityContext.runAsUser .Values.containerSecurityContext.fsGroup }}
+      - name: ensure-file-ownership
+        securityContext:
+          runAsUser: 0
+          privileged: true
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        command: ["chown", "-R", "{{ .Values.containerSecurityContext.runAsUser }}:{{ .Values.containerSecurityContext.fsGroup }}", "/var/lib/weaviate"]
+        volumeMounts:
+          - name: weaviate-data
+            mountPath: /var/lib/weaviate
       {{- end }}
       {{- end }}
       {{- if .Values.initContainers.extraInitContainers }}
