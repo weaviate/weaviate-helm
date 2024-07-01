@@ -552,13 +552,13 @@ modules:
       neighbor_occurrence_ignore_percentile: 5
       enable_compound_splitting: false
       extensions_storage_mode: weaviate
-    resources:
-      requests:
-        cpu: '500m'
-        memory: '500Mi'
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
+    resources: {}
+      # requests:
+      #   cpu: '500m'
+      #   memory: '500Mi'
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -628,19 +628,17 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '3000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
 
     # security Context for the Transformers Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -698,19 +696,17 @@ modules:
           # only used when CUDA is enabled
           ld_library_path: /usr/local/nvidia/lib64
 
-        resources:
-          requests:
-            cpu: '1000m'
-            memory: '3000Mi'
-
-            # enable if running with CUDA support
-            # nvidia.com/gpu: 1
-          limits:
-            cpu: '1000m'
-            memory: '5000Mi'
-
-            # enable if running with CUDA support
-            # nvidia.com/gpu: 1
+        resources: {}
+          # requests:
+          #   cpu: '1000m'
+          #   memory: '3000Mi'
+          #   enable if running with CUDA support
+          #   nvidia.com/gpu: 1
+          # limits:
+          #   cpu: '1000m'
+          #   memory: '5000Mi'
+          #   enable if running with CUDA support
+          #   nvidia.com/gpu: 1
 
         # security Context for the Transformers Pods. The configurations are the same as setting them
         # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -768,20 +764,18 @@ modules:
           # only used when CUDA is enabled
           ld_library_path: /usr/local/nvidia/lib64
 
-        resources:
-          requests:
-            cpu: '1000m'
-            memory: '3000Mi'
+        resources: {}
+          # requests:
+          #   cpu: '1000m'
+          #   memory: '3000Mi'
+          #   enable if running with CUDA support
+          #   nvidia.com/gpu: 1
 
-            # enable if running with CUDA support
-            # nvidia.com/gpu: 1
-
-          limits:
-            cpu: '1000m'
-            memory: '5000Mi'
-
-            # enable if running with CUDA support
-            # nvidia.com/gpu: 1
+          # limits:
+          #   cpu: '1000m'
+          #   memory: '5000Mi'
+          #   enable if running with CUDA support
+          #   nvidia.com/gpu: 1
 
                 # security Context for the Transformers Pods. The configurations are the same as setting them
         # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -837,14 +831,14 @@ modules:
       initialDelaySeconds: 120
       periodSeconds: 3
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '3000Mi'
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
 
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -1056,19 +1050,17 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '3000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -1128,19 +1120,17 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '7000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
-      limits:
-        cpu: '1000m'
-        memory: '7000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '7000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '7000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -1210,19 +1200,17 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '3000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -1410,19 +1398,17 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '3000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -1512,19 +1498,17 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '3000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -1575,13 +1559,13 @@ modules:
       initialDelaySeconds: 120
       periodSeconds: 3
 
-    resources:
-      requests:
-        cpu: '400m'
-        memory: '400Mi'
-      limits:
-        cpu: '500m'
-        memory: '500Mi'
+    resources: {}
+      # requests:
+      #   cpu: '400m'
+      #   memory: '400Mi'
+      # limits:
+      #   cpu: '500m'
+      #   memory: '500Mi'
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -1643,19 +1627,19 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '3000Mi'
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
 
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
 
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -1716,19 +1700,17 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
-    resources:
-      requests:
-        cpu: '1000m'
-        memory: '3000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
-      limits:
-        cpu: '1000m'
-        memory: '5000Mi'
-
-        # enable if running with CUDA support
-        # nvidia.com/gpu: 1
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
+      #   enable if running with CUDA support
+      #   nvidia.com/gpu: 1
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/

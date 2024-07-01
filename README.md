@@ -25,6 +25,12 @@ If you are upgrading from a version older than v1.25 to v1.25 and above, you mus
 
 Detailed information can be found in the [documentation](https://weaviate.io/developers/weaviate/more-resources/migration/weaviate-1-25).
 
+## Upgrading to weaviate-helm 17.1.0: model resource limits/requests considerations
+
+In Weaviate-Helm version `17.1.0`, the default resource limits and requests defined in the `values.yml` file have been removed. The previous default values were restricting the performance of some modules, making them almost unusable unless the `resources.requests` and `resources.limits` were overridden. To address this issue, we have decided to remove these limits, allowing users to define the best resource values for their specific system.
+
+This change means that any modules deployed with default values prior to version `17.1.0` will have their resource values removed upon upgrading to `17.1.0` or above. As a result, these modules will have no constraints on memory or CPU usage. To prevent the modules from consuming all system resources, we strongly recommend overriding the `modules.$MODULE.resources.requests` and `modules.$MODULE.resources.limits` with values that best suit your system.
+
 ## (for contributors) How to make new releases
 
 1. Bump chart version in `./weaviate/Chart.yaml`
