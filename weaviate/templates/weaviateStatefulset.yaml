@@ -106,8 +106,6 @@ spec:
               secretKeyRef:
                 name: weaviate-cluster-api-basic-auth
                 key: password
-          - name: STANDALONE_MODE
-            value: 'true'
           - name: PERSISTENCE_DATA_PATH
             value: '/var/lib/weaviate'
           - name: DEFAULT_VECTORIZER_MODULE
