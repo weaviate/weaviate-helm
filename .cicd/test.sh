@@ -178,6 +178,8 @@ function check_creates_template() {
   check_string_existence "--set modules.generative-aws.enabled=true --set modules.generative-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.generative-aws.secrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_SECRET_ACCESS_KEY"
   check_string_existence "--set modules.generative-aws.enabled=true --set modules.generative-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.generative-aws.secrets.AWS_SECRET_ACCESS_KEY=secret --set modules.text2vec-aws.enabled=true" "name: AWS_ACCESS_KEY_ID"
   check_string_existence "--set modules.generative-aws.enabled=true --set modules.generative-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.generative-aws.secrets.AWS_SECRET_ACCESS_KEY=secret --set modules.text2vec-aws.enabled=true" "name: AWS_SECRET_ACCESS_KEY"
+  check_string_existence "--set offload.s3.enabled=true --set offload.s3.secrets.AWS_ACCESS_KEY_ID=key --set offload.s3.secrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_ACCESS_KEY_ID"
+  check_string_existence "--set offload.s3.enabled=true --set offload.s3.secrets.AWS_ACCESS_KEY_ID=key --set offload.s3.secrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_SECRET_ACCESS_KEY"
   check_string_existence "--set backups.s3.enabled=true --set modules.generative-aws.enabled=true --set modules.generative-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.generative-aws.secrets.AWS_SECRET_ACCESS_KEY=secret --set modules.text2vec-aws.enabled=true" "name: weaviate-aws"
   check_string_existence "--set backups.s3.enabled=true --set modules.generative-aws.enabled=true --set backups.s3.secrets.AWS_ACCESS_KEY_ID=key --set backups.s3.secrets.AWS_SECRET_ACCESS_KEY=secret --set modules.text2vec-aws.enabled=true" "name: backup-s3"
   check_string_existence "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.envSecrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.envSecrets.AWS_SECRET_ACCESS_KEY=secret" "name: AWS_ACCESS_KEY_ID"
@@ -326,6 +328,6 @@ function check_creates_template() {
   check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "exec:"
   check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "command:"
   check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "test-probe-cmd"
-  
+
   echo "Tests successful."
 )
