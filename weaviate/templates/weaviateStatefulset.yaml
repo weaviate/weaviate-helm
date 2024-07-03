@@ -253,6 +253,13 @@ spec:
                 name: weaviate-anyscale
                 key: apiKey
           {{- end  }}
+          {{- if and (index .Values "modules" "generative-anthropic" "enabled") (index .Values "modules" "generative-anthropic" "apiKey") }}
+          - name: ANTHROPIC_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-anthropic
+                key: apiKey
+          {{- end  }}
           {{- if and (index .Values "modules" "generative-mistral" "enabled") (index .Values "modules" "generative-mistral" "apiKey") }}
           - name: MISTRAL_APIKEY
             valueFrom:
