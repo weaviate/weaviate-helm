@@ -160,6 +160,8 @@ function check_creates_template() {
   check_modules "--set modules.text2vec-octoai.enabled=true" "value: text2vec-octoai"
   check_modules "--set modules.generative-octoai.enabled=true" "value: generative-octoai"
   check_modules "--set offload.s3.enabled=true" "value: offload-s3"
+  check_modules "--set modules.generative-anthropic.enabled=true" "value: generative-anthropic"
+  check_modules "--set modules.generative-anthropic.enabled=true --set modules.generative-anthropic.apiKey=apiKey" "value: generative-anthropic"
 
   check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
   check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"
@@ -199,6 +201,7 @@ function check_creates_template() {
   check_string_existence "--set offload.s3.enabled=true --set modules.generative-aws.enabled=true --set offload.s3.envconfig.OFFLOAD_S3_BUCKET=/custom-bucket --set modules.text2vec-aws.enabled=true" "name: OFFLOAD_S3_BUCKET"
   check_string_existence "--set offload.s3.enabled=true --set modules.generative-aws.enabled=true --set offload.s3.envconfig.OFFLOAD_S3_PATH=/custom-path --set modules.text2vec-aws.enabled=true" "name: OFFLOAD_S3_PATH"
   check_string_existence "--set initContainers.ensureFileOwnershipContainer.enabled=true --set containerSecurityContext.runAsUser=1000 --set containerSecurityContext.fsGroup=2000" "name: ensure-file-ownership"
+  check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.generative-anthropic.enabled=true --set modules.generative-anthropic.apiKey=azureApiKey" "name: ANTHROPIC_APIKEY"
 
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""

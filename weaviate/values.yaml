@@ -1358,6 +1358,18 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The generative-anthropic module uses Anthropic API.
+  # More information about Anthropic API can be found here:
+  # https://docs.anthropic.com/en/api/getting-started
+  generative-anthropic:
+
+    # enable if you want to use Anthropic module
+    enabled: false
+
+    # Set your Anthropic API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
