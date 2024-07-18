@@ -357,11 +357,6 @@ offload:
       # Configure bucket where data should be saved, this setting is mandatory
       OFFLOAD_S3_BUCKET: weaviate-offload
 
-      # Optional setting. Defaults to empty string.
-      # Set this option if you want to save data to a given location
-      # inside the bucket
-      # OFFLOAD_S3_PATH: path/inside/bucket
-
       # Optional setting. Defaults to AWS S3 (s3.amazonaws.com). 
       # Set this option if you have a MinIO storage configured in your environment
       # and want to use it instead of the AWS S3.
