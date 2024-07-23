@@ -1462,6 +1462,19 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The reranker-jinaai module uses JinaAI API
+  # to dynamically compute a score for the relevance 
+  # of the query with each of the initial search results.
+  # More information about Cohere API can be found here: https://jina.ai/reranker
+  reranker-jinaai:
+
+    # enable if you want to use JinaAI module
+    enabled: false
+
+    # Set your JinaAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The reranker-transformers module uses Cross-Encoders for 
   # sentence pair scoring and sentence pair classification tasks.
   # More information about Cross-Encoders can be found here:
