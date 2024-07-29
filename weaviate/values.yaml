@@ -366,6 +366,13 @@ offload:
       # Set this option if you don't want to use SSL.
       # OFFLOAD_S3_USE_SSL: true
 
+      # Optional setting. Defaults to false.
+      # Set this option if you wan't Weaviate to create
+      # the bucket used for offloading tenants. Otherwise,
+      # if set to false Weaviate expects the bucket to be
+      # already created with the OFFLOAD_S3_BUCKET name 
+      # OFFLOAD_S3_BUCKET_AUTO_CREATE: true
+
       # You can pass environment AWS settings here:
       # Define the region
       # AWS_REGION: eu-west-1
