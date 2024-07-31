@@ -1069,14 +1069,6 @@ nodeSelector:
 tolerations:
 
 affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: cloud.google.com/gke-nodepool
-              operator: In
-              values:
-                - load-test-mlservice
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 1
