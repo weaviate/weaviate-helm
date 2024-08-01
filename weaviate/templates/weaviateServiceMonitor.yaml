@@ -14,6 +14,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: weaviate
       app.kubernetes.io/managed-by: {{ .Release.Service }}
+      monitoring: enabled
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace | quote }}
