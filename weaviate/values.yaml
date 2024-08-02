@@ -162,6 +162,8 @@ grpcService:
 
 # The service monitor defines prometheus monitoring for a set of services
 # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.ServiceMonitor
+# Make sure to set the following prometheus values if deploying observability with the kube-prometheus-stack helm chart:
+# - prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues: false
 serviceMonitor:
   enabled: false
   interval: 30s

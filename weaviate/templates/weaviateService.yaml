@@ -5,6 +5,9 @@ metadata:
   labels:
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if and .Values.env.PROMETHEUS_MONITORING_ENABLED .Values.serviceMonitor.enabled }}
+    monitoring: enabled
+{{- end }}
   {{- with .Values.service.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}
