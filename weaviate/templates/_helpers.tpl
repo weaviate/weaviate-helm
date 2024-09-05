@@ -50,6 +50,9 @@
   {{- if (index .Values "modules" "generative-friendliai" "enabled") -}}
     {{ $modules = append $modules "generative-friendliai" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-databricks" "enabled") -}}
+    {{ $modules = append $modules "generative-databricks" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
@@ -97,6 +100,9 @@
   {{- end -}}
   {{- if (index .Values "modules" "text2vec-octoai" "enabled") -}}
     {{ $modules = append $modules "text2vec-octoai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-databricks" "enabled") -}}
+    {{ $modules = append $modules "text2vec-databricks" }}
   {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
