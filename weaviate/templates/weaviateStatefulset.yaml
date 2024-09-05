@@ -260,7 +260,7 @@ spec:
                 name: weaviate-anthropic
                 key: apiKey
           {{- end  }}
-          {{- if and (index .Values "modules" "generative-mistral" "enabled") (index .Values "modules" "generative-mistral" "apiKey") }}
+          {{- if or (and (index .Values "modules" "text2vec-mistral" "enabled") (index .Values "modules" "text2vec-mistral" "apiKey")) (and (index .Values "modules" "generative-mistral" "enabled") (index .Values "modules" "generative-mistral" "apiKey")) }}
           - name: MISTRAL_APIKEY
             valueFrom:
               secretKeyRef:
