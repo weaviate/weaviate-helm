@@ -1008,6 +1008,20 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The text2vec-databricks module uses Databricks Embeddings API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about Databricks Embeddings API can be found here:
+  # https://docs.databricks.com/en/machine-learning/foundation-models/api-reference.html#embedding-task
+  text2vec-databricks:
+
+    # enable if you want to use Databricks module
+    enabled: false
+
+    # Set your Databricks Token to be passed to Weaviate pod as
+    # an environment variable
+    token: ''
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.
@@ -1383,6 +1397,18 @@ modules:
     enabled: false
 
     # Set your FriendliAI Token to be passed to Weaviate pod as
+    # an environment variable
+    token: ''
+
+  # The generative-databricks module uses Databricks API.
+  # More information about Databricks API can be found here:
+  # https://docs.databricks.com/en/machine-learning/foundation-models/api-reference.html#completion-task
+  generative-databricks:
+
+    # enable if you want to use Databricks module
+    enabled: false
+
+    # Set your Databricks Token to be passed to Weaviate pod as
     # an environment variable
     token: ''
 

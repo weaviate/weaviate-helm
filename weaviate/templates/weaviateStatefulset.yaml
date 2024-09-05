@@ -281,6 +281,13 @@ spec:
                 name: weaviate-friendliai
                 key: token
           {{- end  }}
+          {{- if or (and (index .Values "modules" "text2vec-databricks" "enabled") (index .Values "modules" "text2vec-databricks" "token")) (and (index .Values "modules" "generative-databricks" "enabled") (index .Values "modules" "generative-databricks" "token")) }}
+          - name: DATABRICKS_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-databricks
+                key: token
+          {{- end  }}
           {{- if and (index .Values "offload" "s3" "enabled") (index .Values "offload" "s3" "envconfig") }}
             {{- range $key, $value := index .Values "offload" "s3" "envconfig" }}
           - name: {{ $key }}

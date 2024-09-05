@@ -167,6 +167,8 @@ function check_creates_template() {
   check_modules "--set modules.generative-anthropic.enabled=true --set modules.generative-anthropic.apiKey=apiKey" "value: generative-anthropic"
   check_modules "--set modules.generative-friendliai.enabled=true" "value: generative-friendliai"
   check_modules "--set modules.generative-friendliai.enabled=true --set modules.generative-friendliai.token=token" "value: generative-friendliai"
+  check_modules "--set modules.text2vec-databricks.enabled=true" "value: text2vec-databricks"
+  check_modules "--set modules.generative-databricks.enabled=true" "value: generative-databricks"
 
   check_modules "--set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.azureApiKey=azureApiKey" "value: text2vec-openai"
   check_modules "--set modules.qna-openai.enabled=true --set modules.qna-openai.azureApiKey=azureApiKey" "value: qna-openai"
@@ -211,6 +213,9 @@ function check_creates_template() {
   check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.reranker-jinaai.enabled=true --set modules.reranker-jinaai.apiKey=JinaAIApiKey" "name: JINAAI_APIKEY"
   check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.reranker-jinaai.enabled=true --set modules.reranker-jinaai.apiKey=JinaAIApiKey --set modules.text2vec-jinaai.enabled=true --set modules.text2vec-jinaai.apiKey=JinaAIApiKey" "name: JINAAI_APIKEY"
   check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.generative-friendliai.enabled=true --set modules.generative-friendliai.token=FriendliToken" "name: FRIENDLI_TOKEN"
+  check_string_existence "--set modules.text2vec-databricks.enabled=true --set modules.text2vec-databricks.token=databricksToken" "name: DATABRICKS_TOKEN"
+  check_string_existence "--set modules.generative-databricks.enabled=true --set modules.generative-databricks.token=databricksToken" "name: DATABRICKS_TOKEN"
+  check_string_existence "--set modules.generative-databricks.enabled=true --set modules.generative-databricks.token=databricksToken --set modules.text2vec-databricks.enabled=true --set modules.text2vec-databricks.token=databricksToken" "name: DATABRICKS_TOKEN"
 
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""
