@@ -104,6 +104,9 @@
   {{- if (index .Values "modules" "text2vec-databricks" "enabled") -}}
     {{ $modules = append $modules "text2vec-databricks" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2vec-mistral" "enabled") -}}
+    {{ $modules = append $modules "text2vec-mistral" }}
+  {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
   {{- end -}}

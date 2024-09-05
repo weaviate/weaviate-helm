@@ -1008,6 +1008,18 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The text2vec-mistral module uses MISTRAL AI Embeddings API
+  # More information about MISTRAL AI's Embeddings API can be found here:
+  # https://docs.mistral.ai/api/#operation/createEmbedding
+  text2vec-mistral:
+
+    # enable if you want to use MISTRAL AI module
+    enabled: false
+
+    # Set your MISTRAL API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The text2vec-databricks module uses Databricks Embeddings API
   # to dynamically compute vector embeddings based on the
   # sentence's context.
