@@ -1374,6 +1374,18 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The generative-friendliai module uses FriendliAI API.
+  # More information about FriendliAI API can be found here:
+  # https://docs.friendli.ai/openapi/create-chat-completions
+  generative-friendliai:
+
+    # enable if you want to use FriendliAI module
+    enabled: false
+
+    # Set your FriendliAI Token to be passed to Weaviate pod as
+    # an environment variable
+    token: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
