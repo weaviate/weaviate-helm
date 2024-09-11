@@ -144,7 +144,7 @@
 {{- end -}}
 
 
-{{/* 
+{{/*
 Return Image pull secret Names
 Usage:
 {{- include "image.pullSecrets" (dict "pullSecrets" path_to_image_pullSecrets) | nindent 6 }}
@@ -188,7 +188,7 @@ password: {{ randAlphaNum 32 | b64enc | quote }}
 {{- end -}}
 
 
-{{/* 
+{{/*
 Return PriorityClassName
 Usage:
 {{- include "pod.priorityClassName" ( dict "global" .Values.path.to.global.priorityClassName "priorityClassName" .Values.path.to.priorityClassName) | nindent 6 }}
@@ -217,7 +217,7 @@ Raft cluster configuration settings
   {{- $metada_only_voters := false -}}
   {{- if not (empty .Values.env.RAFT_METADATA_ONLY_VOTERS) -}}
     {{- $metada_only_voters = .Values.env.RAFT_METADATA_ONLY_VOTERS -}}
-  {{- end -}} 
+  {{- end -}}
   {{- if empty .Values.env.RAFT_BOOTSTRAP_EXPECT -}}
     {{- if ge $replicas 10 -}}
       {{- $voters = 5 -}}
@@ -232,9 +232,10 @@ Raft cluster configuration settings
   {{- end -}}
   {{- if empty .Values.env.RAFT_JOIN -}}
     {{- $nodes := list -}}
+    {{- $pod_prefix := "weaviate" -}}
     {{- range $i := until $voters -}}
       {{- $node_name := list -}}
-      {{- $node_name = append $node_name "weaviate" -}}
+      {{- $node_name = append $node_name $pod_prefix -}}
       {{- $node_name = append $node_name $i -}}
       {{- $nodes = append $nodes (join "-" $node_name) -}}
     {{- end -}}
