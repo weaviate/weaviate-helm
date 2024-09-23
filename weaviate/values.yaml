@@ -297,6 +297,17 @@ env:
   # setting so that replicas > voters.
   # RAFT_METADATA_ONLY_VOTERS: false
 
+  # RAFT_ENABLE_FQDN_RESOLVER setting changes the node name to node ip resolution to use DNS lookups
+  # instead of memberlist lookup. That means that when weaviate raft component wants to contact `weaviate-0`
+  # it's going to lookup the dns name `weaviate-0` instead of looking for the node-id in memberlist.
+  # This is particularly useful if running in an environment where you're using services (for example k8s)
+  # where the IP of the services is different from the actual node IP, but it proxies the connection to the node.
+  # RAFT_ENABLE_FQDN_RESOLVER: false
+
+  # RAFT_FQDN_RESOLVER_TLD setting acts in combination with RAFT_ENABLE_FQDN_RESOLVER and is appended
+  # in the format "[node-id].[tld]" when resolving a node-id to an ip.
+  # RAFT_FQDN_RESOLVER_TLD: "weaviate-0."
+
   # The aggressiveness of the Go Garbage Collector. 100 is the default value.
   GOGC: 100
 
