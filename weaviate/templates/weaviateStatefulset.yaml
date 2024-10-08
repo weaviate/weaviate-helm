@@ -95,7 +95,14 @@ spec:
                 name: {{ $secret }}
                 key: {{ $key | quote }}
           {{- end }}
+        {{- end }}
+        {{- if $.Values.envFrom }}
+          {{- range $key, $valueFrom := $.Values.envFrom }}
+          - name: {{ $key }}
+            valueFrom: 
+{{ toYaml $valueFrom | indent 15 }}
           {{- end }}
+        {{- end }}
           - name: CLUSTER_BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
