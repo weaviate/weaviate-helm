@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/name: querier
 spec:
   replicas: {{ .Values.replicas }}
-  podManagementPolicy: {{ .Values.podManagementPolicy }}
   updateStrategy:
 {{ toYaml .Values.updateStrategy | indent 4}}
   serviceName: {{ .Values.experimental.querier.service.name }}-headless
@@ -399,8 +398,6 @@ spec:
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
-          - name: querier-data
-            mountPath: /var/lib/weaviate
           {{- if index .Values "backups" "gcs" "enabled" }}
             {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
               {{- if or (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") (index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
@@ -461,9 +458,6 @@ spec:
               path: credentials.json
           {{- end }}
           {{- if and (index .Values "backups" "gcs" "envSecrets") (index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
-        - name: querier-data
-          emptyDir:
-            sizeLimit: {{ .Values.experimental.querier.storage_size }}
         - name: gcs-service-account-credentials-volume
           secret:
             secretName: {{ index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS" }}
