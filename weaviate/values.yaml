@@ -16,7 +16,7 @@ image:
 experimental:
   querier:
     enabled: true
-    querier_image: kavirajk/weaviate-exp:latest
+    image: kavirajk/weaviate-exp:latest
     storage_size: 10Gi
     pullPolicy: Always          # Because currently we support only single `latest` tag (being experimental)
     command: ["/bin/weaviate"]
