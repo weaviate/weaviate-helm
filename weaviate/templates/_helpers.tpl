@@ -29,6 +29,9 @@
   {{- if (index .Values "modules" "generative-palm" "enabled") -}}
     {{ $modules = append $modules "generative-palm" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-google" "enabled") -}}
+    {{ $modules = append $modules "generative-google" }}
+  {{- end -}}
   {{- if (index .Values "modules" "generative-aws" "enabled") -}}
     {{ $modules = append $modules "generative-aws" }}
   {{- end -}}
@@ -74,6 +77,9 @@
   {{- if (index .Values "modules" "multi2vec-palm" "enabled") -}}
     {{ $modules = append $modules "multi2vec-palm" }}
   {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-google" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-google" }}
+  {{- end -}}
   {{- if (index .Values "modules" "text2vec-openai" "enabled") -}}
     {{ $modules = append $modules "text2vec-openai" }}
   {{- end -}}
@@ -85,6 +91,9 @@
   {{- end -}}
   {{- if (index .Values "modules" "text2vec-palm" "enabled") -}}
     {{ $modules = append $modules "text2vec-palm" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-google" "enabled") -}}
+    {{ $modules = append $modules "text2vec-google" }}
   {{- end -}}
   {{- if (index .Values "modules" "text2vec-jinaai" "enabled") -}}
     {{ $modules = append $modules "text2vec-jinaai" }}

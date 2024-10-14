@@ -232,6 +232,13 @@ spec:
                 name: weaviate-palm
                 key: apiKey
           {{- end  }}
+          {{- if or (and (index .Values "modules" "text2vec-google" "enabled") (index .Values "modules" "text2vec-google" "apiKey")) (and (index .Values "modules" "generative-google" "enabled") (index .Values "modules" "generative-google" "apiKey")) (and (index .Values "modules" "multi2vec-google" "enabled") (index .Values "modules" "multi2vec-google" "apiKey")) }}
+          - name: GOOGLE_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-google
+                key: apiKey
+          {{- end  }}
           {{- if or (and (index .Values "modules" "text2vec-jinaai" "enabled") (index .Values "modules" "text2vec-jinaai" "apiKey")) (and (index .Values "modules" "reranker-jinaai" "enabled") (index .Values "modules" "reranker-jinaai" "apiKey")) }}
           - name: JINAAI_APIKEY
             valueFrom:

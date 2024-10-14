@@ -917,11 +917,23 @@ modules:
     # an environment variable
     apiKey: ''
 
-  # The text2vec-palm module uses Google PaLM Embeddings API
+  # The text2vec-google module uses Google Embeddings API
   # to dynamically compute vector embeddings based on the
   # sentence's context.
-  # More information about Google PaLM Embeddings API can be found here:
+  # More information about Google Embeddings API can be found here:
   # https://developers.generativeai.google/
+  text2vec-google:
+
+    # enable if you want to use Google module
+    enabled: false
+
+    # Set your Google API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # Deprecated setting, please use text2vec-google instead
+  #
+  # This setting will be removed with charts version 20.
   text2vec-palm:
 
     # enable if you want to use Google PaLM module
@@ -1187,10 +1199,22 @@ modules:
     nodeSelector:
     tolerations:
 
-  # The multi2vec-palm module uses Google PaLM Embeddings API
+  # The multi2vec-google module uses Google Embeddings API
   # to dynamically compute vector embeddings.
-  # More information about Google PaLM Embeddings API can be found here:
+  # More information about Google Embeddings API can be found here:
   # https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-multimodal-embeddings
+  multi2vec-google:
+
+    # enable if you want to use Google Multimodal module
+    enabled: false
+
+    # Set your Google API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # Deprecated setting, please use multi2vec-google instead
+  #
+  # This setting will be removed with charts version 20.
   multi2vec-palm:
 
     # enable if you want to use Google Multimodal PaLM module
@@ -1314,9 +1338,21 @@ modules:
     # an environment variable
     apiKey: ''
 
-  # The generative-palm module uses Google PaLM API.
-  # More information about Google PaLM API can be found here:
+  # The generative-google module uses Google API.
+  # More information about Google API can be found here:
   # https://developers.generativeai.google/
+  generative-google:
+
+    # enable if you want to use Google module
+    enabled: false
+
+    # Set your Google API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # Deprecated setting, please use generative-google instead
+  #
+  # This setting will be removed with charts version 20.
   generative-palm:
 
     # enable if you want to use Google PaLM module
