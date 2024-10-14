@@ -411,37 +411,6 @@ spec:
             {{ toYaml . | nindent 10 }}
           {{- end }}
         {{- if .Values.startupProbe.enabled }}
-        startupProbe:
-          {{- $probeType := .Values.startupProbe.probeType }}
-          {{- $probe := index .Values.startupProbe.probe $probeType }}
-          {{ $probeType }}:
-            {{- toYaml $probe | nindent 12 }}
-          initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.startupProbe.periodSeconds }}
-          failureThreshold: {{ .Values.startupProbe.failureThreshold }}
-          successThreshold: {{ .Values.startupProbe.successThreshold }}
-          timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
-        {{- end }}
-        livenessProbe:
-          {{- $probeType := .Values.livenessProbe.probeType }}
-          {{- $probe := index .Values.livenessProbe.probe $probeType }}
-          {{ $probeType }}:
-            {{- toYaml $probe | nindent 12 }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          successThreshold: {{ .Values.livenessProbe.successThreshold }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-        readinessProbe:
-          {{- $probeType := .Values.readinessProbe.probeType }}
-          {{- $probe := index .Values.readinessProbe.probe $probeType }}
-          {{ $probeType }}:
-            {{- toYaml $probe | nindent 12 }}
-          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-          successThreshold: {{ .Values.readinessProbe.successThreshold }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         securityContext:
 {{ toYaml .Values.containerSecurityContext | indent 10}}
       volumes:
