@@ -16,7 +16,7 @@ image:
 experimental:
   querier:
     enabled: true
-    image: semitechnologies/weaviate-experimental
+    image: semitechnologies/weaviate-experimental:preview-chore-push-docker-support-serverless-experimental-image-push-ec74d48
     storage_size: 10Gi
     pullPolicy: Always          # Because currently we support only single `latest` tag (being experimental)
     command: ["/bin/weaviate"]
