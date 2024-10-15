@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: main-b5da000
+  tag: 1.26.3
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -15,8 +15,8 @@ image:
 
 experimental:
   querier:
-    enabled: true
-    image: semitechnologies/weaviate-experimental:preview-chore-push-docker-support-serverless-experimental-image-push-ec74d48
+    enabled: false
+    image: semitechnologies/weaviate-experimental:main-b5da000
     storage_size: 10Gi
     pullPolicy: Always          # Because currently we support only single `latest` tag (being experimental)
     command: ["/bin/weaviate"]
@@ -397,8 +397,7 @@ envSecrets:
 # Configure offload providers
 offload:
   s3:
-    # TODO(kavi): Move the changes on this block to some kind of `values-overrides` file
-    enabled: true
+    enabled: false
     # If one is using AWS EKS and has already configured K8s Service Account
     # that holds the AWS credentials one can pass a name of that service account
     # here using this setting.
@@ -414,7 +413,7 @@ offload:
       # Optional setting. Defaults to AWS S3 (s3.amazonaws.com).
       # Set this option if you have a MinIO storage configured in your environment
       # and want to use it instead of the AWS S3.
-      OFFLOAD_S3_ENDPOINT: http://minio.default.svc.cluster.local:9000
+      # OFFLOAD_S3_ENDPOINT: custom.minio.endpoint.address
 
       # Optional setting. Defaults to true.
       # Set this option if you don't want to use SSL.
@@ -425,7 +424,7 @@ offload:
       # the bucket used for offloading tenants. Otherwise,
       # if set to false Weaviate expects the bucket to be
       # already created with the OFFLOAD_S3_BUCKET name
-      OFFLOAD_S3_BUCKET_AUTO_CREATE: true
+      # OFFLOAD_S3_BUCKET_AUTO_CREATE: true
 
       # You can pass environment AWS settings here:
       # Define the region
@@ -583,7 +582,7 @@ modules:
   text2vec-contextionary:
 
     # Enable deployment of this module
-    enabled: true
+    enabled: false
 
     # The configuration below is ignored if enabled==false
     fullnameOverride: contextionary
@@ -1866,7 +1865,7 @@ modules:
   # use this module as the vectorizer if nothing else is specified. Can be
   # overwritten on a per-class basis.
   # set to text2vec-transformers if running with transformers instead
-  default_vectorizer_module: text2vec-contextionary
+  default_vectorizer_module: none
 
 # It is also possible to configure authentication and authorization through a
 # custom configmap The authorization and authentication values defined in
