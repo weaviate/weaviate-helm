@@ -40,10 +40,10 @@ experimental:
       ports:
         - name: grpc
           protocol: TCP
-          port: 9091
+          port: 7071
         - name: http
           protocol: TCP
-          port: 8080              # prometheus metrics
+          port: 7072              # prometheus metrics
           # Target port is going to be the same for every port
       type: LoadBalancer
       loadBalancerSourceRanges: []
