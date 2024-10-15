@@ -18,7 +18,6 @@ spec:
   ports:
     {{- range .Values.experimental.querier.service.ports }}
     - {{ toYaml . | indent 6 | trim }}
-      targetPort: 8080
     {{- end }}
 {{ if eq .Values.experimental.querier.service.type "ClusterIP" -}}
   {{ if .Values.experimental.querier.service.clusterIP }}
