@@ -582,7 +582,7 @@ modules:
   text2vec-contextionary:
 
     # Enable deployment of this module
-    enabled: false
+    enabled: true
 
     # The configuration below is ignored if enabled==false
     fullnameOverride: contextionary
@@ -1865,7 +1865,7 @@ modules:
   # use this module as the vectorizer if nothing else is specified. Can be
   # overwritten on a per-class basis.
   # set to text2vec-transformers if running with transformers instead
-  default_vectorizer_module: none
+  default_vectorizer_module: text2vec-contextionary
 
 # It is also possible to configure authentication and authorization through a
 # custom configmap The authorization and authentication values defined in
