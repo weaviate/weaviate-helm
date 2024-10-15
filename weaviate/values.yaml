@@ -21,8 +21,8 @@ experimental:
     pullPolicy: Always          # Because currently we support only single `latest` tag (being experimental)
     command: ["/bin/weaviate"]
     args:
-      - '--target'
-      - 'querier'
+      - '--target=querier'
+      - '--query.schema.addr=http://weaviate.default.svc.cluster.local:80'
 
     service:
       name: querier
@@ -384,7 +384,8 @@ envSecrets:
 # Configure offload providers
 offload:
   s3:
-    enabled: false
+    # TODO(kavi): Move the changes on this block to some kind of `values-overrides` file
+    enabled: true
     # If one is using AWS EKS and has already configured K8s Service Account
     # that holds the AWS credentials one can pass a name of that service account
     # here using this setting.
@@ -400,7 +401,7 @@ offload:
       # Optional setting. Defaults to AWS S3 (s3.amazonaws.com).
       # Set this option if you have a MinIO storage configured in your environment
       # and want to use it instead of the AWS S3.
-      # OFFLOAD_S3_ENDPOINT: custom.minio.endpoint.address
+      OFFLOAD_S3_ENDPOINT: http://minio.default.svc.cluster.local:9000
 
       # Optional setting. Defaults to true.
       # Set this option if you don't want to use SSL.
@@ -411,7 +412,7 @@ offload:
       # the bucket used for offloading tenants. Otherwise,
       # if set to false Weaviate expects the bucket to be
       # already created with the OFFLOAD_S3_BUCKET name
-      # OFFLOAD_S3_BUCKET_AUTO_CREATE: true
+      OFFLOAD_S3_BUCKET_AUTO_CREATE: true
 
       # You can pass environment AWS settings here:
       # Define the region
@@ -424,15 +425,15 @@ offload:
     #     this chart will create a kubernetes secret for you with these key-values pairs
     # 2. create Kubernetes secret/s with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY  keys and their respective values
     #     Set the Key and the secret where it is set in `envSecrets` section below
-    secrets: {}
-    #   AWS_ACCESS_KEY_ID: access-key-id (plain text)
-    #   AWS_SECRET_ACCESS_KEY: secret-access-key (plain text)
+    secrets:
+      AWS_ACCESS_KEY: aws_access_key
+      AWS_SECRET_KEY: aws_secret_key
 
     # If one has already defined secrets with AWS credentials one can pass them using
     # this setting:
-    envSecrets: {}
-    #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
-    #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
+    envSecrets:
+      AWS_ACCESS_KEY: aws_access_key
+      AWS_SECRET_KEY: aws_secret_key
 
 # Configure backup providers
 backups:
