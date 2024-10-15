@@ -18,7 +18,7 @@ experimental:
     enabled: false
     image: semitechnologies/weaviate-experimental:main-b5da000
     storage_size: 10Gi
-    pullPolicy: IfNotpresent
+    pullPolicy: IfNotPresent
     command: ["/bin/weaviate"]
     args:
       - '--target=querier'
