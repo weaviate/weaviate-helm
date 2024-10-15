@@ -23,7 +23,7 @@ experimental:
     args:
       - '--target=querier'
       - '--query.schema.addr=http://weaviate.default.svc.cluster.local:80'
-      - '--monitoring.enabled=true'
+      - '--monitoring.enabled'
       - '--monitoring.metrics_namespace=weaviate'
     env:
       - name: AWS_ACCESS_KEY
