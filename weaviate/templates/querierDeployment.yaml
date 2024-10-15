@@ -1,3 +1,4 @@
+{{ if .Values.experimental.querier.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -453,3 +454,4 @@ spec:
       hostAliases:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}

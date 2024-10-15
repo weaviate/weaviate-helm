@@ -1,3 +1,4 @@
+{{ if .Values.experimental.querier.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -31,4 +32,5 @@ spec:
     - {{ $sourceRange }}
     {{ end -}}
   {{- end -}}
+{{- end }}
 {{- end }}
