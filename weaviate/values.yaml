@@ -22,9 +22,11 @@ experimental:
     command: ["/bin/weaviate"]
     args:
       - '--target=querier'
+      - '--query.grpc.listen=0.0.0.0:7071'
       - '--query.schema.addr=http://weaviate.default.svc.cluster.local:80'
       - '--monitoring.enabled'
       - '--monitoring.metrics_namespace=weaviate'
+      - '--monitoring.port=7072'
     env:
       - name: AWS_ACCESS_KEY
         value: 'aws_access_key'
