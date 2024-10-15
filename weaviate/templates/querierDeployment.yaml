@@ -43,17 +43,17 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
-        {{- if or $.Values.env $.Values.envSecrets }}
+        {{- if or $.Values.experimental.querier.env $.Values.experimental.querier.envSecrets }}
           {{- range $key, $value := $.Values.env }}
           - name: {{ $key }}
             value: {{ $value | quote }}
           {{- end }}
-          {{- range $key, $secret := $.Values.envSecrets }}
+          {{- range $key, $secret := $.Values.experimental.querier.envSecrets }}
           - name: {{ $key }}
             valueFrom:
               secretKeyRef:
                 name: {{ $secret }}
-                key: {{ $key | quote }}
+                key: {{ $key }}
           {{- end }}
           {{- end }}
           - name: CLUSTER_BASIC_AUTH_USERNAME
