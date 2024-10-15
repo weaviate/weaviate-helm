@@ -18,7 +18,7 @@ experimental:
     enabled: false
     image: semitechnologies/weaviate-experimental:main-b5da000
     storage_size: 10Gi
-    pullPolicy: Always          # Because currently we support only single `latest` tag (being experimental)
+    pullPolicy: IfNotpresent
     command: ["/bin/weaviate"]
     args:
       - '--target=querier'
