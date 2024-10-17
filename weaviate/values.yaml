@@ -17,7 +17,7 @@ experimental:
   querier:
     enabled: false
     replicas: 3
-    image: semitechnologies/weaviate-experimental:main-b5da000
+    image: semitechnologies/weaviate-experimental:preview-chore-change-default-configs-on-querier-23d39eb
     storage_size: 10Gi
     pullPolicy: IfNotPresent
     command: ["/bin/weaviate"]
