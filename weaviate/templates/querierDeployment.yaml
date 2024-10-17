@@ -8,10 +8,9 @@ metadata:
     app: querier
     app.kubernetes.io/name: querier
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: {{ .Values.experimental.querier.replicas }}
   updateStrategy:
 {{ toYaml .Values.updateStrategy | indent 4}}
-  serviceName: {{ .Values.experimental.querier.service.name }}-headless
   selector:
     matchLabels:
       app: querier
@@ -42,7 +41,7 @@ spec:
         args: {{ toYaml . | nindent 10 }}
         {{- end }}
         resources:
-{{ toYaml .Values.resources | indent 10 }}
+{{ toYaml .Values.experimental.querier.resources | indent 10 }}
         env:
         {{- if or $.Values.experimental.querier.env $.Values.experimental.querier.envSecrets }}
           {{- range $key, $value := $.Values.env }}

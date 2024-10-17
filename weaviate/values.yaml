@@ -16,18 +16,17 @@ image:
 experimental:
   querier:
     enabled: false
+    replicas: 3
     image: semitechnologies/weaviate-experimental:main-b5da000
     storage_size: 10Gi
     pullPolicy: IfNotPresent
     command: ["/bin/weaviate"]
     args:
       - '--target=querier'
-      - '--query.grpc.listen=0.0.0.0:7071'
       - '--query.schema.addr=http://weaviate'
       - '--query.vectorize-addr=contextionary:9999'
       - '--monitoring.enabled'
       - '--monitoring.metrics_namespace=weaviate'
-      - '--monitoring.port=7072'
     env:
       - name: AWS_ACCESS_KEY
         value: 'aws_access_key'
@@ -36,17 +35,25 @@ experimental:
       - name: OFFLOAD_S3_ENDPOINT
         value: 'http://minio:9000'
 
+    resources:
+      requests:
+        cpu: '2'
+        memory: '500Mi'
+      limits:
+          cpu: '3'
+          memory: '1Gi'
+
     service:
       name: querier
       ports:
         - name: grpc
           protocol: TCP
-          port: 7071
-          targetPort: 7071
+          port: 9091
+          targetPort: 9091
         - name: http
           protocol: TCP
-          port: 7072              # prometheus metrics
-          targetPort: 7072
+          port: 8081              # prometheus metrics
+          targetPort: 8081
       type: LoadBalancer
       loadBalancerSourceRanges: []
       # optionally set cluster IP if you want to set a static IP
