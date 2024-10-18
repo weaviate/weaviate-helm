@@ -26,7 +26,9 @@ experimental:
       - '--query.schema.addr=http://weaviate'
       - '--query.vectorize-addr=contextionary:9999'
       - '--monitoring.enabled'
+      - '--monitoring.port=2112'
       - '--monitoring.metrics_namespace=weaviate'
+
     env:
       - name: AWS_ACCESS_KEY
         value: 'aws_access_key'
@@ -52,8 +54,8 @@ experimental:
           targetPort: 7071
         - name: http
           protocol: TCP
-          port: 8081              # prometheus metrics
-          targetPort: 8081
+          port: 2112              # prometheus metrics
+          targetPort: 2112
       type: LoadBalancer
       loadBalancerSourceRanges: []
       # optionally set cluster IP if you want to set a static IP

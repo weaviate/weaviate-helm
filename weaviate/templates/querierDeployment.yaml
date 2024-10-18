@@ -7,6 +7,7 @@ metadata:
     name: querier
     app: querier
     app.kubernetes.io/name: querier
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.experimental.querier.replicas }}
   updateStrategy:
