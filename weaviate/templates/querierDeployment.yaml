@@ -396,6 +396,11 @@ spec:
             containerPort: 50051
             protocol: TCP
           {{- end }}
+          {{ if .Values.metadataService.enabled }}
+          - name: grpc
+            containerPort: 9050
+            protocol: TCP
+          {{- end }}
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
