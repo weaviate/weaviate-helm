@@ -1,32 +1,32 @@
-{{ if .Values.metadataService.enabled }}
+{{ if .Values.experimental.metadata.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.metadataService.name }}
+  name: {{ .Values.experimental.metadata.metadataService.name }}
   labels:
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-  {{- with .Values.metadataService.annotations }}
+  {{- with .Values.experimental.metadata.metadataService.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  type: {{ .Values.metadataService.type }}
+  type: {{ .Values.experimental.metadata.metadataService.type }}
   selector:
     app: weaviate
   ports:
-    {{- range .Values.metadataService.ports }}
+    {{- range .Values.experimental.metadata.metadataService.ports }}
     - {{ toYaml . | indent 6 | trim }}
       targetPort: 9050
     {{- end }}
-{{ if eq .Values.metadataService.type "ClusterIP" -}}
-  {{ if .Values.metadataService.clusterIP }}
-  clusterIP: {{ .Values.metadataService.clusterIP }}
+{{ if eq .Values.experimental.metadata.metadataService.type "ClusterIP" -}}
+  {{ if .Values.experimental.metadata.metadataService.clusterIP }}
+  clusterIP: {{ .Values.experimental.metadata.metadataService.clusterIP }}
   {{ end }}
 {{ end }}
-{{ if eq .Values.metadataService.type "LoadBalancer" -}}
-  {{- if gt (len .Values.metadataService.loadBalancerSourceRanges) 0 }}
+{{ if eq .Values.experimental.metadata.metadataService.type "LoadBalancer" -}}
+  {{- if gt (len .Values.experimental.metadata.metadataService.loadBalancerSourceRanges) 0 }}
   loadBalancerSourceRanges:
-    {{- range $_, $sourceRange := .Values.metadataService.loadBalancerSourceRanges }}
+    {{- range $_, $sourceRange := .Values.experimental.metadata.metadataService.loadBalancerSourceRanges }}
     - {{ $sourceRange }}
     {{ end -}}
   {{- end -}}

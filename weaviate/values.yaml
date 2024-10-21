@@ -14,6 +14,7 @@ image:
   pullSecrets: []
 
 experimental:
+  # querier configures the querier nodes
   querier:
     enabled: false
     replicas: 3
@@ -63,6 +64,24 @@ experimental:
       # optionally set cluster IP if you want to set a static IP
       clusterIP:
       annotations: {}
+
+  # metadata configures metadata nodes
+  metadata:
+    enabled: false
+    # metadataService configures the metadata grpc service exposed by the metadata nodes
+    metadataService:
+      name: weaviate-metadata
+      ports:
+        - name: grpc
+          protocol: TCP
+          port: 9050
+          # Target port is going to be the same for every port
+      type: LoadBalancer
+      loadBalancerSourceRanges: []
+      # optionally set cluster IP if you want to set a static IP
+      clusterIP:
+      annotations: {}
+
 
 # overwrite command and args if you want to run specific startup scripts, for
 # example setting the nofile limit
@@ -204,21 +223,6 @@ grpcService:
     - name: grpc
       protocol: TCP
       port: 50051
-      # Target port is going to be the same for every port
-  type: LoadBalancer
-  loadBalancerSourceRanges: []
-  # optionally set cluster IP if you want to set a static IP
-  clusterIP:
-  annotations: {}
-
-# TODO
-metadataService:
-  enabled: false
-  name: weaviate-metadata
-  ports:
-    - name: grpc
-      protocol: TCP
-      port: 9050
       # Target port is going to be the same for every port
   type: LoadBalancer
   loadBalancerSourceRanges: []
