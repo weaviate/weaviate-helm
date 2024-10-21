@@ -25,6 +25,7 @@ experimental:
       - '--target=querier'
       - '--query.schema.addr=http://weaviate'
       - '--query.vectorize-addr=contextionary:9999'
+      - '--query.metadata.grpc.address=weaviate-metadata:9050'
       - '--monitoring.enabled'
       - '--monitoring.port=2112'
       - '--monitoring.metrics_namespace=weaviate'
