@@ -1,0 +1,34 @@
+{{ if .Values.experimental.metadata.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.experimental.metadata.metadataService.name }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- with .Values.experimental.metadata.metadataService.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.experimental.metadata.metadataService.type }}
+  selector:
+    app: weaviate
+  ports:
+    {{- range .Values.experimental.metadata.metadataService.ports }}
+    - {{ toYaml . | indent 6 | trim }}
+      targetPort: 9050
+    {{- end }}
+{{ if eq .Values.experimental.metadata.metadataService.type "ClusterIP" -}}
+  {{ if .Values.experimental.metadata.metadataService.clusterIP }}
+  clusterIP: {{ .Values.experimental.metadata.metadataService.clusterIP }}
+  {{ end }}
+{{ end }}
+{{ if eq .Values.experimental.metadata.metadataService.type "LoadBalancer" -}}
+  {{- if gt (len .Values.experimental.metadata.metadataService.loadBalancerSourceRanges) 0 }}
+  loadBalancerSourceRanges:
+    {{- range $_, $sourceRange := .Values.experimental.metadata.metadataService.loadBalancerSourceRanges }}
+    - {{ $sourceRange }}
+    {{ end -}}
+  {{- end -}}
+{{- end }}
+{{ end }}
