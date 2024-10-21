@@ -13,6 +13,56 @@ image:
   pullPolicy: IfNotPresent
   pullSecrets: []
 
+experimental:
+  querier:
+    enabled: false
+    replicas: 3
+    image: semitechnologies/weaviate-experimental:preview-chore-change-default-configs-on-querier-23d39eb
+    storage_size: 10Gi
+    pullPolicy: IfNotPresent
+    command: ["/bin/weaviate"]
+    args:
+      - '--target=querier'
+      - '--query.schema.addr=http://weaviate'
+      - '--query.vectorize-addr=contextionary:9999'
+      - '--query.always-fetch-objectstore'
+      - '--monitoring.enabled'
+      - '--monitoring.port=2112'
+      - '--monitoring.metrics_namespace=weaviate'
+
+    env:
+      - name: AWS_ACCESS_KEY
+        value: 'aws_access_key'
+      - name: AWS_SECRET_KEY
+        value: 'aws_secret_key'
+      - name: OFFLOAD_S3_ENDPOINT
+        value: 'http://minio:9000'
+
+    resources:
+      requests:
+        cpu: '2'
+        memory: '500Mi'
+      limits:
+          cpu: '3'
+          memory: '1Gi'
+
+    service:
+      name: querier
+      ports:
+        - name: grpc
+          protocol: TCP
+          port: 7071
+          targetPort: 7071
+        - name: http
+          protocol: TCP
+          port: 2112              # prometheus metrics
+          targetPort: 2112
+      type: LoadBalancer
+      loadBalancerSourceRanges: []
+      # optionally set cluster IP if you want to set a static IP
+      clusterIP:
+      annotations: {}
+
 # overwrite command and args if you want to run specific startup scripts, for
 # example setting the nofile limit
 command: ["/bin/weaviate"]
@@ -25,15 +75,15 @@ args:
   - 'http'
   - '--config-file'
   - '/weaviate-config/conf.yaml'
-  - --read-timeout=60s 
+  - --read-timeout=60s
   - --write-timeout=60s
 
 # below is an example that can be used to set an arbitrary nofile limit at
 # startup:
 #
-# command: 
+# command:
 #   - "/bin/sh"
-# args: 
+# args:
 #   - "-c"
 #   - "ulimit -n 65535 && /bin/weaviate --host 0.0.0.0 --port 8080 --scheme http --config-file /weaviate-config/conf.yaml"
 
@@ -114,7 +164,7 @@ serviceAccountName:
 # Kubernetes Cluster domain name, used for resolving intra-cluster requests, i.e
 # between instances of weaviate.
 # Note: The final '.' on the end of the hostname makes it a FQDN, and is required for
-# DNS to resolve in all kubernetes environments. 
+# DNS to resolve in all kubernetes environments.
 # See https://github.com/weaviate/weaviate-helm/issues/175 for details.
 clusterDomain: cluster.local.
 
@@ -316,7 +366,7 @@ env:
   PROMETHEUS_MONITORING_ENABLED: false
   PROMETHEUS_MONITORING_GROUP: false
 
-  # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
+  # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
   # GOMEMLIMIT: 6GiB
 
@@ -362,7 +412,7 @@ offload:
     # If one is using AWS EKS and has already configured K8s Service Account
     # that holds the AWS credentials one can pass a name of that service account
     # here using this setting.
-    # NOTE: the root `serviceAccountName` config has priority over this one, and 
+    # NOTE: the root `serviceAccountName` config has priority over this one, and
     # if the root one is set this one will NOT overwrite it. This one is here for
     # backwards compatibility.
     serviceAccountName:
@@ -371,7 +421,7 @@ offload:
       # Configure bucket where data should be saved, this setting is mandatory
       OFFLOAD_S3_BUCKET: weaviate-offload
 
-      # Optional setting. Defaults to AWS S3 (s3.amazonaws.com). 
+      # Optional setting. Defaults to AWS S3 (s3.amazonaws.com).
       # Set this option if you have a MinIO storage configured in your environment
       # and want to use it instead of the AWS S3.
       # OFFLOAD_S3_ENDPOINT: custom.minio.endpoint.address
@@ -384,7 +434,7 @@ offload:
       # Set this option if you wan't Weaviate to create
       # the bucket used for offloading tenants. Otherwise,
       # if set to false Weaviate expects the bucket to be
-      # already created with the OFFLOAD_S3_BUCKET name 
+      # already created with the OFFLOAD_S3_BUCKET name
       # OFFLOAD_S3_BUCKET_AUTO_CREATE: true
 
       # You can pass environment AWS settings here:
@@ -417,13 +467,13 @@ backups:
     envconfig:
       # Configure folder where backups should be saved
       BACKUP_FILESYSTEM_PATH: /tmp/backups
-  
+
   s3:
     enabled: false
     # If one is using AWS EKS and has already configured K8s Service Account
     # that holds the AWS credentials one can pass a name of that service account
     # here using this setting.
-    # NOTE: the root `serviceAccountName` config has priority over this one, and 
+    # NOTE: the root `serviceAccountName` config has priority over this one, and
     # if the root one is set this one will NOT overwrite it. This one is here for
     # backwards compatibility.
     serviceAccountName:
@@ -432,17 +482,17 @@ backups:
       # Configure bucket where backups should be saved, this setting is mandatory
       BACKUP_S3_BUCKET: weaviate-backups
 
-      # Optional setting. Defaults to empty string. 
+      # Optional setting. Defaults to empty string.
       # Set this option if you want to save backups to a given location
       # inside the bucket
       # BACKUP_S3_PATH: path/inside/bucket
 
-      # Optional setting. Defaults to AWS S3 (s3.amazonaws.com). 
+      # Optional setting. Defaults to AWS S3 (s3.amazonaws.com).
       # Set this option if you have a MinIO storage configured in your environment
       # and want to use it instead of the AWS S3.
       # BACKUP_S3_ENDPOINT: custom.minio.endpoint.address
 
-      # Optional setting. Defaults to true. 
+      # Optional setting. Defaults to true.
       # Set this option if you don't want to use SSL.
       # BACKUP_S3_USE_SSL: true
 
@@ -455,7 +505,7 @@ backups:
     # You can pass the User credentials (access-key id and access-secret-key) in 2 ways:
     # 1. by setting the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY plain values in the `secrets` section below
     #     this chart will create a kubernetes secret for you with these key-values pairs
-    # 2. create Kubernetes secret/s with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY  keys and their respective values 
+    # 2. create Kubernetes secret/s with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY  keys and their respective values
     #     Set the Key and the secret where it is set in `envSecrets` section below
     secrets: {}
     #   AWS_ACCESS_KEY_ID: access-key-id (plain text)
@@ -503,7 +553,7 @@ backups:
       # Configure container where backups should be saved, this setting is mandatory
       BACKUP_AZURE_CONTAINER: weaviate-backups
 
-      # Optional setting. Defaults to empty string. 
+      # Optional setting. Defaults to empty string.
       # Set this option if you want to save backups to a given location
       # inside the container
       # BACKUP_AZURE_PATH: path/inside/container
@@ -514,7 +564,7 @@ backups:
     # 1. by setting the AZURE_STORAGE_ACCOUNT and AZURE_STORAGE_KEY
     #     or AZURE_STORAGE_CONNECTION_STRING plain values in the `secrets` section below
     #     this chart will create a kubernetes secret for you with these key-values pairs
-    # 2. create Kubernetes secret/s with AZURE_STORAGE_ACCOUNT and AZURE_STORAGE_KEY 
+    # 2. create Kubernetes secret/s with AZURE_STORAGE_ACCOUNT and AZURE_STORAGE_KEY
     #     or AZURE_STORAGE_CONNECTION_STRING and their respective values
     #     Set the Key and the secret where it is set in `envSecrets` section below
     secrets: {}
@@ -660,7 +710,7 @@ modules:
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     # applies to passageQueryService below
     securityContext: {}
-    
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
@@ -728,13 +778,13 @@ modules:
         # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
         # applies to passageQueryService below
         securityContext: {}
-        
+
         # It is possible to add a ServiceAccount to this module's Pods, it can be
         # used in cases where the module is in a private registry and you want to
         # give access to the registry only to this pod.
         # NOTE: if not set the root `serviceAccountName` config will be used.
         serviceAccountName:
-        
+
         # You can guide where the pods are scheduled on a per-module basis,
         # as well as for Weaviate overall. Each module accepts nodeSelector,
         # tolerations, and affinity configuration. If it is set on a per-
@@ -797,7 +847,7 @@ modules:
         # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
         # applies to passageQueryService below
         securityContext: {}
-        
+
         # It is possible to add a ServiceAccount to this module's Pods, it can be
         # used in cases where the module is in a private registry and you want to
         # give access to the registry only to this pod.
@@ -818,7 +868,7 @@ modules:
   # These models run only on CPU only and on x86_64 arch
   # The ML model is containerized in a Weaviate compatible way.
   # If you want to run a different model that published ones you can follow the
-  # tutorial from here on how to create such a container: https://github.com/weaviate/t2v-gpt4all-models 
+  # tutorial from here on how to create such a container: https://github.com/weaviate/t2v-gpt4all-models
   text2vec-gpt4all:
 
     # Enable deployment of this module
@@ -827,7 +877,7 @@ modules:
     # You can set directly an inference URL of this module without deploying it with this release.
     # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
     inferenceUrl: {}
-    
+
     # The configuration below is ignored if enabled==false
     tag: all-MiniLM-L6-v2
     repo: semitechnologies/gpt4all-inference
@@ -859,7 +909,7 @@ modules:
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     securityContext: {}
-    
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
@@ -1281,7 +1331,7 @@ modules:
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     securityContext: {}
-    
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
@@ -1527,7 +1577,7 @@ modules:
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     securityContext: {}
-    
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
@@ -1544,7 +1594,7 @@ modules:
     affinity:
 
   # The reranker-cohere module uses Cohere API
-  # to dynamically compute a score for the relevance 
+  # to dynamically compute a score for the relevance
   # of the query with each of the initial search results.
   # More information about Cohere API can be found here: https://docs.cohere.com/docs/rerank-guide
   reranker-cohere:
@@ -1557,7 +1607,7 @@ modules:
     apiKey: ''
 
   # The reranker-voyageai module uses VoaygeAI API
-  # to dynamically compute a score for the relevance 
+  # to dynamically compute a score for the relevance
   # of the query with each of the initial search results.
   # More information about Cohere API can be found here: https://www.voyageai.com/
   reranker-voyageai:
@@ -1570,7 +1620,7 @@ modules:
     apiKey: ''
 
   # The reranker-jinaai module uses JinaAI API
-  # to dynamically compute a score for the relevance 
+  # to dynamically compute a score for the relevance
   # of the query with each of the initial search results.
   # More information about Cohere API can be found here: https://jina.ai/reranker
   reranker-jinaai:
@@ -1582,7 +1632,7 @@ modules:
     # an environment variable
     apiKey: ''
 
-  # The reranker-transformers module uses Cross-Encoders for 
+  # The reranker-transformers module uses Cross-Encoders for
   # sentence pair scoring and sentence pair classification tasks.
   # More information about Cross-Encoders can be found here:
   # https://www.sbert.net/examples/applications/cross-encoder/README.html
@@ -1640,7 +1690,7 @@ modules:
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     securityContext: {}
-    
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
@@ -1697,7 +1747,7 @@ modules:
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     securityContext: {}
-    
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
@@ -1771,7 +1821,7 @@ modules:
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     securityContext: {}
-    
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
@@ -1842,7 +1892,7 @@ modules:
     # security Context for the Contextionary Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     securityContext: {}
-    
+
     # It is possible to add a ServiceAccount to this module's Pods, it can be
     # used in cases where the module is in a private registry and you want to
     # give access to the registry only to this pod.
