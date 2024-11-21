@@ -119,7 +119,7 @@ serviceAccountName:
 clusterDomain: cluster.local.
 
 # The Persistent Volume Claim settings for Weaviate. If there's a
-# storage.fullnameOverride field set, then the default pvc will not be
+# storage.fullnameOverride field set, then the default pv will not be
 # created, instead the one defined in fullnameOverride will be used
 storage:
   size: 32Gi
