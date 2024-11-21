@@ -1237,6 +1237,19 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The multi2vec-jinaai module uses JinaAI Embeddings API
+  # to dynamically compute vector embeddings.
+  # More information about JinaAI Embeddings API can be found here:
+  # https://jina.ai/embeddings
+  multi2vec-jinaai:
+
+    # enable if you want to use JinaAI module
+    enabled: false
+
+    # Set your JinaAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The qna-transformers module uses neural networks, such as BERT,
   # DistilBERT, to find an answer in text to a given question
   qna-transformers:
