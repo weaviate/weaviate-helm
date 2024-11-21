@@ -28,6 +28,7 @@ spec:
         {{- with .Values.annotations }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- include "app.apoloPodLabels" . | nindent 8 }}
     spec:
       securityContext:
 {{ toYaml .Values.securityContext | indent 8}}
@@ -96,16 +97,26 @@ spec:
                 key: {{ $key | quote }}
           {{- end }}
           {{- end }}
+          {{- if .Values.clusterApi.username }}
+          - name: CLUSTER_BASIC_AUTH_USERNAME
+            value: {{ .Values.clusterApi.username | quote }}
+          {{- else }}
           - name: CLUSTER_BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
                 name: weaviate-cluster-api-basic-auth
                 key: username
+          {{- end }}
+          {{- if .Values.clusterApi.password }}
+          - name: CLUSTER_BASIC_AUTH_PASSWORD
+            value: {{ .Values.clusterApi.password | quote }}
+          {{- else }}
           - name: CLUSTER_BASIC_AUTH_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: weaviate-cluster-api-basic-auth
                 key: password
+          {{- end }}
           - name: PERSISTENCE_DATA_PATH
             value: '/var/lib/weaviate'
           - name: DEFAULT_VECTORIZER_MODULE

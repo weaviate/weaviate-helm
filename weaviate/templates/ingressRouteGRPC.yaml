@@ -1,0 +1,28 @@
+{{- if .Values.ingress.grpc.enabled -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "weaviate.fullname" . }}-grpc
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "weaviate.labels" . | indent 4 }}
+  {{- with .Values.ingress.grpc.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    {{- if .Values.ingress.grpc.hosts }}
+    {{- range .Values.ingress.grpc.hosts }}
+    - match: Host(`{{ .host }}`)
+      kind: Rule
+      services:
+        - name: {{ $.Values.grpcService.name }}
+          port: {{ (index $.Values.grpcService.ports 0).port }}
+          scheme: h2c
+    {{- end }}
+    {{- end }}
+  tls: {}
+{{- end }}

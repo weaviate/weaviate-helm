@@ -66,6 +66,30 @@ initContainers:
   # - image: some-image
   #   name: some-name
 
+
+clusterApi:
+  username: "" # If left empty, a random username will be generated
+  password: "" # If left empty, a random password will be generated
+
+
+preset_name: ""
+
+ingress:
+  enabled: false
+  clusterName: "weaviate" # Replace with your cluster name
+  annotations: {}
+  hosts: []
+  grpc:
+    enabled: false # Set to true to enable the gRPC ingress
+    annotations: 
+      # Example for gRPC ingress annotations (Traefik):
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+      traefik.ingress.kubernetes.io/service.serversscheme: h2c
+
+    hosts: []
+      # - host: weaviate-grpc.yourdomain.com # Example with specific host for gRPC
+
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
 # break usability. Full dynamic scalability will be added in a future release.
@@ -135,7 +159,7 @@ service:
       protocol: TCP
       port: 80
       # Target port is going to be the same for every port
-  type: LoadBalancer
+  type: ClusterIP
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
@@ -154,7 +178,7 @@ grpcService:
       protocol: TCP
       port: 50051
       # Target port is going to be the same for every port
-  type: LoadBalancer
+  type: ClusterIP
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
