@@ -86,6 +86,9 @@
   {{- if (index .Values "modules" "multi2vec-jinaai" "enabled") -}}
     {{ $modules = append $modules "multi2vec-jinaai" }}
   {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-voyageai" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-voyageai" }}
+  {{- end -}}
   {{- if (index .Values "modules" "text2vec-openai" "enabled") -}}
     {{ $modules = append $modules "text2vec-openai" }}
   {{- end -}}

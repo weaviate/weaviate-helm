@@ -246,7 +246,7 @@ spec:
                 name: weaviate-jinaai
                 key: apiKey
           {{- end  }}
-          {{- if or (and (index .Values "modules" "text2vec-voyageai" "enabled") (index .Values "modules" "text2vec-voyageai" "apiKey")) (and (index .Values "modules" "reranker-voyageai" "enabled") (index .Values "modules" "reranker-voyageai" "apiKey")) }}
+          {{- if or (and (index .Values "modules" "text2vec-voyageai" "enabled") (index .Values "modules" "text2vec-voyageai" "apiKey")) (and (index .Values "modules" "reranker-voyageai" "enabled") (index .Values "modules" "reranker-voyageai" "apiKey")) (and (index .Values "modules" "multi2vec-voyageai" "enabled") (index .Values "modules" "multi2vec-voyageai" "apiKey")) }}
           - name: VOYAGEAI_APIKEY
             valueFrom:
               secretKeyRef:
