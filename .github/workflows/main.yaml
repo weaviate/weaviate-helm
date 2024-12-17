@@ -9,6 +9,41 @@ on:
   pull_request:
 
 jobs:
+  vulnerability-scanning:
+    name: Trivy vulnerability-scanning using the image from values.yaml
+    runs-on: ubuntu-latest
+    env:
+      # USE WITH CAUTION, IT IMPLIES RISK
+      # This is a list of vulnerabilities that will be skipped from the check
+      # It is mostly used for vulnerabilities which haven't fixed by the depending projects
+      # The format is space separated string: "CVE-XXXX-XXXX CVE-XXXX-XXXX CVE-XXXX-XXXX"
+      SKIPPED_VULN: ""
+    if: ${{ !github.event.pull_request.head.repo.fork }}  # no PRs from fork
+    steps:
+      - uses: actions/checkout@v4
+      - name: Skip vulnerabilities
+        if: ${{ env.SKIPPED_VULN != '' }}
+        run: |
+          echo "${{ env.SKIPPED_VULN }}" | tr ' ' '\n' > .trivyignore
+      - name: Get image.tag from values.yaml
+        id: get_image_tag
+        run: echo "IMAGE_TAG=$(yq e '.image.tag' weaviate/values.yaml)" >> $GITHUB_ENV
+      - name: Get image.repo from values.yaml
+        id: get_image_repo
+        run: echo "IMAGE_REPO=$(yq e '.image.repo' weaviate/values.yaml)" >> $GITHUB_ENV
+      - name: Get image.registry from values.yaml
+        id: get_image_registry
+        run: echo "IMAGE_REGISTRY=$(yq e '.image.registry' weaviate/values.yaml)" >> $GITHUB_ENV
+      - name: Pull Docker image
+        run: docker pull ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }}
+      - name: Run Trivy vulnerability scanner for the built image
+        uses: aquasecurity/trivy-action@0.27.0
+        with:
+          image-ref: '${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }}'
+          exit-code: '1'
+          format: 'table'
+          ignore-unfixed: true
+          severity: 'HIGH,CRITICAL'
   create-helm-chart:
     name: Test and release
     runs-on: ubuntu-latest
