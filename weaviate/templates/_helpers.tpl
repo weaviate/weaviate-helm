@@ -128,6 +128,9 @@
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2colbert-jinaai" "enabled") -}}
+    {{ $modules = append $modules "text2colbert-jinaai" }}
+  {{- end -}}
   {{- if (index .Values "modules" "reranker-cohere" "enabled") -}}
     {{ $modules = append $modules "reranker-cohere" }}
   {{- end -}}
