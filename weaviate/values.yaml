@@ -625,7 +625,7 @@ modules:
   text2vec-bigram:
 
     # enable if you want to use bigram module
-    enabled: false
+    enabled: true
 
   # The text2vec-transformers modules uses neural networks, such as BERT,
   # DistilBERT, etc. to dynamically compute vector embeddings based on the
