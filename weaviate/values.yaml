@@ -334,10 +334,12 @@ env:
   QUERY_MAXIMUM_RESULTS: 100000
 
   # whether to enable vector dimensions tracking metric
-  TRACK_VECTOR_DIMENSIONS: false
+  TRACK_VECTOR_DIMENSIONS: true
 
   # whether to re-index/-compute the vector dimensions metric (needed if upgrading from weaviate < v1.16.0)
   REINDEX_VECTOR_DIMENSIONS_AT_STARTUP: false
+
+  DEFAULT_VECTORIZER_MODULE: text2vec-bigram
 
   ##########################
   # API Keys with ENV Vars #
