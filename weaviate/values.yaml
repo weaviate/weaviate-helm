@@ -619,6 +619,14 @@ modules:
     tolerations:
     affinity:
 
+  # The text2vec-bigram module uses a paired-letter frequency vector
+  # to index text.  The vectors have no semantic meaning, and function
+  # more like bm25 searches.  They are useful for debugging.
+  text2vec-bigram:
+
+    # enable if you want to use bigram module
+    enabled: false
+
   # The text2vec-transformers modules uses neural networks, such as BERT,
   # DistilBERT, etc. to dynamically compute vector embeddings based on the
   # sentence's context. It is very slow on CPUs and should run with
