@@ -837,6 +837,15 @@ modules:
         tolerations:
         affinity:
 
+  # The text2vec-bigram module uses a paired-letter frequency vector
+  # to index text.  The vectors have no semantic meaning, and function
+  # more like bm25 searches.  They are useful for debugging.
+  text2vec-bigram:
+
+    # enable if you want to use bigram module
+    enabled: true
+
+
   # The text2vec-gpt4all is a vectorizer module that allows to run ML models from
   # nomic-ai/gpt4all: https://docs.gpt4all.io/gpt4all_python_embedding.html
   # These models run only on CPU only and on x86_64 arch
