@@ -99,12 +99,12 @@ spec:
           - name: CLUSTER_BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
-                name: weaviate-cluster-api-basic-auth
+                name: {{ .Values.cluster_api.secret.name }}
                 key: username
           - name: CLUSTER_BASIC_AUTH_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: weaviate-cluster-api-basic-auth
+                name: {{ .Values.cluster_api.secret.name }}
                 key: password
           - name: PERSISTENCE_DATA_PATH
             value: '/var/lib/weaviate'
