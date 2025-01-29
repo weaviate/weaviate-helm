@@ -46,6 +46,12 @@ spec:
             value: {{ index $module "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index $module "envconfig" "ld_library_path"}}
+          - name: USE_SENTENCE_TRANSFORMERS_MULTI_PROCESS
+            value: "{{ if index $module "envconfig" "use_sentence_transformers_multi_process" }}1{{ else }}0{{ end }}"
+          {{- end }}
+          {{- if index $module "envconfig" "enable_cache" }}
+          - name: ENABLE_CACHE
+            value: "{{ if index $module "envconfig" "enable_cache" }}1{{ else }}0{{ end }}"
           {{- end }}
         resources:
 {{ index $module "resources" | toYaml | indent 10 }}
@@ -145,6 +151,12 @@ spec:
             value: {{ index $passage "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index $passage "envconfig" "ld_library_path"}}
+          - name: USE_SENTENCE_TRANSFORMERS_MULTI_PROCESS
+            value: "{{ if index $passage "envconfig" "use_sentence_transformers_multi_process" }}1{{ else }}0{{ end }}"
+          {{- end }}
+          {{- if index $passage "envconfig" "enable_cache" }}
+          - name: ENABLE_CACHE
+            value: "{{ if index $passage "envconfig" "enable_cache" }}1{{ else }}0{{ end }}"
           {{- end }}
         resources:
 {{ index $passage "resources" | toYaml | indent 10 }}
@@ -233,6 +245,12 @@ spec:
             value: {{ index $query "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index $query "envconfig" "ld_library_path"}}
+          - name: USE_SENTENCE_TRANSFORMERS_MULTI_PROCESS
+            value: "{{ if index $query "envconfig" "use_sentence_transformers_multi_process" }}1{{ else }}0{{ end }}"
+          {{- end }}
+          {{- if index $query "envconfig" "enable_cache" }}
+          - name: ENABLE_CACHE
+            value: "{{ if index $query "envconfig" "enable_cache" }}1{{ else }}0{{ end }}"
           {{- end }}
         resources:
 {{ index $query "resources" | toYaml | indent 10 }}
