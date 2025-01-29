@@ -668,6 +668,11 @@ modules:
       # only used when CUDA is enabled
       ld_library_path: /usr/local/nvidia/lib64
 
+      # enable this setting to use all avaialble cuda cores
+      use_sentence_transformers_multi_process: false
+      # set it to true to enable simple in memory request caching
+      enable_cache: false
+
     resources: {}
       # requests:
       #   cpu: '1000m'
@@ -736,6 +741,11 @@ modules:
           # only used when CUDA is enabled
           ld_library_path: /usr/local/nvidia/lib64
 
+          # enable this setting to use all avaialble cuda cores
+          use_sentence_transformers_multi_process: false
+          # set it to true to enable simple in memory request caching
+          enable_cache: false
+
         resources: {}
           # requests:
           #   cpu: '1000m'
@@ -803,6 +813,11 @@ modules:
 
           # only used when CUDA is enabled
           ld_library_path: /usr/local/nvidia/lib64
+
+          # enable this setting to use all avaialble cuda cores
+          use_sentence_transformers_multi_process: false
+          # set it to true to enable simple in memory request caching
+          enable_cache: false
 
         resources: {}
           # requests:
