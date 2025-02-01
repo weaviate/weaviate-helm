@@ -13,6 +13,56 @@ image:
   pullPolicy: IfNotPresent
   pullSecrets: []
 
+experimental:
+  querier:
+    enabled: false
+    replicas: 3
+    image: semitechnologies/weaviate-experimental:preview-chore-change-default-configs-on-querier-23d39eb
+    storage_size: 10Gi
+    pullPolicy: IfNotPresent
+    command: ["/bin/weaviate"]
+    args:
+      - '--target=querier'
+      - '--query.schema.addr=http://weaviate'
+      - '--query.vectorize-addr=contextionary:9999'
+      - '--query.always-fetch-objectstore'
+      - '--monitoring.enabled'
+      - '--monitoring.port=2112'
+      - '--monitoring.metrics_namespace=weaviate'
+
+    env:
+      - name: AWS_ACCESS_KEY
+        value: 'aws_access_key'
+      - name: AWS_SECRET_KEY
+        value: 'aws_secret_key'
+      - name: OFFLOAD_S3_ENDPOINT
+        value: 'http://minio:9000'
+
+    resources:
+      requests:
+        cpu: '2'
+        memory: '500Mi'
+      limits:
+          cpu: '3'
+          memory: '1Gi'
+
+    service:
+      name: querier
+      ports:
+        - name: grpc
+          protocol: TCP
+          port: 7071
+          targetPort: 7071
+        - name: http
+          protocol: TCP
+          port: 2112              # prometheus metrics
+          targetPort: 2112
+      type: LoadBalancer
+      loadBalancerSourceRanges: []
+      # optionally set cluster IP if you want to set a static IP
+      clusterIP:
+      annotations: {}
+
 # overwrite command and args if you want to run specific startup scripts, for
 # example setting the nofile limit
 command: ["/bin/weaviate"]
