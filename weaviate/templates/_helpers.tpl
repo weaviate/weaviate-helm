@@ -56,6 +56,9 @@
   {{- if (index .Values "modules" "generative-databricks" "enabled") -}}
     {{ $modules = append $modules "generative-databricks" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-nvidia" "enabled") -}}
+    {{ $modules = append $modules "generative-nvidia" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
@@ -88,6 +91,9 @@
   {{- end -}}
   {{- if (index .Values "modules" "multi2vec-voyageai" "enabled") -}}
     {{ $modules = append $modules "multi2vec-voyageai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-nvidia" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-nvidia" }}
   {{- end -}}
   {{- if (index .Values "modules" "text2vec-openai" "enabled") -}}
     {{ $modules = append $modules "text2vec-openai" }}
@@ -125,6 +131,9 @@
   {{- if (index .Values "modules" "text2vec-mistral" "enabled") -}}
     {{ $modules = append $modules "text2vec-mistral" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2vec-nvidia" "enabled") -}}
+    {{ $modules = append $modules "text2vec-nvidia" }}
+  {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
   {{- end -}}
@@ -142,6 +151,9 @@
   {{- end -}}
   {{- if (index .Values "modules" "reranker-jinaai" "enabled") -}}
     {{ $modules = append $modules "reranker-jinaai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "reranker-nvidia" "enabled") -}}
+    {{ $modules = append $modules "reranker-nvidia" }}
   {{- end -}}
   {{- if (index .Values "offload" "s3" "enabled") -}}
     {{ $modules = append $modules "offload-s3" }}
