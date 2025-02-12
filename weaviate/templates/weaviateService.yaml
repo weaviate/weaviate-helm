@@ -3,8 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.service.name }}
   labels:
-    app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "weaviate.labels" . | nindent 4 }}
 {{- if and .Values.env.PROMETHEUS_MONITORING_ENABLED .Values.serviceMonitor.enabled }}
     monitoring: enabled
 {{- end }}
