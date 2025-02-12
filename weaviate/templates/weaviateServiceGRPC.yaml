@@ -4,8 +4,7 @@ kind: Service
 metadata:
   name: {{ .Values.grpcService.name }}
   labels:
-    app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "weaviate.labels" . | nindent 4 }}
   {{- with .Values.grpcService.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}

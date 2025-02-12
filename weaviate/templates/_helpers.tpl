@@ -175,11 +175,21 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{/* Common labels */}}
-{{- define "weaviate.labels" -}}
-helm.sh/chart: {{ include "weaviate.chart" . }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "app.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "weaviate.fullname" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+
+{{/* Common labels */}}
+{{- define "weaviate.labels" -}}
+application: weaviate
+helm.sh/chart: {{ include "weaviate.chart" . }}
+{{ include "app.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -194,6 +204,7 @@ platform.apolo.us/preset: {{ .Values.preset_name }}
 platform.apolo.us/component: app
 openebs.io/skip-validation: "true"
 {{- end }}
+
 
 {{/*
 Return Image pull secret Names
