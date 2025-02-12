@@ -1111,6 +1111,20 @@ modules:
     # an environment variable
     token: ''
 
+  # The text2vec-nvidia module uses NVIDIA API
+  # to dynamically compute vector embeddings based on the
+  # sentence's context.
+  # More information about NVIDIA's API can be found here:
+  # https://docs.api.nvidia.com/nim/reference/retrieval-apis
+  text2vec-nvidia:
+
+    # enable if you want to use NVIDIA text2vec module
+    enabled: false
+
+    # Set your NVIDIA API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.
@@ -1313,6 +1327,19 @@ modules:
     enabled: false
 
     # Set your VoaygeAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The multi2vec-nvidia module uses NVIDIA API
+  # to dynamically compute vector embeddings.
+  # More information about NVIDIA's API can be found here:
+  # https://docs.api.nvidia.com/nim/reference/retrieval-apis
+  multi2vec-nvidia:
+
+    # enable if you want to use NVIDIA multi2vec module
+    enabled: false
+
+    # Set your NVIDIA API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
 
@@ -1563,6 +1590,18 @@ modules:
     # an environment variable
     token: ''
 
+  # The generative-nvidia module uses NVIDIA API
+  # More information about NVIDIA's API can be found here:
+  # https://docs.api.nvidia.com/nim/reference/llm-apis
+  generative-nvidia:
+
+    # enable if you want to use NVIDIA generative module
+    enabled: false
+
+    # Set your NVIDIA API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
@@ -1663,13 +1702,27 @@ modules:
   # The reranker-jinaai module uses JinaAI API
   # to dynamically compute a score for the relevance
   # of the query with each of the initial search results.
-  # More information about Cohere API can be found here: https://jina.ai/reranker
+  # More information about JinaAI API can be found here: https://jina.ai/reranker
   reranker-jinaai:
 
     # enable if you want to use JinaAI module
     enabled: false
 
     # Set your JinaAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The reranker-nvidia module uses NVIDIA API
+  # to dynamically compute a score for the relevance
+  # of the query with each of the initial search results.
+  # More information about NVIDIA's API can be found here:
+  # https://docs.api.nvidia.com/nim/reference/retrieval-apis
+  reranker-nvidia:
+
+    # enable if you want to use NVIDIA reranker module
+    enabled: false
+
+    # Set your NVIDIA API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
 
