@@ -1,0 +1,18 @@
+{{- $podDisruptionBudget := index .Values "podDisruptionBudgets" "ner-transformers" -}}
+{{- $module := index .Values "modules" "ner-transformers" -}}
+{{- if and (index $podDisruptionBudget "enabled") (index $module "enabled") }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ index $module "fullnameOverride" }}
+  labels:
+    name: {{ index $module "fullnameOverride" }}
+    app: {{ index $module "fullnameOverride" }}
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ index $module "fullnameOverride" }}
+  {{- toYaml $podDisruptionBudget.spec | nindent 2 }}
+{{- end -}}
