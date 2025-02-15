@@ -255,12 +255,12 @@ authentication:
 authorization:
   rbac:
     enabled: false
-    # admins:
+    # root_users:
     # - admin_user1
     # - admin_user2
-    # viewers:
-    # - viewer_user1
-    # - readonly_user1
+    # root_groups:
+    # - /root_group1
+    # - /root_group2
   admin_list:
     enabled: false
     # users:
@@ -2046,3 +2046,26 @@ affinity:
 ##
 priorityClassName: ""
 globalPriorityClassName: ""
+
+# Optionally define a list of pod disruption budgets.
+# Below are commented examples on how to configure this option.
+# ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+podDisruptionBudgets:
+  # - apiVersion: policy/v1
+  #   kind: PodDisruptionBudget
+  #   metadata:
+  #     name: weaviate
+  #   spec:
+  #     minAvailable: 1
+  #     selector:
+  #       matchLabels:
+  #         app: weaviate
+  # - apiVersion: policy/v1
+  #   kind: PodDisruptionBudget
+  #   metadata:
+  #     name: transformers-inference
+  #   spec:
+  #     minAvailable: 1
+  #     selector:
+  #       matchLabels:
+  #         app: transformers-inference
