@@ -14,6 +14,9 @@
   {{- if or (index .Values "modules" "text2vec-gpt4all" "enabled") (index .Values "modules" "text2vec-gpt4all" "inferenceUrl") -}}
     {{ $modules = append $modules "text2vec-gpt4all" }}
   {{- end -}}
+  {{- if or (index .Values "modules" "text2vec-bigram" "enabled") (index .Values "modules" "text2vec-bigram" "inferenceUrl") -}}
+    {{ $modules = append $modules "text2vec-bigram" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "qna-transformers" "enabled") (index .Values "modules" "qna-transformers" "inferenceUrl") -}}
     {{ $modules = append $modules "qna-transformers" }}
   {{- end -}}
