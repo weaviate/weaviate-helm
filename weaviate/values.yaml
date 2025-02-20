@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.28.5
+  tag: 1.29.0
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -255,12 +255,9 @@ authentication:
 authorization:
   rbac:
     enabled: false
-    # admins:
+    # root_users:
     # - admin_user1
     # - admin_user2
-    # viewers:
-    # - viewer_user1
-    # - readonly_user1
   admin_list:
     enabled: false
     # users:
@@ -2046,3 +2043,72 @@ affinity:
 ##
 priorityClassName: ""
 globalPriorityClassName: ""
+
+# Optionally enable a pod disruption budget for a given service.
+# One should define either minAvailable or maxUnavailable, but not both, as they are mutually exclusive.
+# We recommend to set Weaviate's minAvailable value equal to the number of nodes which provide quorum.
+# Please note that pod disruption budgets are only applied when the corresponding module is enabled. 
+# For instance, if the text2vec-transformers module is disabled, its associated pod disruption budget will not be deployed.
+# A pod disruption budget is only activated when its respective module is enabled, allowing you to configure it as needed.
+# ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+podDisruptionBudgets:
+  weaviate:
+    enabled: false
+    spec:
+      minAvailable: 50%
+      # maxUnavailable: 0
+  text2vec-transformers:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  text2vec-contextionary:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  multi2vec-clip:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  reranker-transformers:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  img2vec-neural:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  multi2vec-bind:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  ner-transformers:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  qna-transformers:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  sum-transformers:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  text2vec-gpt4all:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  text-spellcheck:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
