@@ -2012,6 +2012,14 @@ custom_config_map:
   enabled: false
   name: 'custom-config'
 
+# runtime_overrides is a way to override some weaviate configs during runtime without needing pod restarts.
+runtime_overrides:
+  enabled: false
+  path: ""
+  load_interval: "2m"
+  values:
+    maximum_collection_count: 100
+
 # Pass any annotations to Weaviate pods
 annotations:
 
@@ -2047,7 +2055,7 @@ globalPriorityClassName: ""
 # Optionally enable a pod disruption budget for a given service.
 # One should define either minAvailable or maxUnavailable, but not both, as they are mutually exclusive.
 # We recommend to set Weaviate's minAvailable value equal to the number of nodes which provide quorum.
-# Please note that pod disruption budgets are only applied when the corresponding module is enabled. 
+# Please note that pod disruption budgets are only applied when the corresponding module is enabled.
 # For instance, if the text2vec-transformers module is disabled, its associated pod disruption budget will not be deployed.
 # A pod disruption budget is only activated when its respective module is enabled, allowing you to configure it as needed.
 # ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
