@@ -7,5 +7,6 @@ metadata:
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
-  overrides.yaml: {{ .Values.runtime_overrides.values }}
+  overrides.yaml: |-
+    {{ toYaml .Values.runtime_overrides.values | nindent 6 | trim }}
 {{ end }}

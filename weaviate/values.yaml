@@ -2018,7 +2018,7 @@ runtime_overrides:
   path: "/config/overrides.yaml"
   load_interval: "2m"
   values:
-    maximum_collection_count: 100
+    maximum_allowed_collections_count: 100
 
 # Pass any annotations to Weaviate pods
 annotations:
