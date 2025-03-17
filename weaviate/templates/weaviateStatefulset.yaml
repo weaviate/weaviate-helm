@@ -440,11 +440,11 @@ spec:
 
           {{- if .Values.runtime_overrides.enabled }}
           - name: RUNTIME_OVERRIDES_ENABLED
-            value: {{ .Values.runtime_overrides.enabled }}
+            value: "{{ .Values.runtime_overrides.enabled | quote }}"
           - name: RUNTIME_OVERRIDES_PATH
-            value: {{ .Values.runtime_overrides.path }}
+            value: "{{ .Values.runtime_overrides.path }}"
           - name: RUNTIME_OVERRIDES_LOAD_INTERVAL
-            value: {{ .Values.runtime_overrides.load_interval }}
+            value: "{{ .Values.runtime_overrides.load_interval }}"
           {{- end }}
         ports:
           - containerPort: 8080
