@@ -2029,7 +2029,7 @@ annotations:
 
 extraVolumeMounts:
   - name: weaviate-runtime-overrides
-    mountPath: "/config/overrides.yaml"
+    mountPath: "/config/"
 
 extraVolumes:
   - name: weaviate-runtime-overrides
