@@ -437,12 +437,6 @@ spec:
           {{- end  }}
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
-          - name: RUNTIME_OVERRIDES_ENABLED
-            value: "{{ .Values.runtime_overrides.enabled | quote }}"
-          - name: RUNTIME_OVERRIDES_PATH
-            value: "{{ .Values.runtime_overrides.path }}"
-          - name: RUNTIME_OVERRIDES_LOAD_INTERVAL
-            value: "{{ .Values.runtime_overrides.load_interval }}"
         ports:
           - containerPort: 8080
           {{- if .Values.env.PROMETHEUS_MONITORING_ENABLED }}

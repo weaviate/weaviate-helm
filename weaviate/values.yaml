@@ -321,6 +321,10 @@ env:
   PROMETHEUS_MONITORING_ENABLED: false
   PROMETHEUS_MONITORING_GROUP: false
 
+  RUNTIME_OVERRIDES_ENABLED: false
+  RUNTIME_OVERRIDES_PATH: "/config/overrides.yaml"
+  RUNTIME_OVERRIDES_LOAD_INTERVAL: 2m
+
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related
   # performance as well as avoid GC-related out-of-memory (“OOM”) situations
   # GOMEMLIMIT: 6GiB
