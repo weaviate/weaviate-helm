@@ -8,5 +8,6 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
   overrides.yaml: |-
-    {{ toYaml .Values.runtime_overrides.values | nindent 6 | trim }}
+{{ .Values.runtime_overrides.values | toYaml | nindent 2 }}
+
 {{ end }}
