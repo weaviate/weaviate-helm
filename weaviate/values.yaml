@@ -2017,8 +2017,12 @@ runtime_overrides:
   enabled: false
   path: "/config/overrides.yaml"
   load_interval: "2m"
-  values:
-    maximum_allowed_collections_count: 100
+
+  # Uncomment following lines to add custom runtime overrides
+  # values:
+  #   maximum_allowed_collections_count: 100
+  #   auto_schema_enabled: false
+  #   async_replication_disabled: false
 
 # Pass any annotations to Weaviate pods
 annotations:
