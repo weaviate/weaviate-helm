@@ -460,6 +460,10 @@ spec:
             mountPath: /weaviate-config
           - name: weaviate-data
             mountPath: /var/lib/weaviate
+          {{- if .Values.runtime_overrides.enabled }}
+          - name: weaviate-runtime-overrides
+            mountPath: /weaviate-config
+          {{- end }}
           {{- if index .Values "backups" "gcs" "enabled" }}
             {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
               {{- if or (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") (index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
@@ -471,10 +475,6 @@ spec:
           {{- end }}
           {{ with .Values.extraVolumeMounts }}
             {{ toYaml . | nindent 10 }}
-          {{- end }}
-          {{- if .Values.runtime_overrides.enabled }}
-          - name: weaviate-runtime-overrides
-            mountPath: /weaviate-config
           {{- end }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:
