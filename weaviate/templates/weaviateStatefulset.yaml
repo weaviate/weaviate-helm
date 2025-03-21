@@ -462,7 +462,7 @@ spec:
             mountPath: /var/lib/weaviate
           {{- if .Values.runtime_overrides.enabled }}
           - name: weaviate-runtime-overrides
-            mountPath: /weaviate-config
+            mountPath: /config
           {{- end }}
           {{- if index .Values "backups" "gcs" "enabled" }}
             {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
