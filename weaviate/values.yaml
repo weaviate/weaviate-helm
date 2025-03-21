@@ -2015,7 +2015,7 @@ custom_config_map:
 # runtime_overrides is a way to override some weaviate configs during runtime without needing pod restarts.
 runtime_overrides:
   enabled: false
-  path: "/weaviate-runtime-config/overrides.yaml"
+  path: "/weaviate-config/overrides.yaml"
   load_interval: "2m"
 
   # Uncomment following lines to add custom runtime overrides

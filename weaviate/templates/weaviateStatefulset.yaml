@@ -456,10 +456,6 @@ spec:
             protocol: TCP
           {{- end }}
         volumeMounts:
-          {{- if .Values.runtime_overrides.enabled }}
-          - name: weaviate-runtime-overrides
-            mountPath: /weaviate-runtime-config
-          {{- end }}
           - name: weaviate-config
             mountPath: /weaviate-config
           - name: weaviate-data
@@ -475,6 +471,10 @@ spec:
           {{- end }}
           {{ with .Values.extraVolumeMounts }}
             {{ toYaml . | nindent 10 }}
+          {{- end }}
+          {{- if .Values.runtime_overrides.enabled }}
+          - name: weaviate-runtime-overrides
+            mountPath: /weaviate-config
           {{- end }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:
