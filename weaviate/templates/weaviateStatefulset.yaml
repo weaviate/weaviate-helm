@@ -456,12 +456,12 @@ spec:
             protocol: TCP
           {{- end }}
         volumeMounts:
-          - name: weaviate-config
-            mountPath: /weaviate-config
           {{- if .Values.runtime_overrides.enabled }}
           - name: weaviate-runtime-overrides
             mountPath: /weaviate-config
           {{- end }}
+          - name: weaviate-config
+            mountPath: /weaviate-config
           - name: weaviate-data
             mountPath: /var/lib/weaviate
           {{- if index .Values "backups" "gcs" "enabled" }}
