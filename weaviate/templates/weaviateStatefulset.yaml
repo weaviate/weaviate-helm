@@ -458,7 +458,7 @@ spec:
         volumeMounts:
           {{- if .Values.runtime_overrides.enabled }}
           - name: weaviate-runtime-overrides
-            mountPath: /weaviate-config
+            mountPath: /weaviate-runtime-config
           {{- end }}
           - name: weaviate-config
             mountPath: /weaviate-config
