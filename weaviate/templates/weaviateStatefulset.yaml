@@ -96,6 +96,12 @@ spec:
                 key: {{ $key | quote }}
           {{- end }}
           {{- end }}
+          - name: RUNTIME_OVERRIDES_ENABLED
+            value: {{ .Values.runtime_overrides.enabled | quote }}
+          - name: RUNTIME_OVERRIDES_PATH
+            value: {{ .Values.runtime_overrides.path | quote }}
+          - name: RUNTIME_OVERRIDES_LOAD_INTERVAL
+            value: {{ .Values.runtime_overrides.load_interval | quote }}
           - name: CLUSTER_BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
