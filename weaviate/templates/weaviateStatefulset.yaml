@@ -458,6 +458,10 @@ spec:
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
+          {{- if .Values.runtime_overrides.enabled }}
+          - name: weaviate-runtime-overrides
+            mountPath: /weaviate-config
+          {{- end }}
           - name: weaviate-data
             mountPath: /var/lib/weaviate
           {{- if index .Values "backups" "gcs" "enabled" }}
@@ -512,6 +516,12 @@ spec:
             {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: weaviate-config{{ end }}
         {{- if index .Values "backups" "gcs" "enabled" }}
           {{- if and (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
+
+        {{- if .Values.runtime_overrides.enabled }}
+        - name: weaviate-runtime-overrides
+          configMap:
+            name: weaviate-runtime-overrides
+        {{- end }}
 
         - name: gcs-service-account-credentials-volume
           secret:

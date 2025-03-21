@@ -2015,11 +2015,11 @@ custom_config_map:
 # runtime_overrides is a way to override some weaviate configs during runtime without needing pod restarts.
 runtime_overrides:
   enabled: false
-  path: "/config/overrides.yaml"
+  path: "/weaviate-config/overrides.yaml"
   load_interval: "2m"
 
   # Uncomment following lines to add custom runtime overrides
-  # values:
+  values:
   #   maximum_allowed_collections_count: 100
   #   auto_schema_enabled: false
   #   async_replication_disabled: false
@@ -2028,13 +2028,8 @@ runtime_overrides:
 annotations:
 
 extraVolumeMounts:
-  - name: weaviate-runtime-overrides
-    mountPath: "/config/"
 
 extraVolumes:
-  - name: weaviate-runtime-overrides
-    configMap:
-      name: weaviate-runtime-overrides
 
 nodeSelector:
 
