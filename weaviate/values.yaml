@@ -2019,7 +2019,7 @@ runtime_overrides:
   load_interval: "2m"
 
   # Uncomment following lines to add custom runtime overrides
-  values:
+  values: {}
   #   maximum_allowed_collections_count: 100
   #   auto_schema_enabled: false
   #   async_replication_disabled: false

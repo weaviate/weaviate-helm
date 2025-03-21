@@ -9,7 +9,7 @@ metadata:
 data:
   overrides.yaml: |-
     {{- if .Values.runtime_overrides.values }}
-    {{ .Values.runtime_overrides.values | toYaml | indent 4 }}
+    {{ .Values.runtime_overrides.values | toYaml | nindent 4 }}
     {{- end }}
 
 {{ end }}
