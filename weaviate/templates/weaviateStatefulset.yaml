@@ -96,6 +96,12 @@ spec:
                 key: {{ $key | quote }}
           {{- end }}
           {{- end }}
+          - name: RUNTIME_OVERRIDES_ENABLED
+            value: {{ .Values.runtime_overrides.enabled | quote }}
+          - name: RUNTIME_OVERRIDES_PATH
+            value: {{ .Values.runtime_overrides.path | quote }}
+          - name: RUNTIME_OVERRIDES_LOAD_INTERVAL
+            value: {{ .Values.runtime_overrides.load_interval | quote }}
           - name: CLUSTER_BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
@@ -454,6 +460,10 @@ spec:
             mountPath: /weaviate-config
           - name: weaviate-data
             mountPath: /var/lib/weaviate
+          {{- if .Values.runtime_overrides.enabled }}
+          - name: weaviate-runtime-overrides
+            mountPath: /config
+          {{- end }}
           {{- if index .Values "backups" "gcs" "enabled" }}
             {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
               {{- if or (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") (index .Values "backups" "gcs" "envSecrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
@@ -501,11 +511,17 @@ spec:
         securityContext:
 {{ toYaml .Values.containerSecurityContext | indent 10}}
       volumes:
+        {{- if .Values.runtime_overrides.enabled }}
+        - name: weaviate-runtime-overrides
+          configMap:
+            name: weaviate-runtime-overrides
+        {{- end }}
         - name: weaviate-config
           configMap:
             {{ if .Values.custom_config_map.enabled }}name: {{ .Values.custom_config_map.name }} {{ else }}name: weaviate-config{{ end }}
         {{- if index .Values "backups" "gcs" "enabled" }}
           {{- if and (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "secrets" "GOOGLE_APPLICATION_CREDENTIALS") }}
+
         - name: gcs-service-account-credentials-volume
           secret:
             secretName: backup-gcs

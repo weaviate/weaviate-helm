@@ -1,0 +1,15 @@
+{{ if .Values.runtime_overrides.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: weaviate-runtime-overrides
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  overrides.yaml: |-
+    {{- if .Values.runtime_overrides.values }}
+    {{ .Values.runtime_overrides.values | toYaml | nindent 4 }}
+    {{- end }}
+
+{{ end }}
