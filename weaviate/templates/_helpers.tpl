@@ -38,6 +38,9 @@
   {{- if (index .Values "modules" "generative-anyscale" "enabled") -}}
     {{ $modules = append $modules "generative-anyscale" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-xai" "enabled") -}}
+    {{ $modules = append $modules "generative-xai" }}
+  {{- end -}}
   {{- if (index .Values "modules" "generative-mistral" "enabled") -}}
     {{ $modules = append $modules "generative-mistral" }}
   {{- end -}}
