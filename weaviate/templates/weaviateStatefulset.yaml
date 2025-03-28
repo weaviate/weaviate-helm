@@ -308,6 +308,13 @@ spec:
                 name: weaviate-nvidia
                 key: apiKey
           {{- end  }}
+          {{- if and (index .Values "modules" "generative-xai" "enabled") (index .Values "modules" "generative-xai" "apiKey") }}
+          - name: XAI_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-xai
+                key: apiKey
+          {{- end  }}
           {{- if and (index .Values "offload" "s3" "enabled") (index .Values "offload" "s3" "envconfig") }}
             {{- range $key, $value := index .Values "offload" "s3" "envconfig" }}
           - name: {{ $key }}
