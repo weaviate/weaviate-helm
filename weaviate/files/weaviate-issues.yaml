@@ -33,7 +33,7 @@ issueWarnings:
 
   - id: "backups-getting-stuck"
     title: "Backups may get stuck"
-    message: "In this version, very large backup may get stuck. This was addressed in 1.27.0 by introducing an ability to cancel backups."
+    message: "In this version, very large backups may get stuck. This was addressed in 1.27.0 by introducing an ability to cancel backups."
     affectedVersions:
       exact: []
       range: ["< 1.27.0"]
