@@ -25,7 +25,7 @@ issueWarnings:
   # Available levels: "critical", "important", "warning"
   - id: "blockmax-wand-migration"
     title: "BlockMax WAND migration available"
-    message: "This version sets BlockMax WAND as the default type of inverted index. If you are migrating from an earlier version, see our migration guide."
+    message: "This version sets BlockMax WAND as the default type of inverted index. If you are upgrading from an earlier version, you can migrate the inverted index for improved keyword & hybrid search. See our documentation for the official migration guide (https://weaviate.io/developers/weaviate/more-resources/migration/weaviate-1-30)."
     affectedVersions:
       exact: ["1.30.0"]
       range: []
