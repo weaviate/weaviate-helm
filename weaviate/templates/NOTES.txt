@@ -1,0 +1,33 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+Installed Weaviate version: {{ .Values.image.tag }}
+Latest available version: {{ .Chart.AppVersion }}
+
+{{- if ne .Values.image.tag .Chart.AppVersion }}
+
+NOTE: You are not using the latest available version of Weaviate.
+{{- end }}
+
+{{- if eq .Values.image.tag "1.30.0" }}
+
+IMPORTANT: You are installing Weaviate version 1.30.0, which includes significant changes to the vector indexing mechanism.
+Please refer to the migration guide if upgrading from an earlier version.
+{{- end }}
+
+{{- if eq .Values.image.tag "1.29.0" }}
+
+IMPORTANT: You are installing Weaviate version 1.29.0, which has been deprecated and will reach end-of-life soon.
+We recommend upgrading to version 1.30.0 or newer.
+{{- end }}
+
+{{- if semverCompare "< 1.28.0" .Values.image.tag }}
+
+WARNING: You are installing an outdated version of Weaviate ({{ .Values.image.tag }}).
+Please consider upgrading to the latest version for improved features and security updates.
+{{- end }}
+
+To learn more about the release, try:
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
