@@ -62,7 +62,7 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         command: ["chown", "-R", "{{ .Values.containerSecurityContext.runAsUser }}:{{ .Values.containerSecurityContext.fsGroup }}", "/var/lib/weaviate"]
         volumeMounts:
-          - name: weaviate-data
+          - name: {{ .Values.storage.name }}
             mountPath: /var/lib/weaviate
       {{- end }}
       {{- end }}
@@ -465,7 +465,7 @@ spec:
         volumeMounts:
           - name: weaviate-config
             mountPath: /weaviate-config
-          - name: weaviate-data
+          - name: {{ .Values.storage.name }}
             mountPath: /var/lib/weaviate
           {{- if .Values.runtime_overrides.enabled }}
           - name: weaviate-runtime-overrides
@@ -567,7 +567,7 @@ spec:
 
   volumeClaimTemplates:
   - metadata:
-      name: weaviate-data
+      name: {{ .Values.storage.name }}
       labels:
         app.kubernetes.io/name: weaviate
         app.kubernetes.io/managed-by: {{ .Release.Service }}
