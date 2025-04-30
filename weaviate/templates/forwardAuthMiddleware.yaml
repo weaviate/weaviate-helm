@@ -1,0 +1,32 @@
+{{- /* Create forwardAuth Middleware only if ingress is enabled AND either HTTP or gRPC auth is enabled */}}
+{{- if and .Values.ingress.enabled (or .Values.ingress.auth.enabled .Values.ingress.grpc.auth.enabled) .Values.ingress.forwardAuth.address }}
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: forwardauth
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "weaviate.fullname" . }}
+    helm.sh/chart: {{ include "weaviate.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  forwardAuth:
+    # Address of the forward authentication service
+    address: {{ .Values.ingress.forwardAuth.address | quote }}
+
+    # Whether to trust the X-Forwarded-* headers (default: true)
+    trustForwardHeader: {{ .Values.ingress.forwardAuth.trustForwardHeader | default true }}
+
+    # Optional headers to send to the authentication service
+    {{- if .Values.ingress.forwardAuth.authRequestHeaders }}
+    authRequestHeaders:
+      {{- toYaml .Values.ingress.forwardAuth.authRequestHeaders | nindent 6 }}
+    {{- end }}
+
+    # Optional headers to copy from the authentication service's response
+    {{- if .Values.ingress.forwardAuth.authResponseHeaders }}
+    authResponseHeaders:
+      {{- toYaml .Values.ingress.forwardAuth.authResponseHeaders | nindent 6 }}
+    {{- end }}
+{{- end }} 

@@ -76,11 +76,15 @@ preset_name: ""
 
 ingress:
   enabled: false
+  auth:
+    enabled: false
   clusterName: "weaviate" # Replace with your cluster name
   annotations: {}
   hosts: []
   grpc:
     enabled: false # Set to true to enable the gRPC ingress
+    auth:
+      enabled: false
     annotations: 
       # Example for gRPC ingress annotations (Traefik):
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
@@ -89,6 +93,14 @@ ingress:
 
     hosts: []
       # - host: weaviate-grpc.yourdomain.com # Example with specific host for gRPC
+  forwardAuth:
+    enabled: false
+    # name: forwardauth
+    # address: http://forwardauth:8080
+    # trustForwardHeader: true
+    # authRequestHeaders:
+    #   - "Cookie"
+    #   - "Authorization"
 
 # Scale replicas of Weaviate. Note that as of v1.8.0 dynamic scaling is limited
 # to cases where no data is imported yet. Scaling down after importing data may
@@ -341,7 +353,7 @@ env:
   PROMETHEUS_MONITORING_GROUP: false
 
   # Set a MEM limit for the Weaviate Pod so it can help you both increase GC-related 
-  # performance as well as avoid GC-related out-of-memory (“OOM”) situations
+  # performance as well as avoid GC-related out-of-memory ("OOM") situations
   # GOMEMLIMIT: 6GiB
 
   # Maximum results Weaviate can query with/without pagination
