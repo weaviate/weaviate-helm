@@ -5,10 +5,10 @@
 # Latest patch versions for each supported minor version
 # Update this section manually when new patch releases are available
 latestVersions:
-  "1.30": "1.30.1"
-  "1.29": "1.29.3"
-  "1.28": "1.28.12"
-  "1.27": "1.27.17"
+  "1.30": "1.30.3"
+  "1.29": "1.29.7"
+  "1.28": "1.28.15"
+  "1.27": "1.27.25"
   "1.26": "1.26.17"
 
 # Support status for each minor version
@@ -23,6 +23,14 @@ supportStatus:
 
 issueWarnings:
   # Available levels: "critical", "important", "warning"
+  - id: "raft-snapshot-1-27-downgrade"
+    title: "RAFT Snapshots (v1.28.13+, v1.29.5+, v1.30.2+)"
+    message: Multi-node instances of Weaviate running `1.28.13+`, `1.29.5+`, or `1.30.2+` may experience problems if downgraded to a `v1.27.x` version earlier than `1.27.26`. The cluster may not reach a **Ready** state due to a change in the way that RAFT snapshots are stored in the database. \nA fix for this issue will be released with `1.27.26`, which safely handles the downgrade path to `1.27`. \nIf you need to downgrade Weaviate to `v1.27.x`, use `1.27.26` or higher."
+    affectedVersions:
+      exact: []
+      range: ["> 1.28.13", "> 1.29.5", "> 1.30.2"]
+    level: "important"
+
   - id: "blockmax-wand-migration"
     title: "BlockMax WAND migration available"
     message: "This version sets BlockMax WAND as the default type of inverted index. If you are upgrading from an earlier version, you can migrate the inverted index for improved keyword & hybrid search. See our documentation for the official migration guide (https://weaviate.io/developers/weaviate/more-resources/migration/weaviate-1-30)."
