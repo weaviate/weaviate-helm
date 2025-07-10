@@ -994,12 +994,24 @@ modules:
     # an environment variable
     apiKey: ''
 
-  # The text2colbert-jinaai module uses JinaAI Embeddings API
+  # Deprecated setting, please use text2multivec-jinaai instead
+  #
+  # This setting will be removed with charts version 20.
+  text2colbert-jinaai:
+
+    # enable if you want to use JinaAI module
+    enabled: false
+
+    # Set your JinaAI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The text2multivec-jinaai module uses JinaAI Embeddings API
   # to dynamically compute ColBERT embeddings based on the
   # sentence's context.
   # More information about JinaAI Embeddings API can be found here:
   # https://jina.ai/embeddings
-  text2colbert-jinaai:
+  text2multivec-jinaai:
 
     # enable if you want to use JinaAI module
     enabled: false

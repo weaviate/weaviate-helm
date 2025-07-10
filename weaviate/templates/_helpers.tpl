@@ -146,6 +146,9 @@
   {{- if (index .Values "modules" "text2colbert-jinaai" "enabled") -}}
     {{ $modules = append $modules "text2colbert-jinaai" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2multivec-jinaai" "enabled") -}}
+    {{ $modules = append $modules "text2multivec-jinaai" }}
+  {{- end -}}
   {{- if (index .Values "modules" "reranker-cohere" "enabled") -}}
     {{ $modules = append $modules "reranker-cohere" }}
   {{- end -}}
