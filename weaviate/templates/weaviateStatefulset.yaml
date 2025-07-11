@@ -245,7 +245,7 @@ spec:
                 name: weaviate-google
                 key: apiKey
           {{- end  }}
-          {{- if or (and (index .Values "modules" "text2vec-jinaai" "enabled") (index .Values "modules" "text2vec-jinaai" "apiKey")) (and (index .Values "modules" "reranker-jinaai" "enabled") (index .Values "modules" "reranker-jinaai" "apiKey")) (and (index .Values "modules" "multi2vec-jinaai" "enabled") (index .Values "modules" "multi2vec-jinaai" "apiKey")) (and (index .Values "modules" "text2colbert-jinaai" "enabled") (index .Values "modules" "text2colbert-jinaai" "apiKey")) (and (index .Values "modules" "multi2multivec-jinaai" "enabled") (index .Values "modules" "multi2multivec-jinaai" "apiKey")) }}
+          {{- if or (and (index .Values "modules" "text2vec-jinaai" "enabled") (index .Values "modules" "text2vec-jinaai" "apiKey")) (and (index .Values "modules" "reranker-jinaai" "enabled") (index .Values "modules" "reranker-jinaai" "apiKey")) (and (index .Values "modules" "multi2vec-jinaai" "enabled") (index .Values "modules" "multi2vec-jinaai" "apiKey")) (and (index .Values "modules" "text2colbert-jinaai" "enabled") (index .Values "modules" "text2colbert-jinaai" "apiKey")) (and (index .Values "modules" "text2multivec-jinaai" "enabled") (index .Values "modules" "text2multivec-jinaai" "apiKey")) (and (index .Values "modules" "multi2multivec-jinaai" "enabled") (index .Values "modules" "multi2multivec-jinaai" "apiKey")) }}
           - name: JINAAI_APIKEY
             valueFrom:
               secretKeyRef:
