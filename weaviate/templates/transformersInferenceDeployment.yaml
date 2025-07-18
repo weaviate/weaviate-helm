@@ -91,6 +91,10 @@ spec:
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+      {{- with index $module "topologySpreadConstraints" | default .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
       {{- with index $module "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
@@ -201,6 +205,10 @@ spec:
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+      {{- with index $passage "topologySpreadConstraints" | default .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
       {{- with index $passage "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
@@ -306,6 +314,10 @@ spec:
       {{- end }}
       {{- with index $query "affinity" | default .Values.affinity }}
       affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with index $query "topologySpreadConstraints" | default .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
         {{ toYaml . | nindent 8 }}
       {{- end }}
       {{- with index $query "tolerations" | default .Values.tolerations }}
