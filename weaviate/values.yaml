@@ -609,12 +609,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
-
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
   # The text2vec-transformers modules uses neural networks, such as BERT,
   # DistilBERT, etc. to dynamically compute vector embeddings based on the
@@ -695,11 +695,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
     passageQueryServices:
       passage:
@@ -768,12 +769,12 @@ modules:
 
         # You can guide where the pods are scheduled on a per-module basis,
         # as well as for Weaviate overall. Each module accepts nodeSelector,
-        # tolerations, and affinity configuration. If it is set on a per-
-        # module basis, this configuration overrides the global config.
-
+        # tolerations, affinity, and topology spread configuration. If it is 
+        # set on a per-module basis, this configuration overrides the global config.
         nodeSelector:
         tolerations:
         affinity:
+        topologySpreadConstraints:
 
       query:
         enabled: false
@@ -842,12 +843,12 @@ modules:
 
         # You can guide where the pods are scheduled on a per-module basis,
         # as well as for Weaviate overall. Each module accepts nodeSelector,
-        # tolerations, and affinity configuration. If it is set on a per-
-        # module basis, this configuration overrides the global config.
-
+        # tolerations, affinity, and topology spread configuration. If it is 
+        # set on a per-module basis, this configuration overrides the global config.
         nodeSelector:
         tolerations:
         affinity:
+        topologySpreadConstraints:
 
   # The text2vec-gpt4all is a vectorizer module that allows to run ML models from
   # nomic-ai/gpt4all: https://docs.gpt4all.io/gpt4all_python_embedding.html
@@ -904,12 +905,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
-
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
   # The text2vec-openai module uses OpenAI Embeddings API
   # to dynamically compute vector embeddings based on the
@@ -1430,12 +1431,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
-
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
   # The qna-openai module uses OpenAI Completions API
   # to dynamically answer given questions.
@@ -1700,12 +1701,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
-
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
   # The reranker-cohere module uses Cohere API
   # to dynamically compute a score for the relevance
@@ -1827,12 +1828,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
-
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
   # The text-spellcheck module uses spellchecker library to check
   # misspellings in a given text
@@ -1884,12 +1885,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
-
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
   # The ner-transformers module uses spellchecker library to check
   # misspellings in a given text
@@ -1958,12 +1959,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
-
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
   # The sum-transformers module makes result texts summarizations
   sum-transformers:
@@ -2029,12 +2030,12 @@ modules:
 
     # You can guide where the pods are scheduled on a per-module basis,
     # as well as for Weaviate overall. Each module accepts nodeSelector,
-    # tolerations, and affinity configuration. If it is set on a per-
-    # module basis, this configuration overrides the global config.
-
+    # tolerations, affinity, and topology spread configuration. If it is 
+    # set on a per-module basis, this configuration overrides the global config.
     nodeSelector:
     tolerations:
     affinity:
+    topologySpreadConstraints:
 
   # by choosing the default vectorizer module, you can tell Weaviate to always
   # use this module as the vectorizer if nothing else is specified. Can be
@@ -2073,6 +2074,8 @@ nodeSelector:
 tolerations:
 
 hostAliases:
+
+topologySpreadConstraints:
 
 affinity:
   podAntiAffinity:
