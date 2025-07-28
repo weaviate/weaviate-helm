@@ -455,6 +455,22 @@ spec:
                 key: AZURE_STORAGE_CONNECTION_STRING
             {{- end }}
           {{- end  }}
+          {{- if index .Values "usage" "gcs" "enabled" }}
+            {{- if index .Values "usage" "gcs" "envconfig" }}
+              {{- range $key, $value := index .Values "usage" "gcs" "envconfig" }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end  }}
+          {{- if index .Values "usage" "s3" "enabled" }}
+            {{- if index .Values "usage" "s3" "envconfig" }}
+              {{- range $key, $value := index .Values "usage" "s3" "envconfig" }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end  }}
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
         ports:
