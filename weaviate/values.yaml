@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.32.0
+  tag: 1.32.1
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -893,6 +893,65 @@ modules:
       #   memory: '5000Mi'
 
     # security Context for the Contextionary Pods. The configurations are the same as setting them
+    # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    securityContext: {}
+
+    # It is possible to add a ServiceAccount to this module's Pods, it can be
+    # used in cases where the module is in a private registry and you want to
+    # give access to the registry only to this pod.
+    # NOTE: if not set the root `serviceAccountName` config will be used.
+    serviceAccountName:
+
+    # You can guide where the pods are scheduled on a per-module basis,
+    # as well as for Weaviate overall. Each module accepts nodeSelector,
+    # tolerations, and affinity configuration. If it is set on a per-
+    # module basis, this configuration overrides the global config.
+
+    nodeSelector:
+    tolerations:
+    affinity:
+
+  # The text2vec-model2vec is a vectorizer module that allows to run static embeddings models
+  # More information about the project can be found here:
+  # https://github.com/weaviate/t2v-model2vec-models
+  text2vec-model2vec:
+
+    # Enable deployment of this module
+    enabled: false
+
+    # You can set directly an inference URL of this module without deploying it with this release.
+    # You can do so by setting a value for the `inferenceUrl` here AND by setting the `enable` to `false`
+    inferenceUrl: {}
+
+    # The configuration below is ignored if enabled==false
+    tag: minishlab-potion-retrieval-32M
+    repo: semitechnologies/model2vec-inference
+    registry: cr.weaviate.io
+    replicas: 1
+    strategy:
+      type: RollingUpdate
+    imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
+    priorityClassName: ""
+    fullnameOverride: model2vec-inference
+    livenessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+      timeoutSeconds: 3
+    readinessProbe:
+      initialDelaySeconds: 120
+      periodSeconds: 3
+
+    resources: {}
+      # requests:
+      #   cpu: '1000m'
+      #   memory: '3000Mi'
+
+      # limits:
+      #   cpu: '1000m'
+      #   memory: '5000Mi'
+
+    # security Context for the Model2Vec Pods. The configurations are the same as setting them
     # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
     securityContext: {}
 
@@ -2157,6 +2216,11 @@ podDisruptionBudgets:
       minAvailable: 1
       # maxUnavailable: 0
   text-spellcheck:
+    enabled: false
+    spec:
+      minAvailable: 1
+      # maxUnavailable: 0
+  text2vec-model2vec:
     enabled: false
     spec:
       minAvailable: 1

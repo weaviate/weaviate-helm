@@ -147,6 +147,13 @@ spec:
           - name: GPT4ALL_INFERENCE_API
             value: {{ index .Values "modules" "text2vec-gpt4all" "inferenceUrl" }}
           {{- end }}
+          {{- if index .Values "modules" "text2vec-model2vec" "enabled" }}
+          - name: MODEL2VEC_INFERENCE_API
+            value: http://{{ index .Values "modules" "text2vec-model2vec" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080
+          {{- else if index .Values "modules" "text2vec-model2vec" "inferenceUrl" }}
+          - name: MODEL2VEC_INFERENCE_API
+            value: {{ index .Values "modules" "text2vec-model2vec" "inferenceUrl" }}
+          {{- end }}
           {{- if index .Values "modules" "multi2vec-clip" "enabled" }}
           - name: CLIP_INFERENCE_API
             value: http://{{ index .Values "modules" "multi2vec-clip" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080

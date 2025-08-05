@@ -144,6 +144,8 @@ function check_creates_template() {
   check_modules "--set modules.text2vec-contextionary.enabled=true --set modules.text-spellcheck.enabled=true --set modules.reranker-transformers.enabled=true" "value: text2vec-contextionary,text-spellcheck,reranker-transformers"
   check_modules "--set modules.text2vec-gpt4all.enabled=true" "value: text2vec-gpt4all"
   check_modules "--set modules.text2vec-gpt4all.enabled=true --set modules.text-spellcheck.enabled=true" "value: text2vec-gpt4all,text-spellcheck"
+  check_modules "--set modules.text2vec-model2vec.enabled=true" "value: text2vec-model2vec"
+  check_modules "--set modules.text2vec-model2vec.enabled=true --set modules.text-spellcheck.enabled=true" "value: text2vec-model2vec,text-spellcheck"
   check_modules "--set modules.multi2vec-bind.enabled=true" "value: multi2vec-bind"
   check_modules "--set modules.multi2vec-bind.enabled=true --set modules.text-spellcheck.enabled=true" "value: text-spellcheck,multi2vec-bind"
   check_modules "--set modules.text2vec-jinaai.enabled=true" "value: text2vec-jinaai"
@@ -364,6 +366,7 @@ function check_creates_template() {
     "ner-transformers"
     "sum-transformers"
     "reranker-transformers"
+    "text2vec-model2vec"
   )
 
   for module in "${DEPLOYMENT_MODULES[@]}"
