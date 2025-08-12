@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.32.1
+  tag: 1.32.2
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -428,6 +428,39 @@ offload:
     envSecrets: {}
     #   AWS_ACCESS_KEY_ID: name-of-the-k8s-secret-containing-the-key-id
     #   AWS_SECRET_ACCESS_KEY: name-of-the-k8s-secret-containing-the-key
+
+
+# Configure usage metrics providers
+usage:
+  gcs:
+    enabled: false
+    envconfig:
+      # Configure bucket where usage metrics should be saved, this setting is mandatory
+      USAGE_GCS_BUCKET: weaviate-usage
+
+      # Optional setting. Defaults to empty string.
+      # Set this option if you want to save usage metrics to a given location
+      # inside the bucket
+      # USAGE_GCS_PREFIX: path/inside/bucket
+
+      # Optional setting. Defaults to 1h.
+      # Set this option if you want collection interval to be different than 1 hour
+      # USAGE_SCRAPE_INTERVAL: 1h
+
+  s3:
+    enabled: false
+    envconfig:
+      # Configure bucket where usage metrics should be saved, this setting is mandatory
+      USAGE_S3_BUCKET: weaviate-usage
+
+      # Optional setting. Defaults to empty string.
+      # Set this option if you want to save usage metrics to a given location
+      # inside the bucket
+      # USAGE_S3_PREFIX: path/inside/bucket
+
+      # Optional setting. Defaults to 1h.
+      # Set this option if you want collection interval to be different than 1 hour
+      # USAGE_SCRAPE_INTERVAL: 1h
 
 # Configure backup providers
 backups:

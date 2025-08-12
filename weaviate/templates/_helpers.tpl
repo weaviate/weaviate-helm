@@ -179,6 +179,12 @@
   {{- if (index .Values "backups" "gcs" "enabled") -}}
     {{ $modules = append $modules "backup-gcs" }}
   {{- end -}}
+  {{- if (index .Values "usage" "gcs" "enabled") -}}
+    {{ $modules = append $modules "usage-gcs" }}
+  {{- end -}}
+  {{- if (index .Values "usage" "s3" "enabled") -}}
+    {{ $modules = append $modules "usage-s3" }}
+  {{- end -}}
   {{- if (index .Values "backups" "azure" "enabled") -}}
     {{ $modules = append $modules "backup-azure" }}
   {{- end -}}
