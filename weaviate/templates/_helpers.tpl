@@ -143,6 +143,9 @@
   {{- if (index .Values "modules" "text2vec-nvidia" "enabled") -}}
     {{ $modules = append $modules "text2vec-nvidia" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2vec-morph" "enabled") -}}
+    {{ $modules = append $modules "text2vec-morph" }}
+  {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
   {{- end -}}

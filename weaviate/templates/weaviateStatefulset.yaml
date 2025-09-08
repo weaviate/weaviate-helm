@@ -294,6 +294,13 @@ spec:
                 name: weaviate-octoai
                 key: apiKey
           {{- end  }}
+          {{- if and (index .Values "modules" "text2vec-morph" "enabled") (index .Values "modules" "text2vec-morph" "apiKey") }}
+          - name: MORPH_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-morph
+                key: apiKey
+          {{- end  }}
           {{- if and (index .Values "modules" "generative-friendliai" "enabled") (index .Values "modules" "generative-friendliai" "token") }}
           - name: FRIENDLI_TOKEN
             valueFrom:
