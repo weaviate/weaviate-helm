@@ -342,7 +342,7 @@ spec:
               {{- end }}
             {{- end }}
           {{- end  }}
-          {{- if or (index .Values "offload" "s3" "enabled") (index .Values "backups" "s3" "enabled") (index .Values "modules" "text2vec-aws" "enabled") (index .Values "modules" "generative-aws" "enabled") }}
+          {{- if or (index .Values "offload" "s3" "enabled") (index .Values "backups" "s3" "enabled") (index .Values "modules" "text2vec-aws" "enabled") (index .Values "modules" "multi2vec-aws" "enabled") (index .Values "modules" "generative-aws" "enabled") }}
             {{- if index .Values "offload" "s3" "envSecrets" }}
               {{- range $key, $secret := $.Values.offload.s3.envSecrets }}
           - name: {{ $key }}
@@ -382,7 +382,7 @@ spec:
               secretKeyRef:
                 name: backup-s3
                 key: AWS_ACCESS_KEY_ID
-            {{- else if or (and (index .Values "offload" "s3" "secrets") (index .Values "offload" "s3" "secrets" "AWS_ACCESS_KEY_ID")) (and (index .Values "modules" "text2vec-aws" "secrets") (index .Values "modules" "text2vec-aws" "secrets" "AWS_ACCESS_KEY_ID")) (and (index .Values "modules" "generative-aws" "secrets") (index .Values "modules" "generative-aws" "secrets" "AWS_ACCESS_KEY_ID")) }}
+            {{- else if or (and (index .Values "offload" "s3" "secrets") (index .Values "offload" "s3" "secrets" "AWS_ACCESS_KEY_ID")) (and (index .Values "modules" "text2vec-aws" "secrets") (index .Values "modules" "text2vec-aws" "secrets" "AWS_ACCESS_KEY_ID")) (and (index .Values "modules" "multi2vec-aws" "secrets") (index .Values "modules" "multi2vec-aws" "secrets" "AWS_ACCESS_KEY_ID")) (and (index .Values "modules" "generative-aws" "secrets") (index .Values "modules" "generative-aws" "secrets" "AWS_ACCESS_KEY_ID")) }}
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
@@ -395,7 +395,7 @@ spec:
               secretKeyRef:
                 name: backup-s3
                 key: AWS_SECRET_ACCESS_KEY
-            {{- else if or (and (index .Values "offload" "s3" "secrets") (index .Values "offload" "s3" "secrets" "AWS_SECRET_ACCESS_KEY")) (and (index .Values "modules" "text2vec-aws" "secrets") (index .Values "modules" "text2vec-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) (and (index .Values "modules" "generative-aws" "secrets") (index .Values "modules" "generative-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) }}
+            {{- else if or (and (index .Values "offload" "s3" "secrets") (index .Values "offload" "s3" "secrets" "AWS_SECRET_ACCESS_KEY")) (and (index .Values "modules" "text2vec-aws" "secrets") (index .Values "modules" "text2vec-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) (and (index .Values "modules" "multi2vec-aws" "secrets") (index .Values "modules" "multi2vec-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) (and (index .Values "modules" "generative-aws" "secrets") (index .Values "modules" "generative-aws" "secrets" "AWS_SECRET_ACCESS_KEY")) }}
           - name: AWS_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:

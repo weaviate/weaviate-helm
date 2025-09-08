@@ -101,6 +101,9 @@
   {{- if (index .Values "modules" "multi2vec-nvidia" "enabled") -}}
     {{ $modules = append $modules "multi2vec-nvidia" }}
   {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-aws" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-aws" }}
+  {{- end -}}
   {{- if (index .Values "modules" "multi2multivec-jinaai" "enabled") -}}
     {{ $modules = append $modules "multi2multivec-jinaai" }}
   {{- end -}}
