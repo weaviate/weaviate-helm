@@ -1239,6 +1239,19 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The text2vec-morph module uses Morph Embeddings API
+  # to dynamically compute vector embeddings.
+  # More information about morph Embeddings API can be found here:
+  # https://docs.morphllm.com/quickstart
+  text2vec-morph:
+
+    # enable if you want to use morph module
+    enabled: false
+
+    # Set your Morph API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The multi2vec-clip modules uses CLIP transformers to vectorize both images
   # and text in the same vector space. It is typically slow(er) on CPUs and should
   # run with CUDA-enabled GPUs for optimal performance.
