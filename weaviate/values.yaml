@@ -118,10 +118,10 @@ serviceAccountName:
 # See https://github.com/weaviate/weaviate-helm/issues/175 for details.
 clusterDomain: cluster.local.
 
-# The Persistent Volume Claim settings for Weaviate. If there's a
-# storage.fullnameOverride field set, then the default pvc will not be
-# created, instead the one defined in fullnameOverride will be used
+# The Persistent Volume Claim settings for Weaviate. The given name will be used as the
+# prefix for the volumes (e.g. first replica will use {{ .Values.storage.name }}-weaviate-0)
 storage:
+  name: "weaviate-data"
   size: 32Gi
   storageClassName: ""
 
