@@ -2,6 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  namespace: {{ default .Release.Namespace .Values.namespaceOverride }}
   name: weaviate-runtime-overrides
   labels:
     app.kubernetes.io/name: weaviate

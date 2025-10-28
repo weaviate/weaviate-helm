@@ -3,6 +3,7 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
+  namespace: {{ default .Release.Namespace .Values.namespaceOverride }}
   name: weaviate
   labels:
     name: weaviate
