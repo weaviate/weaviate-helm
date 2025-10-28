@@ -228,7 +228,7 @@ imagePullSecrets:
 Cluster API Secrets
 */}}
 {{- define "cluster_api.secret" -}}
-{{- $ns := include "weaviate.namespace" . -}}
+{{- $ns := include "namespace" . -}}
 {{- $secret := lookup "v1" "Secret" $ns "weaviate-cluster-api-basic-auth" -}}
 {{- if $secret -}}
 
