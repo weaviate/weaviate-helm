@@ -228,8 +228,10 @@ imagePullSecrets:
 Cluster API Secrets
 */}}
 {{- define "cluster_api.secret" -}}
-{{- $secret := lookup "v1" "Secret" .Release.Namespace "weaviate-cluster-api-basic-auth" -}}
+{{- $ns := include "weaviate.namespace" . -}}
+{{- $secret := lookup "v1" "Secret" $ns "weaviate-cluster-api-basic-auth" -}}
 {{- if $secret -}}
+
 {{/*
    Reusing value of secret if exist
 */}}
@@ -314,4 +316,12 @@ Raft cluster configuration settings
   {{- if and ($metada_only_voters) (le $replicas $voters) -}}
     {{- fail "env.RAFT_METADATA_ONLY_VOTERS is true then .replicas size must be greater than env.RAFT_BOOTSTRAP_EXPECT" -}}
   {{- end -}}
+{{- end -}}
+
+{{- /*
+Return the namespace to use for resources.
+If .Values.namespaceOverride is defined, use it, otherwise use .Release.Namespace
+*/ -}}
+{{- define "namespace" -}}
+{{- default .Release.Namespace .Values.namespaceOverride -}}
 {{- end -}}

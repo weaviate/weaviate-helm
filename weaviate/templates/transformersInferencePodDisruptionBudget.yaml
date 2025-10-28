@@ -4,7 +4,9 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  namespace: {{ default .Release.Namespace .Values.namespaceOverride }}
+  {{ if .Values.namespaceOverride }}
+  namespace: {{ .Values.namespaceOverride }}
+  {{ end }}
   name: {{ index $module "fullnameOverride" }}
   labels:
     name: {{ index $module "fullnameOverride" }}
