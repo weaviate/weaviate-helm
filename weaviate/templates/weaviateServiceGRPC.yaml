@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  {{ if .Values.namespaceOverride }}
+  {{- if .Values.namespaceOverride }}
   namespace: {{ .Values.namespaceOverride }}
-  {{ end }}
+  {{- end }}
   name: {{ .Values.grpcService.name }}
   labels:
     app.kubernetes.io/name: weaviate

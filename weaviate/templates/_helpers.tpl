@@ -228,7 +228,7 @@ imagePullSecrets:
 Cluster API Secrets
 */}}
 {{- define "cluster_api.secret" -}}
-{{- $ns := include "namespace" . -}}
+{{- $ns := include "weaviate.namespace" . -}}
 {{- $secret := lookup "v1" "Secret" $ns "weaviate-cluster-api-basic-auth" -}}
 {{- if $secret -}}
 
@@ -322,6 +322,6 @@ Raft cluster configuration settings
 Return the namespace to use for resources.
 If .Values.namespaceOverride is defined, use it, otherwise use .Release.Namespace
 */ -}}
-{{- define "namespace" -}}
+{{- define "weaviate.namespace" -}}
 {{- default .Release.Namespace .Values.namespaceOverride -}}
 {{- end -}}

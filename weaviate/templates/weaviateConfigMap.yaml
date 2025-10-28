@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  {{ if .Values.namespaceOverride }}
+  {{- if .Values.namespaceOverride }}
   namespace: {{ .Values.namespaceOverride }}
-  {{ end }}
+  {{- end }}
   name: weaviate-config
   labels:
     app.kubernetes.io/name: weaviate
@@ -18,7 +18,7 @@ data:
       {{ toYaml .Values.authorization | nindent 6 | trim }}
     {{ if index .Values "modules" "text2vec-contextionary" "enabled" }}
     contextionary:
-      url: {{ index .Values "modules" "text2vec-contextionary" "fullnameOverride" }}.{{ namespace }}.svc.{{ .Values.clusterDomain }}:9999
+      url: {{ index .Values "modules" "text2vec-contextionary" "fullnameOverride" }}.{{ include "weaviate.namespace" . }}.svc.{{ .Values.clusterDomain }}:9999
     {{ end }}
     query_defaults:
       {{ toYaml .Values.query_defaults | nindent 6 | trim }}

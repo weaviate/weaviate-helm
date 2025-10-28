@@ -5,9 +5,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  {{ if .Values.namespaceOverride }}
+  {{- if .Values.namespaceOverride }}
   namespace: {{ .Values.namespaceOverride }}
-  {{ end }}
+  {{- end }}
   name: {{ index $module "fullnameOverride" }}
   labels:
     name: {{ index $module "fullnameOverride" }}
@@ -108,9 +108,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  {{ if .Values.namespaceOverride }}
+  {{- if .Values.namespaceOverride }}
   namespace: {{ .Values.namespaceOverride }}
-  {{ end }}
+  {{- end }}
   name: {{ index $module "fullnameOverride" }}
   labels:
     app.kubernetes.io/name: weaviate
@@ -129,9 +129,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  {{ if .Values.namespaceOverride }}
+  {{- if .Values.namespaceOverride }}
   namespace: {{ .Values.namespaceOverride }}
-  {{ end }}
+  {{- end }}
   name: {{ index $passage "fullnameOverride" }}
   labels:
     name: {{ index $passage "fullnameOverride" }}
@@ -224,9 +224,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  {{ if .Values.namespaceOverride }}
+  {{- if .Values.namespaceOverride }}
   namespace: {{ .Values.namespaceOverride }}
-  {{ end }}
+  {{- end }}
   name: {{ index $passage "fullnameOverride" }}
 spec:
   type: ClusterIP
@@ -242,9 +242,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  {{ if .Values.namespaceOverride }}
+  {{- if .Values.namespaceOverride }}
   namespace: {{ .Values.namespaceOverride }}
-  {{ end }}
+  {{- end }}
   name: {{ index $query "fullnameOverride" }}
   labels:
     name: {{ index $query "fullnameOverride" }}
@@ -337,9 +337,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  {{ if .Values.namespaceOverride }}
+  {{- if .Values.namespaceOverride }}
   namespace: {{ .Values.namespaceOverride }}
-  {{ end }}
+  {{- end }}
   name: {{ index $query "fullnameOverride" }}
 spec:
   type: ClusterIP
