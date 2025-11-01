@@ -484,7 +484,7 @@ spec:
           - containerPort: 8080
           {{- if .Values.env.PROMETHEUS_MONITORING_ENABLED }}
           - name: metrics
-            containerPort: 2112
+            containerPort: {{ .Values.env.PROMETHEUS_MONITORING_PORT }}
             protocol: TCP
           {{- end }}
           {{ if .Values.grpcService.enabled }}
