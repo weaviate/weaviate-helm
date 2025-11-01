@@ -19,12 +19,12 @@ spec:
     {{- range .Values.service.ports }}
     - {{ toYaml . | indent 6 | trim }}
     {{- end }}
-{{- if .Values.serviceMonitor.enabled }}
+    {{- if .Values.serviceMonitor.enabled }}
     - name: metrics
       protocol: TCP
       port: {{ .Values.env.PROMETHEUS_MONITORING_PORT }}
       targetPort: {{ .Values.env.PROMETHEUS_MONITORING_PORT }}
-{{ end }}
+    {{ end }}
 {{ if eq .Values.service.type "ClusterIP" -}}
   {{ if .Values.service.clusterIP }}
   clusterIP: {{ .Values.service.clusterIP }}
