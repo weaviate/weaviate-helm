@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.grpcService.name }}
   labels:
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   {{- with .Values.grpcService.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}

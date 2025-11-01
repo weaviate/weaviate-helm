@@ -5,7 +5,7 @@ metadata:
   name: weaviate-config
   labels:
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
   conf.yaml: |-
     ---

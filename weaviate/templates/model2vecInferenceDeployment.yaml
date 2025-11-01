@@ -1,4 +1,4 @@
-{{- $module := index .Values "modules" "reranker-transformers" -}}
+{{- $module := index .Values "modules" "text2vec-model2vec" -}}
 {{ if index $module "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
@@ -34,17 +34,6 @@ spec:
       - name: {{ index $module "fullnameOverride" }}
         image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
         imagePullPolicy: {{ index $module "imagePullPolicy" }}
-        env:
-          - name: ENABLE_CUDA
-            value: "{{ if index $module "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
-          {{ if index $module "envconfig" "enable_cuda" }}
-          - name: NVIDIA_VISIBLE_DEVICES
-            value: {{ index $module "envconfig" "nvidia_visible_devices"}}
-          - name: NVIDIA_DRIVER_CAPABILITIES
-            value: {{ index $module "envconfig" "nvidia_driver_capabilities"}}
-          - name: LD_LIBRARY_PATH
-            value: {{ index $module "envconfig" "ld_library_path"}}
-          {{ end }}
         resources:
 {{ index $module "resources" | toYaml | indent 10 }}
         livenessProbe:

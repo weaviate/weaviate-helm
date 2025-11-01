@@ -1,0 +1,17 @@
+{{- $podDisruptionBudget := index .Values "podDisruptionBudgets" "weaviate" -}}
+{{- if index $podDisruptionBudget "enabled" }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: weaviate
+  labels:
+    name: weaviate
+    app: weaviate
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: weaviate
+  {{- toYaml $podDisruptionBudget.spec | nindent 2 }}
+{{- end -}}

@@ -14,6 +14,9 @@
   {{- if or (index .Values "modules" "text2vec-gpt4all" "enabled") (index .Values "modules" "text2vec-gpt4all" "inferenceUrl") -}}
     {{ $modules = append $modules "text2vec-gpt4all" }}
   {{- end -}}
+  {{- if or (index .Values "modules" "text2vec-model2vec" "enabled") (index .Values "modules" "text2vec-model2vec" "inferenceUrl") -}}
+    {{ $modules = append $modules "text2vec-model2vec" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "qna-transformers" "enabled") (index .Values "modules" "qna-transformers" "inferenceUrl") -}}
     {{ $modules = append $modules "qna-transformers" }}
   {{- end -}}
@@ -29,8 +32,38 @@
   {{- if (index .Values "modules" "generative-palm" "enabled") -}}
     {{ $modules = append $modules "generative-palm" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-google" "enabled") -}}
+    {{ $modules = append $modules "generative-google" }}
+  {{- end -}}
   {{- if (index .Values "modules" "generative-aws" "enabled") -}}
     {{ $modules = append $modules "generative-aws" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-anyscale" "enabled") -}}
+    {{ $modules = append $modules "generative-anyscale" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-xai" "enabled") -}}
+    {{ $modules = append $modules "generative-xai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-mistral" "enabled") -}}
+    {{ $modules = append $modules "generative-mistral" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-ollama" "enabled") -}}
+    {{ $modules = append $modules "generative-ollama" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-octoai" "enabled") -}}
+    {{ $modules = append $modules "generative-octoai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-anthropic" "enabled") -}}
+    {{ $modules = append $modules "generative-anthropic" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-friendliai" "enabled") -}}
+    {{ $modules = append $modules "generative-friendliai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-databricks" "enabled") -}}
+    {{ $modules = append $modules "generative-databricks" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "generative-nvidia" "enabled") -}}
+    {{ $modules = append $modules "generative-nvidia" }}
   {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
@@ -50,6 +83,30 @@
   {{- if or (index .Values "modules" "multi2vec-bind" "enabled") (index .Values "modules" "multi2vec-bind" "inferenceUrl") -}}
     {{ $modules = append $modules "multi2vec-bind" }}
   {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-palm" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-palm" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-google" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-google" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-cohere" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-cohere" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-jinaai" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-jinaai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-voyageai" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-voyageai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-nvidia" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-nvidia" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "multi2vec-aws" "enabled") -}}
+    {{ $modules = append $modules "multi2vec-aws" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "multi2multivec-jinaai" "enabled") -}}
+    {{ $modules = append $modules "multi2multivec-jinaai" }}
+  {{- end -}}
   {{- if (index .Values "modules" "text2vec-openai" "enabled") -}}
     {{ $modules = append $modules "text2vec-openai" }}
   {{- end -}}
@@ -62,20 +119,62 @@
   {{- if (index .Values "modules" "text2vec-palm" "enabled") -}}
     {{ $modules = append $modules "text2vec-palm" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2vec-google" "enabled") -}}
+    {{ $modules = append $modules "text2vec-google" }}
+  {{- end -}}
   {{- if (index .Values "modules" "text2vec-jinaai" "enabled") -}}
     {{ $modules = append $modules "text2vec-jinaai" }}
   {{- end -}}
   {{- if (index .Values "modules" "text2vec-aws" "enabled") -}}
     {{ $modules = append $modules "text2vec-aws" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2vec-voyageai" "enabled") -}}
+    {{ $modules = append $modules "text2vec-voyageai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-ollama" "enabled") -}}
+    {{ $modules = append $modules "text2vec-ollama" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-octoai" "enabled") -}}
+    {{ $modules = append $modules "text2vec-octoai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-databricks" "enabled") -}}
+    {{ $modules = append $modules "text2vec-databricks" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-mistral" "enabled") -}}
+    {{ $modules = append $modules "text2vec-mistral" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-nvidia" "enabled") -}}
+    {{ $modules = append $modules "text2vec-nvidia" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2vec-morph" "enabled") -}}
+    {{ $modules = append $modules "text2vec-morph" }}
+  {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2colbert-jinaai" "enabled") -}}
+    {{ $modules = append $modules "text2colbert-jinaai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "text2multivec-jinaai" "enabled") -}}
+    {{ $modules = append $modules "text2multivec-jinaai" }}
   {{- end -}}
   {{- if (index .Values "modules" "reranker-cohere" "enabled") -}}
     {{ $modules = append $modules "reranker-cohere" }}
   {{- end -}}
   {{- if (index .Values "modules" "reranker-transformers" "enabled") -}}
     {{ $modules = append $modules "reranker-transformers" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "reranker-voyageai" "enabled") -}}
+    {{ $modules = append $modules "reranker-voyageai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "reranker-jinaai" "enabled") -}}
+    {{ $modules = append $modules "reranker-jinaai" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "reranker-nvidia" "enabled") -}}
+    {{ $modules = append $modules "reranker-nvidia" }}
+  {{- end -}}
+  {{- if (index .Values "offload" "s3" "enabled") -}}
+    {{ $modules = append $modules "offload-s3" }}
   {{- end -}}
   {{- if (index .Values "backups" "filesystem" "enabled") -}}
     {{ $modules = append $modules "backup-filesystem" }}
@@ -85,6 +184,12 @@
   {{- end -}}
   {{- if (index .Values "backups" "gcs" "enabled") -}}
     {{ $modules = append $modules "backup-gcs" }}
+  {{- end -}}
+  {{- if (index .Values "usage" "gcs" "enabled") -}}
+    {{ $modules = append $modules "usage-gcs" }}
+  {{- end -}}
+  {{- if (index .Values "usage" "s3" "enabled") -}}
+    {{ $modules = append $modules "usage-s3" }}
   {{- end -}}
   {{- if (index .Values "backups" "azure" "enabled") -}}
     {{ $modules = append $modules "backup-azure" }}
@@ -96,7 +201,7 @@
 {{- end -}}
 
 
-{{/* 
+{{/*
 Return Image pull secret Names
 Usage:
 {{- include "image.pullSecrets" (dict "pullSecrets" path_to_image_pullSecrets) | nindent 6 }}
@@ -140,7 +245,7 @@ password: {{ randAlphaNum 32 | b64enc | quote }}
 {{- end -}}
 
 
-{{/* 
+{{/*
 Return PriorityClassName
 Usage:
 {{- include "pod.priorityClassName" ( dict "global" .Values.path.to.global.priorityClassName "priorityClassName" .Values.path.to.priorityClassName) | nindent 6 }}
@@ -156,5 +261,57 @@ Usage:
 
   {{- if (not (empty $priorityClassName)) -}}
     {{- printf "priorityClassName: %s" $priorityClassName -}}
+  {{- end -}}
+{{- end -}}
+
+
+{{/*
+Raft cluster configuration settings
+*/}}
+{{- define "raft_configuration" -}}
+  {{- $replicas := .Values.replicas | int -}}
+  {{- $voters := .Values.env.RAFT_BOOTSTRAP_EXPECT | int -}}
+  {{- $metada_only_voters := false -}}
+  {{- if not (empty .Values.env.RAFT_METADATA_ONLY_VOTERS) -}}
+    {{- $metada_only_voters = .Values.env.RAFT_METADATA_ONLY_VOTERS -}}
+  {{- end -}}
+  {{- if empty .Values.env.RAFT_BOOTSTRAP_EXPECT -}}
+    {{- if ge $replicas 10 -}}
+      {{- $voters = 5 -}}
+    {{- else if ge $replicas 3 -}}
+      {{- $voters = 3 -}}
+    {{- else -}}
+      {{- $voters = 1 -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt $voters $replicas  -}}
+    {{- fail "env.RAFT_BOOTSTRAP_EXPECT value cannot be greater than replicas value" -}}
+  {{- end -}}
+  {{- if empty .Values.env.RAFT_JOIN -}}
+    {{- $nodes := list -}}
+    {{- $pod_prefix := "weaviate" -}}
+    {{- range $i := until $voters -}}
+      {{- $node_name := list -}}
+      {{- $node_name = append $node_name $pod_prefix -}}
+      {{- $node_name = append $node_name $i -}}
+      {{- $nodes = append $nodes (join "-" $node_name) -}}
+    {{- end -}}
+          - name: RAFT_JOIN
+            value: "{{ join "," $nodes }}"
+  {{- else -}}
+    {{- $votersCount := len (split "," .Values.env.RAFT_JOIN) -}}
+    {{- if empty .Values.env.RAFT_BOOTSTRAP_EXPECT }}
+      {{- $voters = $votersCount -}}
+    {{- end -}}
+    {{- if not (eq $votersCount $voters)  -}}
+      {{- fail "env.RAFT_BOOTSTRAP_EXPECT value needs to be equal to number of env.RAFT_JOIN nodes" -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if empty .Values.env.RAFT_BOOTSTRAP_EXPECT }}
+          - name: RAFT_BOOTSTRAP_EXPECT
+            value: "{{ $voters }}"
+  {{- end -}}
+  {{- if and ($metada_only_voters) (le $replicas $voters) -}}
+    {{- fail "env.RAFT_METADATA_ONLY_VOTERS is true then .replicas size must be greater than env.RAFT_BOOTSTRAP_EXPECT" -}}
   {{- end -}}
 {{- end -}}

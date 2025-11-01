@@ -10,7 +10,7 @@ metadata:
     name: {{ index $module "fullnameOverride" }}
     app: {{ index $module "fullnameOverride" }}
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ index $module "replicas" }}
   strategy:
@@ -36,6 +36,11 @@ spec:
       - name: {{ index $module "fullnameOverride" }}
         image: {{ index $module "registry" }}/{{ index $module "repo" }}:{{ index $module "tag" }}
         imagePullPolicy: {{ index $module "imagePullPolicy" }}
+        {{- if index $module "envconfig" "use_sentence_transformers_multi_process" }}
+        volumeMounts:
+          - mountPath: /dev/shm
+            name: devshm
+        {{- end }}
         env:
           - name: ENABLE_CUDA
             value: "{{ if index $module "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
@@ -46,6 +51,14 @@ spec:
             value: {{ index $module "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index $module "envconfig" "ld_library_path"}}
+          {{- end }}
+          {{- if index $module "envconfig" "use_sentence_transformers_multi_process" }}
+          - name: USE_SENTENCE_TRANSFORMERS_MULTI_PROCESS
+            value: "{{ if index $module "envconfig" "use_sentence_transformers_multi_process" }}1{{ else }}0{{ end }}"
+          {{- end }}
+          {{- if index $module "envconfig" "enable_cache" }}
+          - name: ENABLE_CACHE
+            value: "{{ if index $module "envconfig" "enable_cache" }}1{{ else }}0{{ end }}"
           {{- end }}
         resources:
 {{ index $module "resources" | toYaml | indent 10 }}
@@ -82,6 +95,12 @@ spec:
       tolerations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+      {{- if index $module "envconfig" "use_sentence_transformers_multi_process" }}
+      volumes:
+        - name: devshm
+          emptyDir:
+            medium: Memory
+      {{- end }}
 ---
 apiVersion: v1
 kind: Service
@@ -89,7 +108,7 @@ metadata:
   name: {{ index $module "fullnameOverride" }}
   labels:
     app.kubernetes.io/name: weaviate
-    app.kubernetes.io/managed-by: helm
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: ClusterIP
   selector:
@@ -135,6 +154,11 @@ spec:
       - name: {{ index $passage "fullnameOverride" }}
         image: {{ index $passage "registry" }}/{{ index $passage "repo" }}:{{ index $passage "tag" }}
         imagePullPolicy: {{ index $passage "imagePullPolicy" }}
+        {{- if index $passage "envconfig" "use_sentence_transformers_multi_process" }}
+        volumeMounts:
+          - mountPath: /dev/shm
+            name: passagedevshm
+        {{- end }}
         env:
           - name: ENABLE_CUDA
             value: "{{ if index $passage "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
@@ -145,6 +169,14 @@ spec:
             value: {{ index $passage "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index $passage "envconfig" "ld_library_path"}}
+          {{- end }}
+          {{- if index $passage "envconfig" "use_sentence_transformers_multi_process" }}
+          - name: USE_SENTENCE_TRANSFORMERS_MULTI_PROCESS
+            value: "{{ if index $passage "envconfig" "use_sentence_transformers_multi_process" }}1{{ else }}0{{ end }}"
+          {{- end }}
+          {{- if index $passage "envconfig" "enable_cache" }}
+          - name: ENABLE_CACHE
+            value: "{{ if index $passage "envconfig" "enable_cache" }}1{{ else }}0{{ end }}"
           {{- end }}
         resources:
 {{ index $passage "resources" | toYaml | indent 10 }}
@@ -172,6 +204,12 @@ spec:
       {{- with index $passage "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if index $passage "envconfig" "use_sentence_transformers_multi_process" }}
+      volumes:
+        - name: passagedevshm
+          emptyDir:
+            medium: Memory
       {{- end }}
 ---
 apiVersion: v1
@@ -223,6 +261,11 @@ spec:
       - name: {{ index $query "fullnameOverride" }}
         image: {{ index $query "registry" }}/{{ index $query "repo" }}:{{ index $query "tag" }}
         imagePullPolicy: {{ index $query "imagePullPolicy" }}
+        {{- if index $query "envconfig" "use_sentence_transformers_multi_process" }}
+        volumeMounts:
+          - mountPath: /dev/shm
+            name: querydevshm
+        {{- end }}
         env:
           - name: ENABLE_CUDA
             value: "{{ if index $query "envconfig" "enable_cuda" }}1{{ else }}0{{ end }}"
@@ -233,6 +276,14 @@ spec:
             value: {{ index $query "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
             value: {{ index $query "envconfig" "ld_library_path"}}
+          {{- end }}
+          {{- if index $query "envconfig" "use_sentence_transformers_multi_process" }}
+          - name: USE_SENTENCE_TRANSFORMERS_MULTI_PROCESS
+            value: "{{ if index $query "envconfig" "use_sentence_transformers_multi_process" }}1{{ else }}0{{ end }}"
+          {{- end }}
+          {{- if index $query "envconfig" "enable_cache" }}
+          - name: ENABLE_CACHE
+            value: "{{ if index $query "envconfig" "enable_cache" }}1{{ else }}0{{ end }}"
           {{- end }}
         resources:
 {{ index $query "resources" | toYaml | indent 10 }}
@@ -260,6 +311,12 @@ spec:
       {{- with index $query "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if index $query "envconfig" "use_sentence_transformers_multi_process" }}
+      volumes:
+        - name: querydevshm
+          emptyDir:
+            medium: Memory
       {{- end }}
 ---
 apiVersion: v1
