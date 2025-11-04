@@ -1766,6 +1766,18 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The generative-contextualai module uses Contextual AI API
+  # More information about Contextual AI's API can be found here:
+  # https://docs.contextual.ai/api-reference/generate/generate
+  generative-contextualai:
+
+    # enable if you want to use contextualai generative module
+    enabled: false
+
+    # Set your Contextual AI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
@@ -1887,6 +1899,20 @@ modules:
     enabled: false
 
     # Set your NVIDIA API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The reranker-contextualai module uses Contextual AI API
+  # to dynamically compute a score for the relevance
+  # of the query with each of the initial search results.
+  # More information about Contextual AI's API can be found here:
+  # https://docs.api.nvidia.com/nim/reference/retrieval-apis
+  reranker-contextualai:
+
+    # enable if you want to use Contextual AI reranker module
+    enabled: false
+
+    # Set your Contextual AI API Key to be passed to Weaviate pod as
     # an environment variable
     apiKey: ''
 

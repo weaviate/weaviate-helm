@@ -65,6 +65,9 @@
   {{- if (index .Values "modules" "generative-nvidia" "enabled") -}}
     {{ $modules = append $modules "generative-nvidia" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-contextualai" "enabled") -}}
+    {{ $modules = append $modules "generative-contextualai" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
@@ -172,6 +175,9 @@
   {{- end -}}
   {{- if (index .Values "modules" "reranker-nvidia" "enabled") -}}
     {{ $modules = append $modules "reranker-nvidia" }}
+  {{- end -}}
+  {{- if (index .Values "modules" "reranker-contextualai" "enabled") -}}
+    {{ $modules = append $modules "reranker-contextualai" }}
   {{- end -}}
   {{- if (index .Values "offload" "s3" "enabled") -}}
     {{ $modules = append $modules "offload-s3" }}
