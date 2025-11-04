@@ -329,6 +329,13 @@ spec:
                 name: weaviate-xai
                 key: apiKey
           {{- end  }}
+          {{- if or (and (index .Values "modules" "generative-contextualai" "enabled") (index .Values "modules" "generative-contextualai" "apiKey")) (and (index .Values "modules" "reranker-contextualai" "enabled") (index .Values "modules" "reranker-contextualai" "apiKey")) }}
+          - name: CONTEXTUALAI_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-contextualai
+                key: apiKey
+          {{- end  }}
           {{- if and (index .Values "offload" "s3" "enabled") (index .Values "offload" "s3" "envconfig") }}
             {{- range $key, $value := index .Values "offload" "s3" "envconfig" }}
           - name: {{ $key }}
