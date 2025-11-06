@@ -18,8 +18,13 @@ spec:
   ports:
     {{- range .Values.service.ports }}
     - {{ toYaml . | indent 6 | trim }}
-      targetPort: 8080
     {{- end }}
+    {{- if .Values.serviceMonitor.enabled }}
+    - name: metrics
+      protocol: TCP
+      port: {{ .Values.env.PROMETHEUS_MONITORING_PORT }}
+      targetPort: {{ .Values.env.PROMETHEUS_MONITORING_PORT }}
+    {{ end }}
 {{ if eq .Values.service.type "ClusterIP" -}}
   {{ if .Values.service.clusterIP }}
   clusterIP: {{ .Values.service.clusterIP }}
