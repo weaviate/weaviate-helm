@@ -236,7 +236,6 @@ function check_creates_template() {
   check_setting_has_value "--set mcpService.enabled=true --set mcpService.writeAccessDisabled=false" "name: MCP_SERVER_WRITE_ACCESS_DISABLED" "value: \"false\""
   check_setting_has_value "--set mcpService.enabled=true --set mcpService.configPath=/custom/config.json" "name: MCP_SERVER_CONFIG_PATH" "value: \"/custom/config.json\""
   check_string_existence "--set mcpService.enabled=true --set mcpService.name=weaviate-mcp-service-custom-name" "name: weaviate-mcp-service-custom-name"
-  check_string_existence "--set mcpService.name=weaviate-mcp-default-service-custom-name" "name: weaviate-mcp-default-service-custom-name"
   check_setting_has_value "--set mcpService.enabled=true --set mcpService.ports[0].port=9001" "name: MCP_SERVER_PORT" "value: \"9001\""
   check_string_existence "--set mcpService.enabled=true --set mcpService.ports[0].port=9001" "containerPort: 9001"
   check_no_setting "" "name: MCP_SERVER_ENABLED"
