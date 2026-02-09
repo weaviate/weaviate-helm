@@ -160,6 +160,27 @@ grpcService:
   clusterIP:
   annotations: {}
 
+# The service controls how weaviate MCP endpoint is exposed to the outside world.
+# MCP (Model Context Protocol) allows LLM clients to interact with Weaviate.
+# This service is by default disabled. Set enabled to true to deploy the MCP service.
+mcpService:
+  enabled: false
+  name: weaviate-mcp
+  ports:
+    - name: mcp
+      protocol: TCP
+      port: 9000
+  type: ClusterIP
+  loadBalancerSourceRanges: []
+  clusterIP:
+  annotations: {}
+  # Write access allows MCP clients to create/update objects.
+  # Disabled by default for safety.
+  writeAccessDisabled: true
+  # Path to a JSON or YAML config file inside the container for custom tool descriptions.
+  # Users must mount the file themselves (e.g. via extraVolumes/extraVolumeMounts or a ConfigMap).
+  configPath: ""
+
 # The service monitor defines prometheus monitoring for a set of services
 # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.ServiceMonitor
 # Make sure to set the following prometheus values if deploying observability with the kube-prometheus-stack helm chart:
