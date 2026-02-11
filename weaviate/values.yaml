@@ -177,9 +177,20 @@ mcpService:
   # Write access allows MCP clients to create/update objects.
   # Disabled by default for safety.
   writeAccessDisabled: true
-  # Path to a JSON or YAML config file inside the container for custom tool descriptions.
-  # Users must mount the file themselves (e.g. via extraVolumes/extraVolumeMounts or a ConfigMap).
-  configPath: ""
+  # Custom MCP server configuration for tool descriptions.
+  # When set, a ConfigMap is created and mounted automatically.
+  # Example:
+  # config:
+  #   tools:
+  #     weaviate-collections-get-config:
+  #       description: "Retrieves the schema configuration for one or all collections in the Weaviate database."
+  #     weaviate-tenants-list:
+  #       description: "Lists all tenants for a specific multi-tenant collection."
+  #     weaviate-query-hybrid:
+  #       description: "Performs a hybrid search combining vector similarity and keyword matching (BM25) on a collection."
+  #     weaviate-objects-upsert:
+  #       description: "Upserts (inserts or updates) one or more objects into a collection in batch."
+  config:
 
 # The service monitor defines prometheus monitoring for a set of services
 # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.ServiceMonitor

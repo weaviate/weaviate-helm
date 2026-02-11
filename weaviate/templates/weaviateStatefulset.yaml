@@ -492,9 +492,9 @@ spec:
             value: {{ (index .Values.mcpService.ports 0).port | quote }}
           - name: MCP_SERVER_WRITE_ACCESS_DISABLED
             value: {{ .Values.mcpService.writeAccessDisabled | quote }}
-          {{- if .Values.mcpService.configPath }}
+          {{- if .Values.mcpService.config }}
           - name: MCP_SERVER_CONFIG_PATH
-            value: {{ .Values.mcpService.configPath | quote }}
+            value: "/mcp-config/mcp-config.yaml"
           {{- end }}
           {{- end }}
           - name: CLUSTER_JOIN
@@ -524,6 +524,10 @@ spec:
           {{- if .Values.runtime_overrides.enabled }}
           - name: weaviate-runtime-overrides
             mountPath: /config
+          {{- end }}
+          {{- if and .Values.mcpService.enabled .Values.mcpService.config }}
+          - name: weaviate-mcp-config
+            mountPath: /mcp-config
           {{- end }}
           {{- if index .Values "backups" "gcs" "enabled" }}
             {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
@@ -576,6 +580,11 @@ spec:
         - name: weaviate-runtime-overrides
           configMap:
             name: weaviate-runtime-overrides
+        {{- end }}
+        {{- if and .Values.mcpService.enabled .Values.mcpService.config }}
+        - name: weaviate-mcp-config
+          configMap:
+            name: weaviate-mcp-config
         {{- end }}
         - name: weaviate-config
           configMap:
