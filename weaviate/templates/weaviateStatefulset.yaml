@@ -490,8 +490,8 @@ spec:
             value: "true"
           - name: MCP_SERVER_PORT
             value: {{ (index .Values.mcpService.ports 0).port | quote }}
-          - name: MCP_SERVER_WRITE_ACCESS_DISABLED
-            value: {{ .Values.mcpService.writeAccessDisabled | quote }}
+          - name: MCP_SERVER_WRITE_ACCESS_ENABLED
+            value: {{ .Values.mcpService.writeAccessEnabled | quote }}
           {{- if .Values.mcpService.config }}
           - name: MCP_SERVER_CONFIG_PATH
             value: "/mcp-config/mcp-config.yaml"
