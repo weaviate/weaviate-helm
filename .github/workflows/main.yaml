@@ -37,7 +37,7 @@ jobs:
       - name: Pull Docker image
         run: docker pull ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }}
       - name: Run Trivy vulnerability scanner for the built image
-        uses: aquasecurity/trivy-action@0.27.0
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: '${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }}'
           exit-code: '1'
