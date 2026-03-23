@@ -176,7 +176,7 @@ mcpService:
   annotations: {}
   # Write access allows MCP clients to create/update objects.
   # Disabled by default for safety.
-  writeAccessEnabled: true
+  writeAccessEnabled: false
   # Custom MCP server configuration for tool descriptions.
   # When set, a ConfigMap is created and mounted automatically.
   # Example:

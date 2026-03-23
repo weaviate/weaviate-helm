@@ -232,8 +232,8 @@ function check_creates_template() {
   check_string_existence "--set mcpService.enabled=true" "name: MCP_SERVER_ENABLED"
   check_setting_has_value "--set mcpService.enabled=true" "name: MCP_SERVER_ENABLED" "value: \"true\""
   check_setting_has_value "--set mcpService.enabled=true" "name: MCP_SERVER_PORT" "value: \"9000\""
-  check_setting_has_value "--set mcpService.enabled=true" "name: MCP_SERVER_WRITE_ACCESS_ENABLED" "value: \"true\""
-  check_setting_has_value "--set mcpService.enabled=true --set mcpService.writeAccessEnabled=false" "name: MCP_SERVER_WRITE_ACCESS_ENABLED" "value: \"false\""
+  check_setting_has_value "--set mcpService.enabled=true" "name: MCP_SERVER_WRITE_ACCESS_ENABLED" "value: \"false\""
+  check_setting_has_value "--set mcpService.enabled=true --set mcpService.writeAccessEnabled=true" "name: MCP_SERVER_WRITE_ACCESS_ENABLED" "value: \"true\""
   check_string_existence "--set mcpService.enabled=true --set mcpService.name=weaviate-mcp-service-custom-name" "name: weaviate-mcp-service-custom-name"
   # MCP config tests
   check_setting_has_value "--set mcpService.enabled=true --set mcpService.config.tools.test-tool.description=test-description" "name: MCP_SERVER_CONFIG_PATH" "value: \"/mcp-config/mcp-config.yaml\""
