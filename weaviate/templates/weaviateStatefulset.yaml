@@ -488,8 +488,6 @@ spec:
           {{- if .Values.mcpService.enabled }}
           - name: MCP_SERVER_ENABLED
             value: "true"
-          - name: MCP_SERVER_PORT
-            value: {{ (index .Values.mcpService.ports 0).port | quote }}
           - name: MCP_SERVER_WRITE_ACCESS_ENABLED
             value: {{ .Values.mcpService.writeAccessEnabled | quote }}
           {{- if .Values.mcpService.config }}
@@ -509,11 +507,6 @@ spec:
           {{ if .Values.grpcService.enabled }}
           - name: grpc
             containerPort: 50051
-            protocol: TCP
-          {{- end }}
-          {{- if .Values.mcpService.enabled }}
-          - name: mcp
-            containerPort: {{ (index .Values.mcpService.ports 0).port }}
             protocol: TCP
           {{- end }}
         volumeMounts:
