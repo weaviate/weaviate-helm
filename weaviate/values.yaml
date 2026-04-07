@@ -163,7 +163,7 @@ grpcService:
 # MCP (Model Context Protocol) allows LLM clients to interact with Weaviate.
 # MCP is served on the main REST port at /v1/mcp, no separate port is needed.
 # This is by default disabled. Set enabled to true to enable the MCP server.
-mcpService:
+mcp:
   enabled: false
   # Write access allows MCP clients to create/update objects.
   # Disabled by default for safety.

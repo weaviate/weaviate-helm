@@ -1,4 +1,4 @@
-{{- if and .Values.mcpService.enabled .Values.mcpService.config }}
+{{- if and .Values.mcp.enabled .Values.mcp.config }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,5 +8,5 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
   mcp-config.yaml: |-
-    {{ .Values.mcpService.config | toYaml | nindent 4 }}
+    {{ .Values.mcp.config | toYaml | nindent 4 }}
 {{- end }}

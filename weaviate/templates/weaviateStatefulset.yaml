@@ -485,12 +485,12 @@ spec:
               {{- end }}
             {{- end }}
           {{- end  }}
-          {{- if .Values.mcpService.enabled }}
+          {{- if .Values.mcp.enabled }}
           - name: MCP_SERVER_ENABLED
             value: "true"
           - name: MCP_SERVER_WRITE_ACCESS_ENABLED
-            value: {{ .Values.mcpService.writeAccessEnabled | quote }}
-          {{- if .Values.mcpService.config }}
+            value: {{ .Values.mcp.writeAccessEnabled | default false | quote }}
+          {{- if .Values.mcp.config }}
           - name: MCP_SERVER_CONFIG_PATH
             value: "/mcp-config/mcp-config.yaml"
           {{- end }}
@@ -518,7 +518,7 @@ spec:
           - name: weaviate-runtime-overrides
             mountPath: /config
           {{- end }}
-          {{- if and .Values.mcpService.enabled .Values.mcpService.config }}
+          {{- if and .Values.mcp.enabled .Values.mcp.config }}
           - name: weaviate-mcp-config
             mountPath: /mcp-config
           {{- end }}
@@ -574,7 +574,7 @@ spec:
           configMap:
             name: weaviate-runtime-overrides
         {{- end }}
-        {{- if and .Values.mcpService.enabled .Values.mcpService.config }}
+        {{- if and .Values.mcp.enabled .Values.mcp.config }}
         - name: weaviate-mcp-config
           configMap:
             name: weaviate-mcp-config
