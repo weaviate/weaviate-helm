@@ -441,6 +441,8 @@ function check_creates_template() {
   check_setting_has_value "--set collectionExport.enabled=true" "name: EXPORT_ENABLED" "value: \"true\""
   check_setting_has_value "--set collectionExport.enabled=true" "name: EXPORT_DEFAULT_BUCKET" "value: \"weaviate-export\""
   check_setting_has_value "--set collectionExport.enabled=true --set collectionExport.envconfig.EXPORT_DEFAULT_BUCKET=my-custom-bucket" "name: EXPORT_DEFAULT_BUCKET" "value: \"my-custom-bucket\""
+  check_no_setting "--set collectionExport.enabled=true" "name: EXPORT_DEFAULT_PATH"
+  check_setting_has_value "--set collectionExport.enabled=true --set collectionExport.envconfig.EXPORT_DEFAULT_PATH=path/inside/bucket" "name: EXPORT_DEFAULT_PATH" "value: \"path/inside/bucket\""
 
   echo "Tests successful."
 )

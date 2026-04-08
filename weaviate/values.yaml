@@ -615,6 +615,10 @@ collectionExport:
     # The bucket must exist before enabling collection export, otherwise exports will fail.
     EXPORT_DEFAULT_BUCKET: weaviate-export
 
+    # Optional setting. Defaults to empty string.
+    # Set this option if you want to save exports to a given path inside the bucket.
+    # EXPORT_DEFAULT_PATH: path/inside/bucket
+
 # modules are extensions to Weaviate, they can be used to support various
 # ML-models, but also other features unrelated to model inference.
 # An inference/vectorizer module is not required, you can also run without any
