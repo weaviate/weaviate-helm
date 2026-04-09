@@ -494,6 +494,7 @@ spec:
           - name: MCP_SERVER_CONFIG_PATH
             value: "/mcp-config/mcp-config.yaml"
           {{- end }}
+          {{- end }}
           {{- if index .Values "collectionExport" "enabled" }}
           - name: EXPORT_ENABLED
             value: "true"

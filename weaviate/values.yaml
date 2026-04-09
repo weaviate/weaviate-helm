@@ -615,9 +615,13 @@ collectionExport:
     # The bucket must exist before enabling collection export, otherwise exports will fail.
     EXPORT_DEFAULT_BUCKET: weaviate-export
 
-    # Optional setting. Defaults to empty string.
-    # Set this option if you want to save exports to a given path inside the bucket.
-    # EXPORT_DEFAULT_PATH: path/inside/bucket
+    # Required setting. Bucket path in which to save exports. Defaults to empty string.
+    # Set this option if you want to save exports to a given path inside the bucket. Must be a valid bucket path.
+    EXPORT_DEFAULT_PATH: ""
+
+    # Optional setting. Defaults to 0 (GOMAXPROCS at runtime).
+    # Set this option to control the number of concurrent scan workers per export.
+    # EXPORT_PARALLELISM: 0
 
 # modules are extensions to Weaviate, they can be used to support various
 # ML-models, but also other features unrelated to model inference.
