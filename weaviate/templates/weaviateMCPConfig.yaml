@@ -1,0 +1,12 @@
+{{- if and .Values.mcp.enabled .Values.mcp.config }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: weaviate-mcp-config
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  mcp-config.yaml: |-
+    {{ .Values.mcp.config | toYaml | nindent 4 }}
+{{- end }}

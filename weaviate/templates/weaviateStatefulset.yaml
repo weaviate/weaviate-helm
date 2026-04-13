@@ -485,6 +485,16 @@ spec:
               {{- end }}
             {{- end }}
           {{- end  }}
+          {{- if .Values.mcp.enabled }}
+          - name: MCP_SERVER_ENABLED
+            value: "true"
+          - name: MCP_SERVER_WRITE_ACCESS_ENABLED
+            value: {{ .Values.mcp.writeAccessEnabled | default false | quote }}
+          {{- if .Values.mcp.config }}
+          - name: MCP_SERVER_CONFIG_PATH
+            value: "/mcp-config/mcp-config.yaml"
+          {{- end }}
+          {{- end }}
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
         ports:
@@ -507,6 +517,10 @@ spec:
           {{- if .Values.runtime_overrides.enabled }}
           - name: weaviate-runtime-overrides
             mountPath: /config
+          {{- end }}
+          {{- if and .Values.mcp.enabled .Values.mcp.config }}
+          - name: weaviate-mcp-config
+            mountPath: /mcp-config
           {{- end }}
           {{- if index .Values "backups" "gcs" "enabled" }}
             {{- if or (index .Values "backups" "gcs" "secrets") (index .Values "backups" "gcs" "envSecrets") }}
@@ -559,6 +573,11 @@ spec:
         - name: weaviate-runtime-overrides
           configMap:
             name: weaviate-runtime-overrides
+        {{- end }}
+        {{- if and .Values.mcp.enabled .Values.mcp.config }}
+        - name: weaviate-mcp-config
+          configMap:
+            name: weaviate-mcp-config
         {{- end }}
         - name: weaviate-config
           configMap:
