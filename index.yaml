@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   weaviate:
   - apiVersion: v2
+    appVersion: 1.37.0
+    created: "2026-04-16T15:27:09.428846764Z"
+    description: A Helm Chart to run Weaviate with all dependencies
+    digest: e66093b4e707636dd4ee1e6663e6f0cc2998ca1762ff05526bb259968a4d31f5
+    home: https://github.com/weaviate/weaviate
+    icon: https://raw.githubusercontent.com/weaviate/weaviate/19de0956c69b66c5552447e84d016f4fe29d12c9/docs/assets/weaviate-logo.png
+    name: weaviate
+    type: application
+    urls:
+    - https://weaviate.github.io/weaviate-helm/weaviate-17.8.0.tgz
+    version: 17.8.0
+  - apiVersion: v2
     appVersion: 1.36.5
     created: "2026-03-13T08:37:28.728055132Z"
     description: A Helm Chart to run Weaviate with all dependencies
@@ -625,4 +637,4 @@ entries:
     urls:
     - https://weaviate.github.io/weaviate-helm/weaviate-14.4.0.tgz
     version: 14.4.0
-generated: "2026-03-13T08:37:28.724438491Z"
+generated: "2026-04-16T15:27:09.424930327Z"
