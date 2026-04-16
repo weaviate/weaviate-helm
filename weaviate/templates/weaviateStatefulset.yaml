@@ -495,6 +495,16 @@ spec:
             value: "/mcp-config/mcp-config.yaml"
           {{- end }}
           {{- end }}
+          {{- if index .Values "collectionExport" "enabled" }}
+          - name: EXPORT_ENABLED
+            value: "true"
+            {{- if index .Values "collectionExport" "envconfig" }}
+              {{- range $key, $value := index .Values "collectionExport" "envconfig" }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
         ports:

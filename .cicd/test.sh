@@ -357,12 +357,12 @@ function check_creates_template() {
   check_setting_has_value "--set replicas=9 --set env.RAFT_METADATA_ONLY_VOTERS=true" "name: RAFT_METADATA_ONLY_VOTERS" "value: \"true\""
   check_setting_has_value "--set replicas=3 --set env.RAFT_METADATA_ONLY_VOTERS=false" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""
 
-  _settingPassageQueryOn="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
+  _settingPassageQueryOn="--namespace default --set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.passageQueryServices.passage.enabled=true --set modules.text2vec-transformers.passageQueryServices.query.enabled=true"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_PASSAGE_INFERENCE_API" "value: http://transformers-inference-passage.default.svc.cluster.local.:8080"
   check_setting_has_value "$_settingPassageQueryOn" "name: TRANSFORMERS_QUERY_INFERENCE_API" "value: http://transformers-inference-query.default.svc.cluster.local.:8080"
   check_no_setting "$_settingPassageQueryOn" "name: TRANSFORMERS_INFERENCE_API"
 
-  _settingPassageQueryOff="--set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.enabled=true"
+  _settingPassageQueryOff="--namespace default --set modules.text2vec-contextionary.enabled=false --set modules.text2vec-transformers.enabled=true"
   check_setting_has_value "$_settingPassageQueryOff" "name: TRANSFORMERS_INFERENCE_API" "value: http://transformers-inference.default.svc.cluster.local.:8080"
   check_no_setting "$_settingPassageQueryOff" "name: TRANSFORMERS_PASSAGE_INFERENCE_API"
   check_no_setting "$_settingPassageQueryOff" "name: TRANSFORMERS_QUERY_INFERENCE_API"
@@ -434,6 +434,18 @@ function check_creates_template() {
   check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "exec:"
   check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "command:"
   check_string_existence "--set readinessProbe.probeType=exec --set readinessProbe.probe.exec.command={test-probe-cmd}" "test-probe-cmd"
+
+  # Collection export tests
+  check_no_setting "" "name: EXPORT_ENABLED"
+  check_no_setting "" "name: EXPORT_DEFAULT_BUCKET"
+  check_no_setting "" "name: EXPORT_DEFAULT_PATH"
+  check_setting_has_value "--set collectionExport.enabled=true" "name: EXPORT_ENABLED" "value: \"true\""
+  check_setting_has_value "--set collectionExport.enabled=true" "name: EXPORT_DEFAULT_BUCKET" "value: \"weaviate-export\""
+  check_setting_has_value "--set collectionExport.enabled=true --set collectionExport.envconfig.EXPORT_DEFAULT_BUCKET=my-custom-bucket" "name: EXPORT_DEFAULT_BUCKET" "value: \"my-custom-bucket\""
+  check_setting_has_value "--set collectionExport.enabled=true" "name: EXPORT_DEFAULT_PATH" "value: \"\""
+  check_setting_has_value "--set collectionExport.enabled=true --set collectionExport.envconfig.EXPORT_DEFAULT_PATH=path/inside/bucket" "name: EXPORT_DEFAULT_PATH" "value: \"path/inside/bucket\""
+  check_no_setting "--set collectionExport.enabled=true" "name: EXPORT_PARALLELISM"
+  check_setting_has_value "--set collectionExport.enabled=true --set collectionExport.envconfig.EXPORT_PARALLELISM=4" "name: EXPORT_PARALLELISM" "value: \"4\""
 
   echo "Tests successful."
 )

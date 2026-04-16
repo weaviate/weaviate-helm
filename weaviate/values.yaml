@@ -607,6 +607,22 @@ backups:
     #   AZURE_STORAGE_CONNECTION_STRING: name-of-the-k8s-secret-containing-connection-string
 
 
+# Configure collection export
+collectionExport:
+  enabled: false
+  envconfig:
+    # Configure bucket where exports should be saved, this setting is mandatory.
+    # The bucket must exist before enabling collection export, otherwise exports will fail.
+    EXPORT_DEFAULT_BUCKET: weaviate-export
+
+    # Required setting. Bucket path in which to save exports. Defaults to empty string.
+    # Set this option if you want to save exports to a given path inside the bucket. Must be a valid bucket path.
+    EXPORT_DEFAULT_PATH: ""
+
+    # Optional setting. Defaults to 0 (GOMAXPROCS at runtime).
+    # Set this option to control the number of concurrent scan workers per export.
+    # EXPORT_PARALLELISM: 0
+
 # modules are extensions to Weaviate, they can be used to support various
 # ML-models, but also other features unrelated to model inference.
 # An inference/vectorizer module is not required, you can also run without any
