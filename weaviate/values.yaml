@@ -1056,7 +1056,18 @@ modules:
     # an environment variable. You can set either the OpenAI's Service API key
     # OR the Azure OpenAI's Service Key. Note that you cannot set both of the at the same time.
     apiKey: ''
+    # Use an existing Kubernetes secret for OpenAI API key instead of `apiKey`.
+    # If set, the chart will not create `weaviate-openai` for this key.
+    apiKeySecretName: ''
+    # Secret key inside `apiKeySecretName`.
+    apiKeySecretKey: 'apiKey'
+
     azureApiKey: ''
+    # Use an existing Kubernetes secret for Azure OpenAI API key instead of `azureApiKey`.
+    # If set, the chart will not create `weaviate-openai` for this key.
+    azureApiKeySecretName: ''
+    # Secret key inside `azureApiKeySecretName`.
+    azureApiKeySecretKey: 'apiKey'
 
   # The text2vec-huggingface module uses HuggingFace API
   # to dynamically compute vector embeddings based on the
@@ -1619,7 +1630,18 @@ modules:
     # an environment variable. You can set either the OpenAI's Service API key
     # OR the Azure OpenAI's Service Key. Note that you cannot set both of the at the same time.
     apiKey: ''
+    # Use an existing Kubernetes secret for OpenAI API key instead of `apiKey`.
+    # If set, the chart will not create `weaviate-openai` for this key.
+    apiKeySecretName: ''
+    # Secret key inside `apiKeySecretName`.
+    apiKeySecretKey: 'apiKey'
+
     azureApiKey: ''
+    # Use an existing Kubernetes secret for Azure OpenAI API key instead of `azureApiKey`.
+    # If set, the chart will not create `weaviate-openai` for this key.
+    azureApiKeySecretName: ''
+    # Secret key inside `azureApiKeySecretName`.
+    azureApiKeySecretKey: 'apiKey'
 
   # The generative-openai module uses OpenAI Completions API
   # along with text-davinci-003 model to behave as ChatGPT.
@@ -1634,7 +1656,18 @@ modules:
     # an environment variable. You can set either the OpenAI's Service API key
     # OR the Azure OpenAI's Service Key. Note that you cannot set both of the at the same time.
     apiKey: ''
+    # Use an existing Kubernetes secret for OpenAI API key instead of `apiKey`.
+    # If set, the chart will not create `weaviate-openai` for this key.
+    apiKeySecretName: ''
+    # Secret key inside `apiKeySecretName`.
+    apiKeySecretKey: 'apiKey'
+
     azureApiKey: ''
+    # Use an existing Kubernetes secret for Azure OpenAI API key instead of `azureApiKey`.
+    # If set, the chart will not create `weaviate-openai` for this key.
+    azureApiKeySecretName: ''
+    # Secret key inside `azureApiKeySecretName`.
+    azureApiKeySecretKey: 'apiKey'
 
   # The generative-cohere module uses Cohere Generate API
   # More information about Cohere's Generate API can be found here:
