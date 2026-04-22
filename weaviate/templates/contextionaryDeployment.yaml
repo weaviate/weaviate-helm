@@ -3,6 +3,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  {{- if .Values.namespaceOverride }}
+  namespace: {{ .Values.namespaceOverride }}
+  {{- end }}
   name: {{ index $module "fullnameOverride" }}
   labels:
     name: {{ index $module "fullnameOverride" }}
@@ -42,7 +45,7 @@ spec:
           - name: EXTENSIONS_STORAGE_MODE
             value: {{ index $module "envconfig" "extensions_storage_mode" | quote }}
           - name: EXTENSIONS_STORAGE_ORIGIN
-            value: http://{{ .Values.service.name }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
+            value: http://{{ .Values.service.name }}.{{ include "weaviate.namespace" . }}.svc.{{ .Values.clusterDomain }}
           - name: NEIGHBOR_OCCURRENCE_IGNORE_PERCENTILE
             value: {{ index $module "envconfig" "neighbor_occurrence_ignore_percentile" | quote }}
           - name: ENABLE_COMPOUND_SPLITTING
@@ -76,6 +79,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  {{- if .Values.namespaceOverride }}
+  namespace: {{ .Values.namespaceOverride }}
+  {{- end }}
   name: {{ index $module "fullnameOverride" }}
   labels:
     app.kubernetes.io/name: weaviate
