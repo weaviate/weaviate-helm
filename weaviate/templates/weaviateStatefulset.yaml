@@ -210,19 +210,41 @@ spec:
           - name: RERANKER_INFERENCE_API
             value: {{ index .Values "modules" "reranker-transformers" "inferenceUrl" }}
           {{- end }}
-          {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "apiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "apiKey")) }}
+          {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey")) (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKeySecretName")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "apiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "apiKeySecretName")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "apiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "apiKeySecretName")) }}
           - name: OPENAI_APIKEY
             valueFrom:
               secretKeyRef:
+                {{- if and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKeySecretName") }}
+                name: {{ index .Values "modules" "text2vec-openai" "apiKeySecretName" }}
+                key: {{ default "apiKey" (index .Values "modules" "text2vec-openai" "apiKeySecretKey") }}
+                {{- else if and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "apiKeySecretName") }}
+                name: {{ index .Values "modules" "qna-openai" "apiKeySecretName" }}
+                key: {{ default "apiKey" (index .Values "modules" "qna-openai" "apiKeySecretKey") }}
+                {{- else if and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "apiKeySecretName") }}
+                name: {{ index .Values "modules" "generative-openai" "apiKeySecretName" }}
+                key: {{ default "apiKey" (index .Values "modules" "generative-openai" "apiKeySecretKey") }}
+                {{- else }}
                 name: weaviate-openai
                 key: apiKey
+                {{- end }}
           {{- end  }}
-          {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "azureApiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "azureApiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "azureApiKey")) }}
+          {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "azureApiKey")) (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "azureApiKeySecretName")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "azureApiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "azureApiKeySecretName")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "azureApiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "azureApiKeySecretName")) }}
           - name: AZURE_APIKEY
             valueFrom:
               secretKeyRef:
+                {{- if and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "azureApiKeySecretName") }}
+                name: {{ index .Values "modules" "text2vec-openai" "azureApiKeySecretName" }}
+                key: {{ default "apiKey" (index .Values "modules" "text2vec-openai" "azureApiKeySecretKey") }}
+                {{- else if and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "azureApiKeySecretName") }}
+                name: {{ index .Values "modules" "qna-openai" "azureApiKeySecretName" }}
+                key: {{ default "apiKey" (index .Values "modules" "qna-openai" "azureApiKeySecretKey") }}
+                {{- else if and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "azureApiKeySecretName") }}
+                name: {{ index .Values "modules" "generative-openai" "azureApiKeySecretName" }}
+                key: {{ default "apiKey" (index .Values "modules" "generative-openai" "azureApiKeySecretKey") }}
+                {{- else }}
                 name: weaviate-openai
                 key: apiKey
+                {{- end }}
           {{- end  }}
           {{- if and (index .Values "modules" "text2vec-huggingface" "enabled") (index .Values "modules" "text2vec-huggingface" "apiKey") }}
           - name: HUGGINGFACE_APIKEY
