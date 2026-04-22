@@ -296,6 +296,14 @@ query_defaults:
   limit: 100
 debug: false
 
+clusterApi:
+  basicAuth:
+    secret:
+      # Set to false when the Secret is created/managed externally (for example via a secrets operator).
+      create: true
+      # Existing Secret name to read CLUSTER_BASIC_AUTH_USERNAME/CLUSTER_BASIC_AUTH_PASSWORD from.
+      name: weaviate-cluster-api-basic-auth
+
 
 # Insert any custom environment variables or envSecrets by putting the exact name
 # and desired value into the settings below. Any env name passed will be automatically
