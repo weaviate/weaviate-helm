@@ -240,14 +240,14 @@ Cluster API Secrets
 {{/*
    Reusing value of secret if exist
 */}}
-username: {{ $secret.data.username }}
-password: {{ $secret.data.password }}
+{{ .Values.clusterApi.basicAuth.secret.usernameKey }}: {{ $secret.data.username }}
+{{ .Values.clusterApi.basicAuth.secret.passwordKey }}: {{ $secret.data.password }}
 {{- else -}}
 {{/*
     add new data
 */}}
-username: {{ randAlphaNum 32 | b64enc | quote }}
-password: {{ randAlphaNum 32 | b64enc | quote }}
+{{ .Values.clusterApi.basicAuth.secret.usernameKey }}: {{ randAlphaNum 32 | b64enc | quote }}
+{{ .Values.clusterApi.basicAuth.secret.passwordKey }}: {{ randAlphaNum 32 | b64enc | quote }}
 {{- end -}}
 {{- end -}}
 

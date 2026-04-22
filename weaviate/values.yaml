@@ -303,7 +303,8 @@ clusterApi:
       create: true
       # Existing Secret name to read CLUSTER_BASIC_AUTH_USERNAME/CLUSTER_BASIC_AUTH_PASSWORD from.
       name: weaviate-cluster-api-basic-auth
-
+      usernameKey: username
+      passwordKey: password
 
 # Insert any custom environment variables or envSecrets by putting the exact name
 # and desired value into the settings below. Any env name passed will be automatically
