@@ -301,6 +301,13 @@ spec:
                 name: weaviate-morph
                 key: apiKey
           {{- end  }}
+          {{- if and (index .Values "modules" "text2vec-digitalocean" "enabled") (index .Values "modules" "text2vec-digitalocean" "apiKey") }}
+          - name: DIGITALOCEAN_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-digitalocean
+                key: apiKey
+          {{- end  }}
           {{- if and (index .Values "modules" "generative-friendliai" "enabled") (index .Values "modules" "generative-friendliai" "token") }}
           - name: FRIENDLI_TOKEN
             valueFrom:

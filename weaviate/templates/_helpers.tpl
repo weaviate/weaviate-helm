@@ -152,6 +152,9 @@
   {{- if (index .Values "modules" "text2vec-morph" "enabled") -}}
     {{ $modules = append $modules "text2vec-morph" }}
   {{- end -}}
+  {{- if (index .Values "modules" "text2vec-digitalocean" "enabled") -}}
+    {{ $modules = append $modules "text2vec-digitalocean" }}
+  {{- end -}}
   {{- if (index .Values "modules" "ref2vec-centroid" "enabled") -}}
     {{ $modules = append $modules "ref2vec-centroid" }}
   {{- end -}}
