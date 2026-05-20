@@ -274,6 +274,9 @@ authentication:
     # username_claim: ''
     # groups_claim: ''
     # client_id: ''
+    # skip_client_id_check: false
+    # namespace_claim: ''
+    # global_principal_claim: ''
 
 authorization:
   rbac:
@@ -296,6 +299,9 @@ query_defaults:
   limit: 100
 debug: false
 
+# Enable namespaces support in the weaviate cluster. Once enabled, the cluster can't be migrated to a non-namespaced cluster and vice versa.
+namespaces:
+  enabled: false
 
 # Insert any custom environment variables or envSecrets by putting the exact name
 # and desired value into the settings below. Any env name passed will be automatically

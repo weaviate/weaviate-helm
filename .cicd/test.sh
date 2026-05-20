@@ -450,5 +450,28 @@ function check_creates_template() {
   check_no_setting "--set collectionExport.enabled=true" "name: EXPORT_PARALLELISM"
   check_setting_has_value "--set collectionExport.enabled=true --set collectionExport.envconfig.EXPORT_PARALLELISM=4" "name: EXPORT_PARALLELISM" "value: \"4\""
 
+  # Namespaces feature tests
+  # Default (namespaces disabled): neither NAMESPACES_ENABLED nor DISABLE_GRAPHQL should be templated.
+  check_no_setting "" "name: NAMESPACES_ENABLED"
+  check_no_setting "" "name: DISABLE_GRAPHQL"
+  check_no_setting "--set namespaces.enabled=false" "name: NAMESPACES_ENABLED"
+  check_no_setting "--set namespaces.enabled=false" "name: DISABLE_GRAPHQL"
+  # Namespaces enabled: flag emits both required envs.
+  check_setting_has_value "--set namespaces.enabled=true" "name: NAMESPACES_ENABLED" "value: \"true\""
+  check_setting_has_value "--set namespaces.enabled=true" "name: DISABLE_GRAPHQL" "value: \"true\""
+  # Namespaces enabled end-to-end: flag + apikey + RBAC (configured via the chart's
+  # authentication/authorization values) must render cleanly together.
+  _settingNamespacesFull="--set namespaces.enabled=true --set authentication.apikey.enabled=true --set authentication.apikey.allowed_keys[0]=admin-key --set authentication.apikey.users[0]=admin --set authorization.rbac.enabled=true --set authorization.rbac.root_users[0]=admin"
+  check_setting_has_value "$_settingNamespacesFull" "name: NAMESPACES_ENABLED" "value: \"true\""
+  check_setting_has_value "$_settingNamespacesFull" "name: DISABLE_GRAPHQL" "value: \"true\""
+  check_string_existence "$_settingNamespacesFull" "allowed_keys:"
+  check_string_existence "$_settingNamespacesFull" "admin-key"
+  check_string_existence "$_settingNamespacesFull" "root_users:"
+  # OIDC namespace/global principal claims must propagate to the weaviate-config ConfigMap when set.
+  _settingOidcClaims="--set authentication.oidc.namespace_claim=weaviate_namespace --set authentication.oidc.global_principal_claim=weaviate_global --set authentication.oidc.skip_client_id_check=true"
+  check_string_existence "$_settingOidcClaims" "namespace_claim: weaviate_namespace"
+  check_string_existence "$_settingOidcClaims" "global_principal_claim: weaviate_global"
+  check_string_existence "$_settingOidcClaims" "skip_client_id_check: true"
+
   echo "Tests successful."
 )
