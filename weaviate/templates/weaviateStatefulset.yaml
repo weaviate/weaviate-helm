@@ -512,6 +512,14 @@ spec:
               {{- end }}
             {{- end }}
           {{- end }}
+          {{- if index .Values "namespaces" "enabled" }}
+          - name: NAMESPACES_ENABLED
+            value: "true"
+          - name: DISABLE_GRAPHQL
+            value: "true"
+          - name: REPLICATION_MAXIMUM_FACTOR
+            value: "1"
+          {{- end }}
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
         ports:
