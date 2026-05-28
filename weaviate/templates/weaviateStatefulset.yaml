@@ -517,6 +517,8 @@ spec:
             value: "true"
           - name: DISABLE_GRAPHQL
             value: "true"
+          - name: REPLICATION_MAXIMUM_FACTOR
+            value: "1"
           {{- end }}
           - name: CLUSTER_JOIN
             value: {{ .Values.service.name }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}

@@ -451,19 +451,28 @@ function check_creates_template() {
   check_setting_has_value "--set collectionExport.enabled=true --set collectionExport.envconfig.EXPORT_PARALLELISM=4" "name: EXPORT_PARALLELISM" "value: \"4\""
 
   # Namespaces feature tests
-  # Default (namespaces disabled): neither NAMESPACES_ENABLED nor DISABLE_GRAPHQL should be templated.
+  # Default (namespaces disabled): none of the namespaces-coupled envs should be templated.
+  # REPLICATION_MAXIMUM_FACTOR is only forced by the namespaces block, so it must be absent by default.
   check_no_setting "" "name: NAMESPACES_ENABLED"
   check_no_setting "" "name: DISABLE_GRAPHQL"
+  check_no_setting "" "name: REPLICATION_MAXIMUM_FACTOR"
   check_no_setting "--set namespaces.enabled=false" "name: NAMESPACES_ENABLED"
   check_no_setting "--set namespaces.enabled=false" "name: DISABLE_GRAPHQL"
-  # Namespaces enabled: flag emits both required envs.
+  check_no_setting "--set namespaces.enabled=false" "name: REPLICATION_MAXIMUM_FACTOR"
+  # Namespaces enabled: flag emits all required envs. The server fatals on startup unless
+  # REPLICATION_MAXIMUM_FACTOR=1 when NAMESPACES_ENABLED=true, so the chart pins it to "1".
   check_setting_has_value "--set namespaces.enabled=true" "name: NAMESPACES_ENABLED" "value: \"true\""
   check_setting_has_value "--set namespaces.enabled=true" "name: DISABLE_GRAPHQL" "value: \"true\""
+  check_setting_has_value "--set namespaces.enabled=true" "name: REPLICATION_MAXIMUM_FACTOR" "value: \"1\""
+  # The pinned REPLICATION_MAXIMUM_FACTOR=1 is rendered after the generic env loop, so it overrides
+  # any user-supplied env.REPLICATION_MAXIMUM_FACTOR (Kubernetes keeps the last duplicate env entry).
+  check_setting_has_value "--set namespaces.enabled=true --set env.REPLICATION_MAXIMUM_FACTOR=3" "name: REPLICATION_MAXIMUM_FACTOR" "value: \"1\""
   # Namespaces enabled end-to-end: flag + apikey + RBAC (configured via the chart's
   # authentication/authorization values) must render cleanly together.
   _settingNamespacesFull="--set namespaces.enabled=true --set authentication.apikey.enabled=true --set authentication.apikey.allowed_keys[0]=admin-key --set authentication.apikey.users[0]=admin --set authorization.rbac.enabled=true --set authorization.rbac.root_users[0]=admin"
   check_setting_has_value "$_settingNamespacesFull" "name: NAMESPACES_ENABLED" "value: \"true\""
   check_setting_has_value "$_settingNamespacesFull" "name: DISABLE_GRAPHQL" "value: \"true\""
+  check_setting_has_value "$_settingNamespacesFull" "name: REPLICATION_MAXIMUM_FACTOR" "value: \"1\""
   check_string_existence "$_settingNamespacesFull" "allowed_keys:"
   check_string_existence "$_settingNamespacesFull" "admin-key"
   check_string_existence "$_settingNamespacesFull" "root_users:"
