@@ -57,6 +57,10 @@ spec:
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+      {{- with index $module "topologySpreadConstraints" | default .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
       {{- with index $module "tolerations" | default .Values.tolerations }}
       tolerations:
         {{ toYaml . | nindent 8 }}
