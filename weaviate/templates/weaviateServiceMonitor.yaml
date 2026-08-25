@@ -2,6 +2,9 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
+  {{- if .Values.namespaceOverride }}
+  namespace: {{ .Values.namespaceOverride }}
+  {{- end }}
   name: weaviate
   labels:
     name: weaviate
@@ -17,7 +20,7 @@ spec:
       monitoring: enabled
   namespaceSelector:
     matchNames:
-      - {{ .Release.Namespace | quote }}
+      - {{ include "weaviate.namespace" . | quote }}
   endpoints:
   - targetPort: metrics
     path: /metrics
