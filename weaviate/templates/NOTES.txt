@@ -1,0 +1,56 @@
+{{- $issueWarnings := .Files.Get "files/weaviate-issues.yaml" | fromYaml -}}
+
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+Installed Weaviate version: {{ .Values.image.tag }}
+Latest available version: {{ .Chart.AppVersion }}
+
+{{- $currentMinorVersion := regexFind "^\\d+\\.\\d+" .Values.image.tag }}
+
+{{- if hasKey $issueWarnings.latestVersions $currentMinorVersion -}}
+{{- $latestPatch := index $issueWarnings.latestVersions $currentMinorVersion -}}
+{{- if ne .Values.image.tag $latestPatch }}
+
+NOTE: A newer patch version ({{ $latestPatch }}) is available for your Weaviate {{ $currentMinorVersion }}.x installation.
+{{- end -}}
+{{- end }}
+
+{{- if hasKey $issueWarnings.supportStatus $currentMinorVersion -}}
+{{- $supportStatus := index $issueWarnings.supportStatus $currentMinorVersion }}
+
+SUPPORT STATUS:{{ if eq $supportStatus "current" }} You are using the current minor version of Weaviate.{{ else if eq $supportStatus "maintained" }} This version of Weaviate is still maintained with regular updates.{{ else if eq $supportStatus "security" }} This version of Weaviate receives security updates only.{{ else if eq $supportStatus "eol" }} This version of Weaviate has reached end-of-life and is no longer supported.{{ end }}
+{{- else }}
+
+SUPPORT STATUS: This version of Weaviate is not listed in our supported versions and is likely end-of-life (EOL). We recommend upgrading to a supported version.
+{{- end }}
+
+{{- range $issueWarnings.issueWarnings -}}
+  {{- /* Check if this version is affected */ -}}
+  {{- $affected := false -}}
+
+  {{- /* Check exact matches */ -}}
+  {{- range .affectedVersions.exact -}}
+    {{- if eq $.Values.image.tag . -}}
+      {{- $affected = true -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Check range matches */ -}}
+  {{- range .affectedVersions.range -}}
+    {{- if semverCompare . $.Values.image.tag -}}
+      {{- $affected = true -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Display warning */ -}}
+  {{- if $affected }}
+
+{{ if eq .level "critical" }}CRITICAL:{{ else if eq .level "important" }}IMPORTANT:{{ else }}WARNING:{{ end }} {{ .message }}
+  {{- end -}}
+{{- end }}
+
+To learn more about the release, try:
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
