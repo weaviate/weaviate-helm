@@ -40,6 +40,8 @@ spec:
           {{ if index $module "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index $module "envconfig" "nvidia_visible_devices"}}
+          - name: CUDA_VISIBLE_DEVICES
+            value: {{ index $module "envconfig" "cuda_visible_devices"}}
           - name: NVIDIA_DRIVER_CAPABILITIES
             value: {{ index $module "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
