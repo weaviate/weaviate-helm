@@ -55,11 +55,11 @@ initContainers:
       pullPolicy: IfNotPresent
   ensureFileOwnershipContainer:
     # This init container sets the file ownerships of /var/lib/weaviate directory to the ones set in
-    # containerSecurityContext.runAsUser and containerSecurityContext.fsGroup settings to ensure that Weaviate is able
+    # containerSecurityContext.runAsUser and securityContext.fsGroup settings to ensure that Weaviate is able
     # to start in unprivileged configuration.
     # Enable this init container only if Weaviate was configured previously without security context
     # and now containerSecurityContext is provided to run Weaviate container with non-root user.
-    # Please be sure to set at least containerSecurityContext.runAsUser and containerSecurityContext.fsGroup.
+    # Please be sure to set at least containerSecurityContext.runAsUser and securityContext.fsGroup.
     enabled: false
 
   extraInitContainers: {}
@@ -93,13 +93,13 @@ resources: {}
 # security Context for the Weaviate Pods. The configurations are the same as setting them
 # as described here: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 securityContext: {}
+  # fsGroup: 1000
+  # fsGroupChangePolicy: "OnRootMismatch"
 
 # Security context for the Weaviate container. Override overlapping settings made at the Pod level.
 containerSecurityContext: {}
   # runAsUser: 1000
   # runAsGroup: 1000
-  # fsGroup: 1000
-  # fsGroupChangePolicy: "OnRootMismatch"
   # runAsNonRoot: true
   # allowPrivilegeEscalation: false
   # privileged: false

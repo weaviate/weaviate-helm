@@ -39,7 +39,8 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- include "image.pullSecrets" (dict "pullSecrets" $.Values.image.pullSecrets) | nindent 6 }}
       {{- include "pod.priorityClassName" ( dict "global" $.Values.globalPriorityClassName "priorityClassName" .Values.priorityClassName) | nindent 6 }}
-      {{- if or (.Values.initContainers.sysctlInitContainer.enabled) (.Values.initContainers.extraInitContainers) }}
+      {{- $ensureFileOwnership := and .Values.initContainers.ensureFileOwnershipContainer.enabled .Values.containerSecurityContext .Values.containerSecurityContext.runAsUser .Values.securityContext (hasKey .Values.securityContext "fsGroup") }}
+      {{- if or (.Values.initContainers.sysctlInitContainer.enabled) (.Values.initContainers.extraInitContainers) $ensureFileOwnership }}
       initContainers:
       {{- if .Values.initContainers.sysctlInitContainer.enabled }}
       {{- with .Values.initContainers.sysctlInitContainer }}
@@ -52,19 +53,17 @@ spec:
         command: ["sysctl", "-w", "vm.max_map_count={{ .sysctlVmMaxMapCount }}", "vm.overcommit_memory=1"]
       {{- end }}
       {{- end }}
-      {{- if .Values.initContainers.ensureFileOwnershipContainer.enabled }}
-      {{- if and .Values.containerSecurityContext .Values.containerSecurityContext.runAsUser .Values.containerSecurityContext.fsGroup }}
+      {{- if $ensureFileOwnership }}
       - name: ensure-file-ownership
         securityContext:
           runAsUser: 0
           privileged: true
         image: "{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-        command: ["chown", "-R", "{{ .Values.containerSecurityContext.runAsUser }}:{{ .Values.containerSecurityContext.fsGroup }}", "/var/lib/weaviate"]
+        command: ["chown", "-R", "{{ .Values.containerSecurityContext.runAsUser }}:{{ .Values.securityContext.fsGroup }}", "/var/lib/weaviate"]
         volumeMounts:
           - name: {{ .Values.storage.name }}
             mountPath: /var/lib/weaviate
-      {{- end }}
       {{- end }}
       {{- if .Values.initContainers.extraInitContainers }}
 {{ toYaml .Values.initContainers.extraInitContainers | indent 6 }}
