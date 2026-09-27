@@ -282,6 +282,14 @@ function check_creates_template() {
   check_string_existence "--set usage.s3.enabled=true --set usage.s3.envconfig.USAGE_SCRAPE_INTERVAL=2h" "name: USAGE_SCRAPE_INTERVAL"
   check_string_existence "--set usage.gcs.enabled=true --set usage.gcs.envconfig.USAGE_SCRAPE_INTERVAL=30s" "name: USAGE_SCRAPE_INTERVAL"
   check_string_existence "--set initContainers.ensureFileOwnershipContainer.enabled=true --set containerSecurityContext.runAsUser=1000 --set containerSecurityContext.fsGroup=2000" "name: ensure-file-ownership"
+
+  # Init container resources satisfy quotas without changing the defaults.
+  check_string_existence "--set initContainers.sysctlInitContainer.resources.limits.cpu=250m --set initContainers.sysctlInitContainer.resources.limits.memory=128Mi" "cpu: 250m"
+  check_string_existence "--set initContainers.sysctlInitContainer.resources.limits.cpu=250m --set initContainers.sysctlInitContainer.resources.limits.memory=128Mi" "memory: 128Mi"
+  check_string_existence "--set initContainers.ensureFileOwnershipContainer.enabled=true --set containerSecurityContext.runAsUser=1000 --set containerSecurityContext.fsGroup=2000 --set initContainers.ensureFileOwnershipContainer.resources.limits.cpu=350m --set initContainers.ensureFileOwnershipContainer.resources.limits.memory=256Mi" "cpu: 350m"
+  check_string_existence "--set initContainers.ensureFileOwnershipContainer.enabled=true --set containerSecurityContext.runAsUser=1000 --set containerSecurityContext.fsGroup=2000 --set initContainers.ensureFileOwnershipContainer.resources.limits.cpu=350m --set initContainers.ensureFileOwnershipContainer.resources.limits.memory=256Mi" "memory: 256Mi"
+  check_string_existence "--set image.pullSecrets[0]=artifactory-pull" "name: artifactory-pull"
+
   check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.generative-anthropic.enabled=true --set modules.generative-anthropic.apiKey=azureApiKey" "name: ANTHROPIC_APIKEY"
   check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.text2vec-jinaai.enabled=true --set modules.text2vec-jinaai.apiKey=JinaAIApiKey" "name: JINAAI_APIKEY"
   check_string_existence "--set modules.text2vec-openai.enabled=true --set modules.text2colbert-jinaai.enabled=true --set modules.text2colbert-jinaai.apiKey=JinaAIApiKey" "name: JINAAI_APIKEY"

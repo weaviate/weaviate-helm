@@ -11,6 +11,7 @@ image:
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
+  # Pod-level pull secrets apply to Weaviate and all init containers, including the sysctl image.
   pullSecrets: []
 
 # overwrite command and args if you want to run specific startup scripts, for
@@ -48,6 +49,8 @@ initContainers:
   sysctlInitContainer:
     enabled: true
     sysctlVmMaxMapCount: 524288
+    # Set requests and limits if your namespace requires resources for init containers.
+    resources: {}
     image:
       registry: docker.io
       repo: alpine
@@ -61,6 +64,8 @@ initContainers:
     # and now containerSecurityContext is provided to run Weaviate container with non-root user.
     # Please be sure to set at least containerSecurityContext.runAsUser and containerSecurityContext.fsGroup.
     enabled: false
+    # Set requests and limits if your namespace requires resources for init containers.
+    resources: {}
 
   extraInitContainers: {}
   # - image: some-image
