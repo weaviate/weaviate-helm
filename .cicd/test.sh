@@ -231,6 +231,22 @@ function check_creates_template() {
   check_string_existence "--set grpcService.enabled=true" "containerPort: 50051"
   check_string_existence "--set grpcService.enabled=true --set grpcService.name=weaviate-grpc-service-custom-name" "name: weaviate-grpc-service-custom-name"
   check_string_existence "--set grpcService.name=weaviate-grpc-defult-service-custom-name" "name: weaviate-grpc-defult-service-custom-name"
+
+  # Load balancer classes are optional and independent for HTTP and gRPC.
+  check_no_setting "" "loadBalancerClass:"
+  check_no_setting "--set service.loadBalancerClass= --set grpcService.loadBalancerClass=" "loadBalancerClass:"
+  check_string_existence "--show-only templates/weaviateService.yaml --set service.loadBalancerClass=example.com/http" 'loadBalancerClass: "example.com/http"'
+  check_no_setting "--show-only templates/weaviateServiceGRPC.yaml --set service.loadBalancerClass=example.com/http" "loadBalancerClass:"
+  check_string_existence "--show-only templates/weaviateServiceGRPC.yaml --set grpcService.loadBalancerClass=example.com/grpc" 'loadBalancerClass: "example.com/grpc"'
+  check_no_setting "--show-only templates/weaviateService.yaml --set grpcService.loadBalancerClass=example.com/grpc" "loadBalancerClass:"
+  check_string_existence "--show-only templates/weaviateService.yaml --set service.loadBalancerClass=example.com/http --set grpcService.loadBalancerClass=example.com/grpc" 'loadBalancerClass: "example.com/http"'
+  check_string_existence "--show-only templates/weaviateServiceGRPC.yaml --set service.loadBalancerClass=example.com/http --set grpcService.loadBalancerClass=example.com/grpc" 'loadBalancerClass: "example.com/grpc"'
+  check_no_setting "--set service.type=ClusterIP --set grpcService.type=ClusterIP --set service.loadBalancerClass=example.com/http --set grpcService.loadBalancerClass=example.com/grpc" "loadBalancerClass:"
+  check_no_setting "--set service.type=NodePort --set grpcService.type=NodePort --set service.loadBalancerClass=example.com/http --set grpcService.loadBalancerClass=example.com/grpc" "loadBalancerClass:"
+  check_string_existence "--show-only templates/weaviateServiceGRPC.yaml --set service.type=ClusterIP --set grpcService.loadBalancerClass=example.com/grpc" 'loadBalancerClass: "example.com/grpc"'
+  check_string_existence "--show-only templates/weaviateService.yaml --set grpcService.type=ClusterIP --set service.loadBalancerClass=example.com/http" 'loadBalancerClass: "example.com/http"'
+  check_no_setting "--set grpcService.enabled=false --set grpcService.loadBalancerClass=example.com/grpc" "loadBalancerClass:"
+
   check_string_existence "--set mcp.enabled=true" "name: MCP_SERVER_ENABLED"
   check_setting_has_value "--set mcp.enabled=true" "name: MCP_SERVER_ENABLED" "value: \"true\""
   check_setting_has_value "--set mcp.enabled=true" "name: MCP_SERVER_WRITE_ACCESS_ENABLED" "value: \"false\""
