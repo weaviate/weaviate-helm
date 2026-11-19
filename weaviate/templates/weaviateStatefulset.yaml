@@ -210,7 +210,7 @@ spec:
           - name: RERANKER_INFERENCE_API
             value: {{ index .Values "modules" "reranker-transformers" "inferenceUrl" }}
           {{- end }}
-          {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "apiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "apiKey")) }}
+          {{ if or (and (index .Values "modules" "text2vec-openai" "enabled") (index .Values "modules" "text2vec-openai" "apiKey")) (and (index .Values "modules" "qna-openai" "enabled") (index .Values "modules" "qna-openai" "apiKey")) (and (index .Values "modules" "generative-openai" "enabled") (index .Values "modules" "generative-openai" "apiKey")) (and (index .Values "modules" "reranker-openai" "enabled") (index .Values "modules" "reranker-openai" "apiKey")) }}
           - name: OPENAI_APIKEY
             valueFrom:
               secretKeyRef:
@@ -257,6 +257,13 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: weaviate-jinaai
+                key: apiKey
+          {{- end  }}
+          {{- if and (index .Values "modules" "reranker-typesafeai" "enabled") (index .Values "modules" "reranker-typesafeai" "apiKey") }}
+          - name: TYPESAFEAI_APIKEY
+            valueFrom:
+              secretKeyRef:
+                name: weaviate-typesafeai
                 key: apiKey
           {{- end  }}
           {{- if or (and (index .Values "modules" "text2vec-voyageai" "enabled") (index .Values "modules" "text2vec-voyageai" "apiKey")) (and (index .Values "modules" "reranker-voyageai" "enabled") (index .Values "modules" "reranker-voyageai" "apiKey")) (and (index .Values "modules" "multi2vec-voyageai" "enabled") (index .Values "modules" "multi2vec-voyageai" "apiKey")) }}
