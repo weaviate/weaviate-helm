@@ -1975,6 +1975,32 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The reranker-typesafeai module uses TypeSafe AI's Jev decision model
+  # to score how well each of the initial search results matches the query.
+  # More information about TypeSafe AI's API can be found here:
+  # https://docs.typesafe.ai/
+  reranker-typesafeai:
+
+    # enable if you want to use TypeSafe AI reranker module
+    enabled: false
+
+    # Set your TypeSafe AI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The reranker-openai module uses OpenAI's Decisions API
+  # to score how well each of the initial search results matches the query.
+  # More information about OpenAI's API can be found here:
+  # https://platform.openai.com/docs/api-reference
+  reranker-openai:
+
+    # enable if you want to use OpenAI reranker module
+    enabled: false
+
+    # Set your OpenAI API Key to be passed to Weaviate pod as
+    # an environment variable. All enabled OpenAI modules must use the same key.
+    apiKey: ''
+
   # The reranker-transformers module uses Cross-Encoders for
   # sentence pair scoring and sentence pair classification tasks.
   # More information about Cross-Encoders can be found here:
