@@ -47,6 +47,8 @@ spec:
           {{- if index $module "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index $module "envconfig" "nvidia_visible_devices"}}
+          - name: CUDA_VISIBLE_DEVICES
+            value: {{ index $module "envconfig" "cuda_visible_devices"}}
           - name: NVIDIA_DRIVER_CAPABILITIES
             value: {{ index $module "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
@@ -165,6 +167,8 @@ spec:
           {{- if index $passage "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index $passage "envconfig" "nvidia_visible_devices"}}
+          - name: CUDA_VISIBLE_DEVICES
+            value: {{ index $passage "envconfig" "cuda_visible_devices"}}
           - name: NVIDIA_DRIVER_CAPABILITIES
             value: {{ index $passage "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
@@ -272,6 +276,8 @@ spec:
           {{- if index $query "envconfig" "enable_cuda" }}
           - name: NVIDIA_VISIBLE_DEVICES
             value: {{ index $query "envconfig" "nvidia_visible_devices"}}
+          - name: CUDA_VISIBLE_DEVICES
+            value: {{ index $query "envconfig" "cuda_visible_devices"}}
           - name: NVIDIA_DRIVER_CAPABILITIES
             value: {{ index $query "envconfig" "nvidia_driver_capabilities"}}
           - name: LD_LIBRARY_PATH
