@@ -7,7 +7,7 @@ image:
   # of weaviate. In accordance with Infra-as-code, you should pin this value
   # down and only change it if you explicitly want to upgrade the Weaviate
   # version.
-  tag: 1.38.2
+  tag: 1.41.0
   repo: semitechnologies/weaviate
   # Image pull policy: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
   pullPolicy: IfNotPresent
@@ -1843,6 +1843,20 @@ modules:
     # an environment variable
     apiKey: ''
 
+  # The generative-digitalocean module uses the DigitalOcean Gradient AI
+  # serverless inference API.
+  # More information about DigitalOcean Gradient AI can be found here:
+  # https://docs.digitalocean.com/products/gradient-ai-platform/
+  generative-digitalocean:
+
+    # enable if you want to use DigitalOcean generative module
+    enabled: false
+
+    # Set your DigitalOcean API Key to be passed to Weaviate pod as
+    # an environment variable. It shares the weaviate-digitalocean secret
+    # with text2vec-digitalocean, so set the same key on both modules.
+    apiKey: ''
+
   # The img2vec-neural module uses neural networks, to generate
   # a vector representation of the image
   img2vec-neural:
@@ -1979,6 +1993,32 @@ modules:
 
     # Set your Contextual AI API Key to be passed to Weaviate pod as
     # an environment variable
+    apiKey: ''
+
+  # The reranker-typesafeai module uses TypeSafe AI's Jev decision model
+  # to score how well each of the initial search results matches the query.
+  # More information about TypeSafe AI's API can be found here:
+  # https://docs.typesafe.ai/
+  reranker-typesafeai:
+
+    # enable if you want to use TypeSafe AI reranker module
+    enabled: false
+
+    # Set your TypeSafe AI API Key to be passed to Weaviate pod as
+    # an environment variable
+    apiKey: ''
+
+  # The reranker-openai module uses OpenAI's Decisions API
+  # to score how well each of the initial search results matches the query.
+  # More information about OpenAI's API can be found here:
+  # https://platform.openai.com/docs/api-reference
+  reranker-openai:
+
+    # enable if you want to use OpenAI reranker module
+    enabled: false
+
+    # Set your OpenAI API Key to be passed to Weaviate pod as
+    # an environment variable. All enabled OpenAI modules must use the same key.
     apiKey: ''
 
   # The reranker-transformers module uses Cross-Encoders for
