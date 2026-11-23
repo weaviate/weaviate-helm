@@ -685,4 +685,22 @@ entries:
     urls:
     - https://weaviate.github.io/weaviate-helm/weaviate-14.4.0.tgz
     version: 14.4.0
-generated: "2026-11-23T16:32:53.335399845Z"
+  weaviate-otel-collector:
+  - apiVersion: v2
+    appVersion: 0.154.0
+    created: "2026-11-23T16:32:56.333889831Z"
+    description: Pushes aggregate Weaviate metrics to Weaviate Cloud (OSS "Cloud Connect").
+    digest: 99d4251daed7ad6a4c181a98081e24cd505aa815fc47be06ec09bc2b442a7028
+    home: https://console.weaviate.cloud
+    keywords:
+    - weaviate
+    - opentelemetry
+    - metrics
+    maintainers:
+    - name: Weaviate Cloud
+    name: weaviate-otel-collector
+    type: application
+    urls:
+    - https://weaviate.github.io/weaviate-helm/weaviate-otel-collector-17.9.0.tgz
+    version: 17.9.0
+generated: "2026-11-23T16:32:56.333436725Z"
