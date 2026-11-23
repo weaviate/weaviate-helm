@@ -217,6 +217,9 @@ function check_creates_template() {
   check_modules "--set modules.reranker-contextualai.enabled=true" "value: reranker-contextualai"
   check_modules "--set modules.reranker-contextualai.enabled=true --set modules.reranker-contextualai.apiKey=apiKey" "value: reranker-contextualai"
   check_modules "--set modules.reranker-contextualai.enabled=true --set modules.generative-contextualai.enabled=true" "value: generative-contextualai,reranker-contextualai"
+  check_modules "--set modules.generative-digitalocean.enabled=true" "value: generative-digitalocean"
+  check_modules "--set modules.generative-digitalocean.enabled=true --set modules.generative-digitalocean.apiKey=apiKey" "value: generative-digitalocean"
+  check_modules "--set modules.text2vec-digitalocean.enabled=true --set modules.generative-digitalocean.enabled=true" "value: generative-digitalocean,text2vec-digitalocean"
   check_string_existence "--set modules.generative-xai.enabled=true --set modules.generative-xai.apiKey=apiKey" "name: XAI_APIKEY"
   check_string_existence "--set modules.text2vec-morph.enabled=true --set modules.text2vec-morph.apiKey=apiKey" "name: MORPH_APIKEY"
   check_string_existence "--set modules.text2vec-digitalocean.enabled=true --set modules.text2vec-digitalocean.apiKey=apiKey" "name: DIGITALOCEAN_APIKEY"
@@ -307,6 +310,13 @@ function check_creates_template() {
   check_string_existence "--set modules.reranker-contextualai.enabled=true --set modules.reranker-contextualai.apiKey=apiKey" "name: CONTEXTUALAI_APIKEY"
   check_string_existence "--set modules.generative-contextualai.enabled=true --set modules.generative-contextualai.apiKey=apiKey" "name: CONTEXTUALAI_APIKEY"
   check_string_existence "--set modules.generative-contextualai.enabled=true --set modules.generative-contextualai.apiKey=apiKey --set modules.reranker-contextualai.enabled=true --set modules.reranker-contextualai.apiKey=apiKey" "name: CONTEXTUALAI_APIKEY"
+  check_string_existence "--set modules.generative-digitalocean.enabled=true --set modules.generative-digitalocean.apiKey=apiKey" "name: DIGITALOCEAN_APIKEY"
+  check_string_existence "--set modules.generative-digitalocean.enabled=true --set modules.generative-digitalocean.apiKey=apiKey" "apiKey: YXBpS2V5"
+  check_string_existence "--set modules.generative-digitalocean.enabled=true --set modules.generative-digitalocean.apiKey=apiKey --set modules.text2vec-digitalocean.enabled=true --set modules.text2vec-digitalocean.apiKey=apiKey" "name: DIGITALOCEAN_APIKEY"
+  check_no_setting "--set modules.generative-digitalocean.enabled=true" "DIGITALOCEAN_APIKEY"
+  # The secret takes the key of an enabled module, not a key left on a disabled one.
+  check_string_existence "--set modules.text2vec-digitalocean.apiKey=stale --set modules.generative-digitalocean.enabled=true --set modules.generative-digitalocean.apiKey=real" "apiKey: cmVhbA=="
+  check_no_setting "--set modules.text2vec-digitalocean.apiKey=stale --set modules.generative-digitalocean.enabled=true --set modules.generative-digitalocean.apiKey=real" "apiKey: c3RhbGU="
 
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""

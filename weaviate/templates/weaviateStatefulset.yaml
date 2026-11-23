@@ -301,7 +301,7 @@ spec:
                 name: weaviate-morph
                 key: apiKey
           {{- end  }}
-          {{- if and (index .Values "modules" "text2vec-digitalocean" "enabled") (index .Values "modules" "text2vec-digitalocean" "apiKey") }}
+          {{- if or (and (index .Values "modules" "text2vec-digitalocean" "enabled") (index .Values "modules" "text2vec-digitalocean" "apiKey")) (and (index .Values "modules" "generative-digitalocean" "enabled") (index .Values "modules" "generative-digitalocean" "apiKey")) }}
           - name: DIGITALOCEAN_APIKEY
             valueFrom:
               secretKeyRef:

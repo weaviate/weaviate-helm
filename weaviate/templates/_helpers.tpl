@@ -68,6 +68,9 @@
   {{- if (index .Values "modules" "generative-contextualai" "enabled") -}}
     {{ $modules = append $modules "generative-contextualai" }}
   {{- end -}}
+  {{- if (index .Values "modules" "generative-digitalocean" "enabled") -}}
+    {{ $modules = append $modules "generative-digitalocean" }}
+  {{- end -}}
   {{- if or (index .Values "modules" "img2vec-neural" "enabled") (index .Values "modules" "img2vec-neural" "inferenceUrl") -}}
     {{ $modules = append $modules "img2vec-neural" }}
   {{- end -}}
