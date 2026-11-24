@@ -65,6 +65,45 @@ function check_creates_template() {
   rm -fr ../weaviate/out.yml
 }
 
+# For each module of a provider: enable it with the value "real", leave "stale" on the
+# disabled others, and check that the rendered Secret holds only the real value.
+function check_secret_from_enabled_module() {
+  local field=$1
+  shift
+  local enabled other settings
+  for enabled in "$@"; do
+    settings="--set modules.$enabled.enabled=true --set modules.$enabled.$field=real"
+    for other in "$@"; do
+      if [[ $other != "$enabled" ]]; then
+        settings="$settings --set modules.$other.$field=stale"
+      fi
+    done
+    check_string_existence "$settings" "$field: cmVhbA=="
+    check_no_setting "$settings" "$field: c3RhbGU="
+  done
+}
+
+# Same check for AWS credentials. Each argument is a values path that has its own
+# enabled flag and secrets map. Also checks that the pod does not read the backup-s3
+# Secret, which the chart renders only when backups.s3 is enabled.
+function check_aws_secret_from_enabled_source() {
+  local enabled other settings
+  for enabled in "$@"; do
+    settings="--set $enabled.enabled=true --set $enabled.secrets.AWS_ACCESS_KEY_ID=real --set $enabled.secrets.AWS_SECRET_ACCESS_KEY=real"
+    for other in "$@"; do
+      if [[ $other != "$enabled" ]]; then
+        settings="$settings --set $other.secrets.AWS_ACCESS_KEY_ID=stale --set $other.secrets.AWS_SECRET_ACCESS_KEY=stale"
+      fi
+    done
+    check_string_existence "$settings" "AWS_ACCESS_KEY_ID: cmVhbA=="
+    check_string_existence "$settings" "AWS_SECRET_ACCESS_KEY: cmVhbA=="
+    check_no_setting "$settings" "c3RhbGU="
+    if [[ $enabled != "backups.s3" ]]; then
+      check_no_setting "$settings" "name: backup-s3"
+    fi
+  done
+}
+
 (
   cd weaviate
   VERSION=$( grep 'version:' < Chart.yaml | awk '{ print $2 }')
@@ -332,6 +371,26 @@ function check_creates_template() {
   # The secret takes the key of an enabled module, not a key left on a disabled one.
   check_string_existence "--set modules.qna-openai.apiKey=stale --set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.apiKey=real" "apiKey: cmVhbA=="
   check_no_setting "--set modules.qna-openai.apiKey=stale --set modules.text2vec-openai.enabled=true --set modules.text2vec-openai.apiKey=real" "apiKey: c3RhbGU="
+  check_secret_from_enabled_module apiKey text2vec-cohere generative-cohere reranker-cohere multi2vec-cohere
+  check_secret_from_enabled_module apiKey text2vec-voyageai reranker-voyageai multi2vec-voyageai
+  check_secret_from_enabled_module apiKey text2vec-google generative-google multi2vec-google
+  check_secret_from_enabled_module apiKey text2vec-palm generative-palm multi2vec-palm
+  check_secret_from_enabled_module apiKey text2vec-nvidia generative-nvidia reranker-nvidia multi2vec-nvidia
+  check_secret_from_enabled_module apiKey generative-contextualai reranker-contextualai
+  check_secret_from_enabled_module apiKey text2vec-jinaai reranker-jinaai multi2vec-jinaai text2colbert-jinaai text2multivec-jinaai multi2multivec-jinaai
+  check_secret_from_enabled_module apiKey text2vec-openai qna-openai generative-openai reranker-openai
+  check_secret_from_enabled_module apiKey text2vec-mistral generative-mistral
+  check_secret_from_enabled_module apiKey text2vec-octoai generative-octoai
+  check_secret_from_enabled_module apiKey text2vec-digitalocean generative-digitalocean
+  check_secret_from_enabled_module token text2vec-databricks generative-databricks
+  check_aws_secret_from_enabled_source modules.text2vec-aws modules.multi2vec-aws modules.generative-aws offload.s3 backups.s3
+  check_string_existence "--set modules.multi2vec-aws.enabled=true --set modules.multi2vec-aws.envSecrets.AWS_ACCESS_KEY_ID=m2v-secret-name --set modules.multi2vec-aws.envSecrets.AWS_SECRET_ACCESS_KEY=m2v-secret-name" "name: m2v-secret-name"
+  # envSecrets of a disabled AWS source must not reach the pod.
+  check_no_setting "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.secrets.AWS_SECRET_ACCESS_KEY=secret --set offload.s3.envSecrets.AWS_ACCESS_KEY_ID=stale-secret-name" "stale-secret-name"
+  check_no_setting "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.secrets.AWS_SECRET_ACCESS_KEY=secret --set backups.s3.envSecrets.AWS_ACCESS_KEY_ID=stale-secret-name" "stale-secret-name"
+  check_no_setting "--set modules.generative-aws.enabled=true --set modules.generative-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.generative-aws.secrets.AWS_SECRET_ACCESS_KEY=secret --set modules.text2vec-aws.envSecrets.AWS_ACCESS_KEY_ID=stale-secret-name" "stale-secret-name"
+  check_no_setting "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.secrets.AWS_SECRET_ACCESS_KEY=secret --set modules.multi2vec-aws.envSecrets.AWS_ACCESS_KEY_ID=stale-secret-name" "stale-secret-name"
+  check_no_setting "--set modules.text2vec-aws.enabled=true --set modules.text2vec-aws.secrets.AWS_ACCESS_KEY_ID=key --set modules.text2vec-aws.secrets.AWS_SECRET_ACCESS_KEY=secret --set modules.generative-aws.envSecrets.AWS_ACCESS_KEY_ID=stale-secret-name" "stale-secret-name"
 
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_JOIN" "value: \"weaviate-0,weaviate-1,weaviate-2\""
   check_setting_has_value "--set replicas=3 --set env.RAFT_BOOTSTRAP_EXPECT=3" "name: RAFT_BOOTSTRAP_EXPECT" "value: \"3\""
