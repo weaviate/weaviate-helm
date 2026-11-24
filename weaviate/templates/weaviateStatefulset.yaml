@@ -105,13 +105,13 @@ spec:
           - name: CLUSTER_BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
-                name: weaviate-cluster-api-basic-auth
-                key: username
+                name: {{ .Values.clusterApi.basicAuth.secret.name }}
+                key: {{ .Values.clusterApi.basicAuth.secret.usernameKey }}
           - name: CLUSTER_BASIC_AUTH_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: weaviate-cluster-api-basic-auth
-                key: password
+                name: {{ .Values.clusterApi.basicAuth.secret.name }}
+                key: {{ .Values.clusterApi.basicAuth.secret.passwordKey }}
           - name: PERSISTENCE_DATA_PATH
             value: '/var/lib/weaviate'
           - name: DEFAULT_VECTORIZER_MODULE
