@@ -49,6 +49,9 @@ spec:
           privileged: true
         image: "{{ .image.registry }}/{{ .image.repo }}:{{ .image.tag }}"
         imagePullPolicy: "{{ .image.pullPolicy }}"
+        {{- with .resources }}
+        resources: {{ toYaml . | nindent 10 }}
+        {{- end }}
         command: ["sysctl", "-w", "vm.max_map_count={{ .sysctlVmMaxMapCount }}", "vm.overcommit_memory=1"]
       {{- end }}
       {{- end }}
@@ -60,6 +63,9 @@ spec:
           privileged: true
         image: "{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        {{- with .Values.initContainers.ensureFileOwnershipContainer.resources }}
+        resources: {{ toYaml . | nindent 10 }}
+        {{- end }}
         command: ["chown", "-R", "{{ .Values.containerSecurityContext.runAsUser }}:{{ .Values.containerSecurityContext.fsGroup }}", "/var/lib/weaviate"]
         volumeMounts:
           - name: {{ .Values.storage.name }}
