@@ -24,6 +24,9 @@ spec:
   {{ end }}
 {{ end }}
 {{ if eq .Values.grpcService.type "LoadBalancer" -}}
+  {{- with .Values.grpcService.loadBalancerClass }}
+  loadBalancerClass: {{ . | quote }}
+  {{- end }}
   {{- if gt (len .Values.grpcService.loadBalancerSourceRanges) 0 }}
   loadBalancerSourceRanges:
     {{- range $_, $sourceRange := .Values.grpcService.loadBalancerSourceRanges }}

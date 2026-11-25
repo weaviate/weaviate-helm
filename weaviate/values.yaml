@@ -136,6 +136,9 @@ service:
       port: 80
       # Target port is going to be the same for every port
   type: LoadBalancer
+  # Optional load balancer class, used only with type LoadBalancer (Kubernetes 1.24+).
+  # Once set, the class cannot be changed on an existing Service.
+  loadBalancerClass: ""
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
@@ -155,6 +158,9 @@ grpcService:
       port: 50051
       # Target port is going to be the same for every port
   type: LoadBalancer
+  # Optional load balancer class, used only with type LoadBalancer (Kubernetes 1.24+).
+  # Once set, the class cannot be changed on an existing Service.
+  loadBalancerClass: ""
   loadBalancerSourceRanges: []
   # optionally set cluster IP if you want to set a static IP
   clusterIP:
