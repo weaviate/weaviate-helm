@@ -26,6 +26,9 @@ spec:
   {{ end }}
 {{ end }}
 {{ if eq .Values.service.type "LoadBalancer" -}}
+  {{ if .Values.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{ end }}
   {{- if gt (len .Values.service.loadBalancerSourceRanges) 0 }}
   loadBalancerSourceRanges:
     {{- range $_, $sourceRange := .Values.service.loadBalancerSourceRanges }}
